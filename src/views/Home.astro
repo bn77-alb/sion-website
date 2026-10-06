@@ -1,0 +1,337 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Process from '../components/Process.astro';
+import Faq from '../components/Faq.astro';
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const r = (k: keyof typeof routes) => routes[k][lang];
+
+const c = {
+  de: {
+    title: 'LKW-Fahrer & Logistikpersonal vermitteln | Sion Consulting',
+    description: 'LKW-Fahrer C/CE, Zusteller und Logistikpersonal aus dem Westbalkan und international – vermittelt an Unternehmen in Deutschland, inkl. Visum und Behördenbegleitung.',
+    eyebrow: 'Personalvermittlung Westbalkan & International → Deutschland',
+    h1: 'LKW-Fahrer und Logistikpersonal für Ihr Unternehmen in Deutschland',
+    lead: 'Wir finden, prüfen und begleiten Arbeitskräfte aus dem Westbalkan und weiteren Ländern – von der Auswahl über Visum und Behörden bis zum ersten Arbeitstag. Ergänzend entlasten wir Unternehmen aller Branchen als externes Back-Office.',
+    tabEmployer: 'Ich bin Arbeitgeber', tabApplicant: 'Ich suche Arbeit in Deutschland', tabsLabel: 'Zielgruppe',
+    ctaEmployer: 'Personalbedarf melden', howItWorks: 'So funktioniert es',
+    ctaApplicant: 'Jetzt bewerben', applicantNote: 'Wir begleiten Sie von der Bewerbung bis zur Ankunft.',
+    heroAlt: 'LKW-Fahrer vor seinem Sattelzug',
+    cardTitle: 'Alles aus einer Hand',
+    cardList: ['Kandidaten vorgeprüft – Unterlagen, Führerschein, Erfahrung', 'Arbeitsvertrag und Antrag geprüft, bevor eingereicht wird', 'Visum, Einreise und Anmeldung begleitet'],
+    chipsLabel: 'Wir besetzen:',
+    chips: [['LKW-Fahrer C/CE', r('lkw')], ['Paketzusteller', ''], ['Lager & Logistik', ''], ['Gebäudereinigung', ''], ['Bau & Handwerk', '']],
+    focusEyebrow: 'Unser Schwerpunkt',
+    focusH2: 'LKW-Fahrer C/CE aus dem Westbalkan und international',
+    focusText: 'Der Fahrermangel bremst Speditionen und Logistiker in ganz Deutschland. Wir rekrutieren erfahrene Berufskraftfahrer und begleiten sie durch alle Schritte – bis sie bei Ihnen im Einsatz sind.',
+    focusList: ['Fahrer mit Führerschein C oder CE und Berufserfahrung', 'Unterstützung bei Führerscheinumschreibung und Berufskraftfahrer-Qualifikation (Code 95)', 'Für Fern-, Nah- und Verteilerverkehr'],
+    focusCta: 'Mehr zur LKW-Fahrer-Vermittlung',
+    focusAlt: 'Weißer LKW auf der Landstraße bei Sonnenuntergang',
+    recEyebrow: 'Recruiting',
+    recH2: 'Von der Suche bis zum ersten Arbeitstag',
+    recCards: [
+      { icon: 'search', h: 'Personalvermittlung', p: 'Auswahl geeigneter Kandidatinnen und Kandidaten im Westbalkan und in weiteren Ländern, persönliche Vorgespräche und Prüfung aller Nachweise.' },
+      { icon: 'doc', h: 'Westbalkanregelung & Visum', p: 'Wir bereiten die Unterlagen für die Zustimmung der Bundesagentur für Arbeit vor und begleiten das Visumverfahren an der deutschen Auslandsvertretung.' },
+      { icon: 'swap', h: 'Arbeitgeberwechsel', p: 'Schnelle Vermittlung von Arbeitskräften, die bereits in Deutschland leben und eine neue Stelle suchen.' },
+    ],
+    boEyebrow: 'Back-Office-Services',
+    boH2: 'Ihr externes Back-Office – für Logistik und darüber hinaus',
+    boText: 'Dokumente vorbereiten, Unterlagen pflegen, Formulare ausfüllen: Wir entlasten Ihre Verwaltung – sorgfältig, auf Deutsch und auch unabhängig von einer Personalvermittlung.',
+    boItems: [['Dokumentenvorbereitung', 'Verträge und Standarddokumente nach Ihren Vorlagen.'], ['Personal- & Fahrerunterlagen', 'Akten, Nachweise und Fristen im Blick.'], ['Formulare & Anträge', 'Vollständig vorbereitet für Behörden und Ämter.'], ['Administrative Unterstützung', 'Wiederkehrende Büroaufgaben nach Absprache.']],
+    boCta: 'Back-Office entdecken',
+    procEyebrow: 'Ablauf',
+    procH2: 'In sechs Schritten zu Ihren neuen Mitarbeitenden',
+    whyEyebrow: 'Warum Sion Consulting',
+    whyH2: 'Sorgfältig, persönlich, mehrsprachig',
+    why: [
+      ['Ein Ansprechpartner', 'Sie sprechen mit einer Person, die Ihren Fall kennt – vom ersten Gespräch bis zum Arbeitsbeginn.'],
+      ['Sorgfalt bei Dokumenten', 'Fehler in Verträgen oder Anträgen kosten Monate. Wir prüfen jedes Detail vor der Einreichung.'],
+      ['Nah an den Kandidaten', 'Unser Team in Tirana spricht die Sprache der Bewerber und kennt die Verfahren vor Ort.'],
+      ['Drei Sprachen', 'Kommunikation auf Deutsch, Englisch und Albanisch.'],
+    ],
+    appEyebrow: 'Für Bewerberinnen und Bewerber',
+    appH2: 'Arbeiten in Deutschland – legal und begleitet',
+    appText: 'Sie möchten als LKW-Fahrer, Zusteller oder in der Logistik in Deutschland arbeiten? Wir begleiten Sie von der Bewerbung bis zur Anmeldung.',
+    appCardTitle: 'Was Sie mitbringen',
+    appList: ['Gültiger Reisepass', 'Führerschein – je nach Stelle Klasse B, C oder CE', 'Berufserfahrung im gewünschten Bereich'],
+    appCta: 'Zur Bewerbung',
+    faqEyebrow: 'FAQ', faqH2: 'Häufige Fragen',
+    faq: [
+      { q: 'Was kostet die Vermittlung?', a: 'Die Kosten hängen von Position, Anzahl und Leistungsumfang ab – Sie erhalten ein individuelles Angebot. Bezahlt wird in Etappen entlang des Verfahrens, nicht alles im Voraus.' },
+      { q: 'Wie schnell können die Mitarbeitenden bei uns anfangen?', a: 'Kandidaten, die bereits in Deutschland leben, können in der Regel innerhalb einer Woche starten. Bei Kandidaten aus dem Ausland rechnen Sie mit etwa 6 bis 8 Wochen – abhängig von der Bundesagentur für Arbeit und den Terminen der deutschen Auslandsvertretung. Wir halten Sie bei jedem Schritt auf dem Laufenden.' },
+      { q: 'Werden die Mitarbeitenden bei uns oder bei Ihnen angestellt?', a: 'Direkt bei Ihnen. Sie schließen den Arbeitsvertrag mit den Mitarbeitenden ab – es handelt sich nicht um Arbeitnehmerüberlassung.' },
+      { q: 'Lernen wir die Kandidaten vorher kennen?', a: 'Sie erhalten aussagekräftige Profile. Auf Wunsch führen Sie vorab ein Vorstellungsgespräch, auch per Video. Die Entscheidung liegt bei Ihnen.' },
+      { q: 'Welche Bedingungen muss unser Arbeitsangebot erfüllen?', a: 'Die Bundesagentur für Arbeit prüft, ob Lohn und Arbeitsbedingungen denen vergleichbarer Beschäftigter in Deutschland entsprechen. Wir prüfen Ihren Vertrag vorab darauf, damit der Antrag nicht daran scheitert.' },
+      { q: 'Wie viel Aufwand haben wir als Arbeitgeber?', a: 'Möglichst wenig. Wir bereiten Vertrag, Anträge und Unterlagen vor – Sie prüfen, unterschreiben und stellen die Mitarbeitenden ein.' },
+      { q: 'Was passiert, wenn ein Visum abgelehnt wird?', a: 'Das kommt selten vor. Falls doch, prüfen wir die Gründe genau, korrigieren die Unterlagen und stellen gemeinsam mit Ihnen einen neuen Antrag.' },
+      { q: 'Was ist, wenn ein Mitarbeiter kurz nach dem Start kündigt?', a: 'Wir wählen gezielt Kandidaten aus, die langfristig in Deutschland und bei Ihnen arbeiten möchten. Zusätzlich wird ein Teil unseres Honorars erst fällig, wenn der Mitarbeiter einen Monat bei Ihnen gearbeitet hat.' },
+      { q: 'Wie gut sprechen die Kandidaten Deutsch?', a: 'Das ist je nach Kandidat unterschiedlich. Wir nennen Ihnen den Sprachstand ehrlich vorab – so wissen Sie, was Sie erwartet.' },
+      { q: 'Helfen Sie bei der Unterkunft?', a: 'Ja. Stellen Sie keine Unterkunft zur Verfügung, übernehmen wir die Suche für Ihre neuen Mitarbeitenden.' },
+      { q: 'Was ist die Westbalkanregelung?', a: 'Die Westbalkanregelung ermöglicht Staatsangehörigen aus Albanien, Bosnien und Herzegowina, Kosovo, Montenegro, Nordmazedonien und Serbien eine Beschäftigung in Deutschland. Voraussetzung sind ein konkretes Arbeitsplatzangebot und die Zustimmung der Bundesagentur für Arbeit. Ein Vorteil für Fahrer: Führerscheine aus Albanien, Kosovo, Montenegro, Nordmazedonien und Serbien – auch Klasse C und CE – werden in Deutschland ohne theoretische und praktische Prüfung umgeschrieben (Anlage 11 FeV). Die Berufskraftfahrer-Qualifikation (Code 95) ist zusätzlich erforderlich.' },
+      { q: 'Vermitteln Sie nur aus dem Westbalkan?', a: 'Nein. Der Westbalkan ist unser Schwerpunkt, wir rekrutieren aber auch international – insbesondere LKW-Fahrer. Welcher rechtliche Weg passt, klären wir für jeden Fall individuell.' },
+      { q: 'Können wir nur Back-Office-Leistungen buchen?', a: 'Ja. Unsere Back-Office-Services sind unabhängig von einer Personalvermittlung buchbar – für Unternehmen aus der Logistik und aus allen anderen Branchen. Dazu gehören Dokumentenvorbereitung, Personal- und Fahrerunterlagen, Formulare und Anträge, Datenpflege, Rechnungsunterstützung, Führerschein- und Fahrerkartenkontrolle sowie Übersetzungen. Den Umfang legen wir gemeinsam fest: von einzelnen Aufgaben bis zur laufenden Unterstützung mit festem Ansprechpartner. Die Kosten richten sich nach dem Umfang – Sie erhalten ein individuelles Angebot.' },
+      { q: 'In welchen Regionen sind Sie tätig?', a: 'Bundesweit. Wir vermitteln Personal an Unternehmen in ganz Deutschland.' },
+    ],
+    ctaH2: 'Sprechen wir über Ihren Personalbedarf',
+    ctaText: 'Unverbindlich und auf Deutsch. Wir antworten innerhalb von einem Werktag.',
+    ctaBtn: 'Anfrage stellen',
+  },
+  en: {
+    title: 'Truck Driver & Logistics Recruitment for Germany | Sion Consulting',
+    description: 'Sion Consulting recruits C/CE truck drivers, delivery drivers and logistics staff from the Western Balkans and worldwide for companies in Germany – including visa and authority support.',
+    eyebrow: 'Recruitment Western Balkans & International → Germany',
+    h1: 'Truck drivers and logistics staff for your company in Germany',
+    lead: 'We find, screen and support workers from the Western Balkans and other countries – from selection through visa and authorities to their first working day. We also support companies in any industry as an external back office.',
+    tabEmployer: 'I am an employer', tabApplicant: 'I am looking for work in Germany', tabsLabel: 'Audience',
+    ctaEmployer: 'Tell us what you need', howItWorks: 'How it works',
+    ctaApplicant: 'Apply now', applicantNote: 'We support you from application to arrival.',
+    heroAlt: 'Truck driver standing in front of his semi-trailer truck',
+    cardTitle: 'Everything from one source',
+    cardList: ['Candidates pre-screened – documents, licence, experience', 'Contract and application checked before submission', 'Visa, arrival and registration supported'],
+    chipsLabel: 'We fill:',
+    chips: [['Truck drivers C/CE', r('lkw')], ['Parcel delivery', ''], ['Warehouse & logistics', ''], ['Building cleaning', ''], ['Construction & trades', '']],
+    focusEyebrow: 'Our focus',
+    focusH2: 'C/CE truck drivers from the Western Balkans and worldwide',
+    focusText: 'The driver shortage is slowing down hauliers and logistics companies across Germany. We recruit experienced professional drivers and support them through every step – until they are on the road for you.',
+    focusList: ['Drivers with a C or CE licence and work experience', 'Support with licence conversion and the professional driver qualification (Code 95)', 'For long-haul, regional and distribution transport'],
+    focusCta: 'More about truck driver recruitment',
+    focusAlt: 'White truck on a country road at sunset',
+    recEyebrow: 'Recruitment',
+    recH2: 'From the search to the first working day',
+    recCards: [
+      { icon: 'search', h: 'Recruitment', p: 'Selection of suitable candidates in the Western Balkans and other countries, personal interviews and checks of all certificates.' },
+      { icon: 'doc', h: 'Western Balkans Regulation & visa', p: 'We prepare the documents for the approval of the Federal Employment Agency and support the visa process at the German embassy.' },
+      { icon: 'swap', h: 'Change of employer', p: 'Fast placement of workers who already live in Germany and are looking for a new job.' },
+    ],
+    boEyebrow: 'Back-office services',
+    boH2: 'Your external back office – for logistics and beyond',
+    boText: 'Preparing documents, maintaining records, filling in forms: we take work off your administration – carefully, in German and also independently of any recruitment.',
+    boItems: [['Document preparation', 'Contracts and standard documents based on your templates.'], ['Staff & driver records', 'Files, certificates and deadlines under control.'], ['Forms & applications', 'Fully prepared for authorities and offices.'], ['Administrative support', 'Recurring office tasks as agreed.']],
+    boCta: 'Explore the back office',
+    procEyebrow: 'Process',
+    procH2: 'Six steps to your new employees',
+    whyEyebrow: 'Why Sion Consulting',
+    whyH2: 'Careful, personal, multilingual',
+    why: [
+      ['One contact person', 'You speak to one person who knows your case – from the first call to the first working day.'],
+      ['Care with documents', 'Mistakes in contracts or applications cost months. We check every detail before submission.'],
+      ['Close to the candidates', 'Our team in Tirana speaks the applicants’ language and knows the local procedures.'],
+      ['Three languages', 'Communication in German, English and Albanian.'],
+    ],
+    appEyebrow: 'For applicants',
+    appH2: 'Working in Germany – legally and with support',
+    appText: 'Would you like to work in Germany as a truck driver, delivery driver or in logistics? We support you from your application to your registration.',
+    appCardTitle: 'What you need',
+    appList: ['A valid passport', 'Driving licence – class B, C or CE depending on the job', 'Work experience in the field you want'],
+    appCta: 'Go to application',
+    faqEyebrow: 'FAQ', faqH2: 'Frequently asked questions',
+    faq: [
+      { q: 'What does recruitment cost?', a: 'Costs depend on the position, number of hires and scope of services – you receive an individual offer. Payment is made in stages along the process, not all up front.' },
+      { q: 'How soon can the workers start?', a: 'Candidates who already live in Germany can usually start within one week. For candidates from abroad, expect around 6 to 8 weeks – depending on the Federal Employment Agency and the German embassy’s appointments. We keep you informed at every step.' },
+      { q: 'Are the workers employed by us or by you?', a: 'Directly by you. You sign the employment contract with the workers – this is not temporary agency work.' },
+      { q: 'Do we get to meet the candidates first?', a: 'You receive detailed profiles. If you wish, you can interview candidates first, also by video. The decision is yours.' },
+      { q: 'What conditions must our job offer meet?', a: 'The Federal Employment Agency checks that pay and working conditions match those of comparable employees in Germany. We check your contract in advance so the application does not fail on this point.' },
+      { q: 'How much effort is it for us as an employer?', a: 'As little as possible. We prepare the contract, applications and documents – you review, sign and hire.' },
+      { q: 'What happens if a visa is refused?', a: 'This is rare. If it happens, we review the reasons carefully, correct the documents and submit a new application together with you.' },
+      { q: 'What if a worker quits shortly after starting?', a: 'We specifically select candidates who want to work in Germany and with you long term. In addition, part of our fee only becomes due once the worker has worked for you for one month.' },
+      { q: 'How good is the candidates’ German?', a: 'It varies by candidate. We tell you each candidate’s language level honestly in advance – so you know what to expect.' },
+      { q: 'Do you help with accommodation?', a: 'Yes. If you do not provide accommodation, we take care of the search for your new employees.' },
+      { q: 'What is the Western Balkans Regulation?', a: 'The Western Balkans Regulation allows nationals of Albania, Bosnia and Herzegovina, Kosovo, Montenegro, North Macedonia and Serbia to work in Germany. It requires a concrete job offer and the approval of the Federal Employment Agency. An advantage for drivers: licences from Albania, Kosovo, Montenegro, North Macedonia and Serbia – including classes C and CE – are converted in Germany without a theory or practical test (Annex 11 of the German Driving Licence Regulation). The professional driver qualification (Code 95) is required in addition.' },
+      { q: 'Do you only recruit from the Western Balkans?', a: 'No. The Western Balkans are our focus, but we also recruit internationally – especially truck drivers. We clarify the right legal route for each case individually.' },
+      { q: 'Can we book back-office services only?', a: 'Yes. Our back-office services can be booked independently of recruitment – for companies in logistics and any other industry. They include document preparation, staff and driver records, forms and applications, data maintenance, invoicing support, licence and driver card checks, and translations. We agree the scope together: from single tasks to ongoing support with a fixed contact person. Costs depend on the scope – you receive an individual offer.' },
+      { q: 'Which regions do you cover?', a: 'Nationwide. We place staff with companies throughout Germany.' },
+    ],
+    ctaH2: 'Let’s talk about your staffing needs',
+    ctaText: 'No obligation. We reply within one working day.',
+    ctaBtn: 'Get in touch',
+  },
+}[lang];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'EmploymentAgency',
+    name: site.name,
+    url: site.url,
+    email: site.email,
+    telephone: site.phoneHref,
+    address: { '@type': 'PostalAddress', streetAddress: site.street, postalCode: site.zip, addressLocality: site.city, addressCountry: 'AL' },
+    areaServed: { '@type': 'Country', name: 'Germany' },
+    knowsLanguage: ['de', 'en', 'sq'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<Base lang={lang} page="home" title={c.title} description={c.description} schema={schema}>
+  <section class="hero">
+    <div class="container grid-2">
+      <div class="hero-copy">
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.lead}</p>
+        <div class="aud-tabs" role="tablist" aria-label={c.tabsLabel}>
+          <button type="button" role="tab" id="aud-tab-employer" aria-controls="aud-employer" aria-selected="true" data-aud>{c.tabEmployer}</button>
+          <button type="button" role="tab" id="aud-tab-applicant" aria-controls="aud-applicant" aria-selected="false" data-aud>{c.tabApplicant}</button>
+        </div>
+        <div id="aud-employer" role="tabpanel" aria-labelledby="aud-tab-employer" class="btn-row">
+          <a class="btn btn-accent" href={r('kontakt')}>{c.ctaEmployer}</a>
+          <a class="link-arrow" href="#ablauf">{c.howItWorks}</a>
+        </div>
+        <div id="aud-applicant" role="tabpanel" aria-labelledby="aud-tab-applicant" class="btn-row" hidden>
+          <a class="btn btn-accent" href={r('bewerber')}>{c.ctaApplicant}</a>
+          <span class="aud-note">{c.applicantNote}</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="media ratio-portrait">
+          <img src="/images/hero-lkw.jpg" alt={c.heroAlt} width="1200" height="1500" loading="eager" fetchpriority="high" />
+        </div>
+        <div class="hero-card">
+          <p class="title">{c.cardTitle}</p>
+          <ul class="checklist">{c.cardList.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-soft" aria-label={c.chipsLabel}>
+    <div class="container section-tight" style="padding-block: 22px">
+      <div class="chips">
+        <span class="chips-label">{c.chipsLabel}</span>
+        {c.chips.map(([label, href], i) => href
+          ? <a class={i === 0 ? 'chip chip-accent' : 'chip'} href={href}>{label}</a>
+          : <span class="chip">{label}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="media ratio-landscape">
+        <img src="/images/lkw-fahrer.jpg" alt={c.focusAlt} width="1600" height="1200" loading="lazy" />
+      </div>
+      <div class="stack-lg">
+        <p class="eyebrow">{c.focusEyebrow}</p>
+        <h2>{c.focusH2}</h2>
+        <p class="lead">{c.focusText}</p>
+        <ul class="checklist">{c.focusList.map((x) => <li>{x}</li>)}</ul>
+        <div class="btn-row"><a class="btn btn-dark" href={r('lkw')}>{c.focusCta}</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recruiting" class="section" style="padding-top: 0">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{c.recEyebrow}</p>
+        <h2>{c.recH2}</h2>
+      </div>
+      <div class="grid-3">
+        {c.recCards.map((card) => (
+          <article class="card">
+            <Icon name={card.icon} class="card-icon" />
+            <h3>{card.h}</h3>
+            <p>{card.p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="backoffice" class="section" style="padding-top: 0">
+    <div class="container">
+      <div class="feature-box grid-2" style="align-items: start">
+        <div class="stack-lg">
+          <p class="eyebrow">{c.boEyebrow}</p>
+          <h2>{c.boH2}</h2>
+          <p class="muted">{c.boText}</p>
+          <div class="btn-row"><a class="btn btn-dark" href={r('backoffice')}>{c.boCta}</a></div>
+        </div>
+        <div class="mini-grid">
+          {c.boItems.map(([h, p]) => <div class="mini"><strong>{h}</strong><p>{p}</p></div>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ablauf" class="band-dark section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{c.procEyebrow}</p>
+        <h2>{c.procH2}</h2>
+      </div>
+      <Process lang={lang} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{c.whyEyebrow}</p>
+        <h2>{c.whyH2}</h2>
+      </div>
+      <div class="grid-4">
+        {c.why.map(([h, p]) => <div class="value"><h3>{h}</h3><p>{p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="bewerber" class="section band-sand">
+    <div class="container grid-2">
+      <div class="stack-lg">
+        <p class="eyebrow">{c.appEyebrow}</p>
+        <h2>{c.appH2}</h2>
+        <p class="muted">{c.appText}</p>
+      </div>
+      <div class="card">
+        <h3>{c.appCardTitle}</h3>
+        <ul class="checklist">{c.appList.map((x) => <li>{x}</li>)}</ul>
+        <div class="btn-row" style="margin-top: 8px"><a class="btn btn-accent" href={r('bewerber')}>{c.appCta}</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <div class="container" style="max-width: 940px">
+      <div class="section-head">
+        <p class="eyebrow">{c.faqEyebrow}</p>
+        <h2>{c.faqH2}</h2>
+      </div>
+      <Faq items={c.faq} />
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container">
+      <div class="cta-band">
+        <div>
+          <h2>{c.ctaH2}</h2>
+          <p>{c.ctaText}</p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-accent" href={r('kontakt')}>{c.ctaBtn}</a>
+          <a class="btn btn-light" href={site.whatsapp} rel="noopener">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-aud]'));
+  tabs.forEach((tab) => tab.addEventListener('click', () => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      const panel = document.getElementById(t.getAttribute('aria-controls') || '');
+      if (panel) panel.hidden = !on;
+    });
+  }));
+</script>

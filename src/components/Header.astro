@@ -1,0 +1,48 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { routes, nav, ui, type Lang, type PageKey } from '../i18n';
+interface Props { lang: Lang; page: PageKey }
+const { lang, page } = Astro.props;
+const t = ui[lang];
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={routes.home[lang]} class="brand" aria-label={t.homeLabel}>
+      <Logo />
+      <span>Sion Consulting</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <Icon name="menu" size={24} />
+      <span class="sr-only">{t.menu}</span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label={t.mainNav}>
+      <ul>
+        {nav[lang].map((item) => (
+          <li><a href={item.href} aria-current={item.key === page ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+      <div class="nav-actions">
+        <div class="lang-switch" role="group" aria-label={t.language}>
+          <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+          <a href={routes[page].en} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+        </div>
+        <a class="btn btn-dark" href={routes.kontakt[lang]}>{t.cta}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector('.menu-toggle');
+  const navEl = document.getElementById('site-nav');
+  if (toggle && navEl) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      navEl.classList.toggle('open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    navEl.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+  }
+</script>

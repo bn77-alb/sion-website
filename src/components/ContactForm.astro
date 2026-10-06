@@ -1,0 +1,173 @@
+---
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang; audience?: 'employer' | 'applicant'; topic?: string }
+const { lang, audience = 'employer', topic = '' } = Astro.props;
+
+const t = {
+  de: {
+    iam: 'Ich bin', employer: 'Arbeitgeber', applicant: 'Bewerber/in',
+    name: 'Name', company: 'Firma', email: 'E-Mail', phone: 'Telefon / WhatsApp',
+    topic: 'Bereich', choose: 'Bitte wählen', message: 'Ihre Nachricht',
+    placeholder: 'z. B. gesuchte Position, Anzahl, Einsatzort – oder Ihre Erfahrung und Führerscheinklassen',
+    consentA: 'Ich habe die', privacy: 'Datenschutzerklärung', consentB: 'gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet werden.',
+    submit: 'Anfrage senden', required: 'Pflichtfeld',
+    either: 'Bitte geben Sie eine E-Mail-Adresse oder eine Telefon-/WhatsApp-Nummer an.',
+    sending: 'Wird gesendet …',
+    ok: 'Vielen Dank! Ihre Anfrage ist bei uns eingegangen. Wir melden uns innerhalb von einem Werktag.',
+    err: `Das Senden hat leider nicht geklappt. Bitte schreiben Sie uns direkt an ${site.email}.`,
+    mail: 'Ihr E-Mail-Programm wird geöffnet. Bitte senden Sie die vorbereitete Nachricht ab.',
+    subject: 'Anfrage über sionconsulting.de',
+  },
+  en: {
+    iam: 'I am', employer: 'an employer', applicant: 'an applicant',
+    name: 'Name', company: 'Company', email: 'Email', phone: 'Phone / WhatsApp',
+    topic: 'Area', choose: 'Please choose', message: 'Your message',
+    placeholder: 'e.g. position, number of hires, location – or your experience and licence classes',
+    consentA: 'I have read the', privacy: 'privacy policy', consentB: 'and agree that my details are processed to handle my enquiry.',
+    submit: 'Send enquiry', required: 'required',
+    either: 'Please enter an email address or a phone/WhatsApp number.',
+    sending: 'Sending …',
+    ok: 'Thank you! We have received your enquiry and will get back to you within one working day.',
+    err: `Sending failed. Please email us directly at ${site.email}.`,
+    mail: 'Your email program will open. Please send the prepared message.',
+    subject: 'Enquiry via sionconsulting.de',
+  },
+}[lang];
+
+const topics = {
+  de: [
+    { v: 'lkw', l: 'LKW-Fahrer C/CE' }, { v: 'paket', l: 'Paketzustellung' }, { v: 'lager', l: 'Lager & Logistik' },
+    { v: 'reinigung', l: 'Gebäudereinigung' }, { v: 'bau', l: 'Bau & Handwerk' }, { v: 'backoffice', l: 'Back-Office-Services' },
+    { v: 'other', l: 'Sonstiges' },
+  ],
+  en: [
+    { v: 'lkw', l: 'Truck drivers C/CE' }, { v: 'paket', l: 'Parcel delivery' }, { v: 'lager', l: 'Warehouse & logistics' },
+    { v: 'reinigung', l: 'Building cleaning' }, { v: 'bau', l: 'Construction & trades' }, { v: 'backoffice', l: 'Back-office services' },
+    { v: 'other', l: 'Other' },
+  ],
+}[lang];
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<form class="form" data-contact-form
+  data-endpoint={site.formEndpoint} data-email={site.email} data-lang={lang}
+  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-msg-mail={t.mail} data-msg-either={t.either} data-subject={t.subject}>
+  <fieldset class="choice">
+    <legend>{t.iam}</legend>
+    <label><input type="radio" name="audience" value="employer" checked={audience === 'employer'} /> {t.employer}</label>
+    <label><input type="radio" name="audience" value="applicant" checked={audience === 'applicant'} /> {t.applicant}</label>
+  </fieldset>
+  <div class="form-row">
+    <label class="field" for={`name-${uid}`}>
+      <span>{t.name} <span class="req" aria-hidden="true">*</span></span>
+      <input id={`name-${uid}`} name="name" type="text" required autocomplete="name" />
+    </label>
+    <label class="field" for={`company-${uid}`} data-employer-only hidden={audience !== 'employer'}>
+      <span>{t.company} <span class="req" aria-hidden="true">*</span></span>
+      <input id={`company-${uid}`} name="company" type="text" autocomplete="organization" required={audience === 'employer'} />
+    </label>
+  </div>
+  <div class="form-row">
+    <label class="field" for={`email-${uid}`}>
+      <span>{t.email} <span class="req" aria-hidden="true" data-employer-only hidden={audience !== 'employer'}>*</span></span>
+      <input id={`email-${uid}`} name="email" type="email" required={audience === 'employer'} autocomplete="email" />
+    </label>
+    <label class="field" for={`phone-${uid}`}>
+      <span>{t.phone}</span>
+      <input id={`phone-${uid}`} name="phone" type="tel" autocomplete="tel" />
+    </label>
+  </div>
+  <p class="muted" style="font-size: .9rem" data-applicant-only hidden={audience !== 'applicant'}>{t.either}</p>
+  <label class="field" for={`topic-${uid}`}>
+    <span>{t.topic}</span>
+    <select id={`topic-${uid}`} name="topic">
+      <option value="">{t.choose}</option>
+      {topics.map((o) => <option value={o.v} selected={o.v === topic}>{o.l}</option>)}
+    </select>
+  </label>
+  <label class="field" for={`message-${uid}`}>
+    <span>{t.message}</span>
+    <textarea id={`message-${uid}`} name="message" rows="4" placeholder={t.placeholder}></textarea>
+  </label>
+  <div class="hp" aria-hidden="true">
+    <label>Website <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <label class="consent">
+    <input type="checkbox" name="consent" value="yes" required />
+    <span>{t.consentA} <a href={routes.datenschutz[lang]}>{t.privacy}</a> {t.consentB} <span class="req" aria-hidden="true">*</span></span>
+  </label>
+  <div class="btn-row">
+    <button type="submit" class="btn btn-accent">{t.submit}</button>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.form-status');
+    const d = form.dataset;
+
+    const syncAudience = () => {
+      const isEmployer = (form.querySelector<HTMLInputElement>('input[name="audience"]:checked')?.value) === 'employer';
+      form.querySelectorAll<HTMLElement>('[data-employer-only]').forEach((el) => {
+        el.hidden = !isEmployer;
+        const input = el.querySelector('input');
+        if (input) input.required = isEmployer;
+      });
+      form.querySelectorAll<HTMLElement>('[data-applicant-only]').forEach((el) => { el.hidden = isEmployer; });
+      const email = form.querySelector<HTMLInputElement>('input[name="email"]');
+      if (email) email.required = isEmployer;
+    };
+    form.querySelectorAll('input[name="audience"]').forEach((r) => r.addEventListener('change', syncAudience));
+    syncAudience();
+
+    const show = (text: string, kind: 'ok' | 'err' | 'info') => {
+      if (!status) return;
+      status.textContent = text;
+      status.className = `form-status ${kind}`;
+      status.hidden = false;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      if (data.website) return; // spam trap
+      if (data.audience === 'applicant' && !data.email && !data.phone) {
+        show(d.msgEither || '', 'err');
+        return;
+      }
+
+      const payload = { ...data, lang: d.lang, page: location.pathname, sentAt: new Date().toISOString() };
+      delete (payload as Record<string, string>).website;
+
+      if (!d.endpoint) {
+        const lines = Object.entries(payload)
+          .filter(([k, v]) => v && !['consent', 'lang', 'sentAt'].includes(k))
+          .map(([k, v]) => `${k}: ${v}`);
+        show(d.msgMail || '', 'info');
+        window.location.href = `mailto:${d.email}?subject=${encodeURIComponent(d.subject || '')}&body=${encodeURIComponent(lines.join('\n'))}`;
+        return;
+      }
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (button) button.disabled = true;
+      show(d.msgSending || '', 'info');
+      try {
+        const res = await fetch(d.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        syncAudience();
+        show(d.msgOk || '', 'ok');
+      } catch {
+        show(d.msgErr || '', 'err');
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  });
+</script>

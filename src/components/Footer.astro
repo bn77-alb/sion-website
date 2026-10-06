@@ -1,0 +1,62 @@
+---
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const year = new Date().getFullYear();
+const t = {
+  de: {
+    claim: 'Personalvermittlung aus dem Westbalkan und international für Unternehmen in Deutschland – plus externes Back-Office.',
+    services: 'Leistungen', contact: 'Kontakt', legal: 'Rechtliches',
+    lkw: 'LKW-Fahrer-Vermittlung', recruiting: 'Recruiting', backoffice: 'Back-Office-Services', bewerber: 'Für Bewerber',
+    impressum: 'Impressum', privacy: 'Datenschutzerklärung', cookies: 'Cookie-Richtlinie', cookieSettings: 'Cookie-Einstellungen',
+    country: site.countryDe, area: 'Tätig in ganz Deutschland',
+  },
+  en: {
+    claim: 'Recruitment from the Western Balkans and worldwide for companies in Germany – plus an external back office.',
+    services: 'Services', contact: 'Contact', legal: 'Legal',
+    lkw: 'Truck driver recruitment', recruiting: 'Recruitment', backoffice: 'Back-office services', bewerber: 'For applicants',
+    impressum: 'Legal notice', privacy: 'Privacy policy', cookies: 'Cookie policy', cookieSettings: 'Cookie settings',
+    country: site.countryEn, area: 'Active throughout Germany',
+  },
+}[lang];
+---
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-brand">Sion Consulting</p>
+      <p>{t.claim}</p>
+    </div>
+    <div>
+      <p class="footer-title">{t.services}</p>
+      <ul class="footer-list">
+        <li><a href={routes.lkw[lang]}>{t.lkw}</a></li>
+        <li><a href={`${routes.home[lang]}#recruiting`}>{t.recruiting}</a></li>
+        <li><a href={routes.backoffice[lang]}>{t.backoffice}</a></li>
+        <li><a href={routes.bewerber[lang]}>{t.bewerber}</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-title">{t.contact}</p>
+      <ul class="footer-list">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={`tel:${site.phoneHref}`}>{site.phone}</a></li>
+        <li><a href={site.whatsapp} rel="noopener">WhatsApp</a></li>
+        <li>{site.street}, {site.zip} {site.city}, {t.country}</li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-title">{t.legal}</p>
+      <ul class="footer-list">
+        <li><a href={routes.impressum[lang]}>{t.impressum}</a></li>
+        <li><a href={routes.datenschutz[lang]}>{t.privacy}</a></li>
+        <li><a href={routes.cookies[lang]}>{t.cookies}</a></li>
+        <li><button type="button" class="linklike" data-cookie-open>{t.cookieSettings}</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© {year} Sion Consulting</span>
+    <span>{t.area}</span>
+  </div>
+</footer>

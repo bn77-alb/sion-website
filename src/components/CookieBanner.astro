@@ -1,0 +1,71 @@
+---
+// Consent banner. The site currently uses no tracking. The "statistics" choice is stored
+// so that analytics (e.g. Plausible/Matomo) can be switched on later only with consent:
+// listen for the "sion:consent" event or read localStorage "sion-consent-v1".
+import { routes, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = {
+  de: {
+    title: 'Datenschutz-Einstellungen',
+    text: 'Wir verwenden nur technisch notwendige Speicherungen, damit die Website funktioniert und Ihre Auswahl gespeichert bleibt. Statistik-Dienste setzen wir derzeit nicht ein. Sollte sich das ändern, nutzen wir sie nur mit Ihrer Einwilligung.',
+    more: 'Mehr in der Cookie-Richtlinie',
+    necessary: 'Notwendig (immer aktiv)', stats: 'Statistik',
+    onlyNecessary: 'Nur notwendige', save: 'Auswahl speichern', all: 'Alle akzeptieren',
+  },
+  en: {
+    title: 'Privacy settings',
+    text: 'We only use technically necessary storage so the website works and your choice is remembered. We currently do not use any analytics services. If this changes, we will only use them with your consent.',
+    more: 'More in our cookie policy',
+    necessary: 'Necessary (always on)', stats: 'Statistics',
+    onlyNecessary: 'Necessary only', save: 'Save selection', all: 'Accept all',
+  },
+}[lang];
+---
+<div class="cookie" id="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-text" hidden>
+  <div class="cookie-inner">
+    <p id="cookie-title" class="cookie-title">{t.title}</p>
+    <p id="cookie-text" class="cookie-text">{t.text} <a href={routes.cookies[lang]}>{t.more}</a></p>
+    <div class="cookie-opts">
+      <label><input type="checkbox" checked disabled /> {t.necessary}</label>
+      <label><input type="checkbox" id="consent-stats" /> {t.stats}</label>
+    </div>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-ghost" data-consent="necessary">{t.onlyNecessary}</button>
+      <button type="button" class="btn btn-ghost" data-consent="save">{t.save}</button>
+      <button type="button" class="btn btn-dark" data-consent="all">{t.all}</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const KEY = 'sion-consent-v1';
+  const banner = document.getElementById('cookie-banner');
+  const statsBox = document.getElementById('consent-stats') as HTMLInputElement | null;
+
+  const read = () => {
+    try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; }
+  };
+  const write = (value: { necessary: boolean; stats: boolean }) => {
+    try { localStorage.setItem(KEY, JSON.stringify({ ...value, date: new Date().toISOString() })); } catch {}
+    document.dispatchEvent(new CustomEvent('sion:consent', { detail: value }));
+  };
+  const open = () => {
+    const current = read();
+    if (statsBox) statsBox.checked = !!(current && current.stats);
+    if (banner) banner.hidden = false;
+  };
+
+  if (banner) {
+    if (!read()) banner.hidden = false;
+    banner.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('[data-consent]') as HTMLElement | null;
+      if (!btn) return;
+      const choice = btn.dataset.consent;
+      const stats = choice === 'all' ? true : choice === 'necessary' ? false : !!statsBox?.checked;
+      write({ necessary: true, stats });
+      banner.hidden = true;
+    });
+  }
+  document.querySelectorAll('[data-cookie-open]').forEach((el) => el.addEventListener('click', open));
+</script>

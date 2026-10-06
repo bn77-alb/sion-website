@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const isPh = (v: string) => v.startsWith('[');
+const services = 'Hostinger International Ltd., 61 Lordou Vironos Street, 6023 Larnaka, Zypern (E-Mail-Postfach); Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland (Google Workspace, Ablage von Unterlagen); Trello, ein Dienst der Atlassian-Gruppe mit Servern u. a. in den USA (Verwaltung von Anfragen). Für Übermittlungen in die USA gelten das EU-US Data Privacy Framework bzw. Standardvertragsklauseln.';
+const servicesEn = 'Hostinger International Ltd., 61 Lordou Vironos Street, 6023 Larnaca, Cyprus (email mailbox); Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland (Google Workspace, document storage); Trello, a service of the Atlassian group with servers including in the USA (enquiry management). Transfers to the USA are based on the EU-US Data Privacy Framework or standard contractual clauses.';
+---
+<Base lang={lang} page="datenschutz"
+  title={lang === 'de' ? 'Datenschutzerklärung | Sion Consulting' : 'Privacy policy | Sion Consulting'}
+  description={lang === 'de' ? 'Informationen zur Verarbeitung personenbezogener Daten auf sionconsulting.de gemäß DSGVO.' : 'Information on the processing of personal data on sionconsulting.de in accordance with the GDPR.'}>
+  <section class="page-hero">
+    <div class="container prose">
+      {lang === 'de' ? (
+        <>
+          <h1>Datenschutzerklärung</h1>
+          <p>Stand: Oktober 2026</p>
+
+          <h2>Verantwortlicher</h2>
+          <address>
+            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.street}, {site.zip} {site.city}, {site.countryDe}<br />
+            Vertreten durch: <span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span><br />
+            E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a> · Telefon: {site.phone}
+          </address>
+
+          {site.euRepresentative && (<>
+          <h2>Vertreter in der Europäischen Union</h2>
+          <p>Da wir unseren Sitz außerhalb der EU haben und uns mit unserem Angebot an Unternehmen und Personen in der EU richten, haben wir gemäß Art. 27 DSGVO folgenden Vertreter benannt:</p>
+          <p>{site.euRepresentative}</p>
+          </>)}
+
+          <h2>Allgemeines</h2>
+          <p>Wir verarbeiten personenbezogene Daten nur, soweit dies zur Bereitstellung dieser Website, zur Bearbeitung Ihrer Anfragen und zur Erbringung unserer Leistungen erforderlich ist. Rechtsgrundlagen sind insbesondere Art. 6 Abs. 1 lit. a DSGVO (Einwilligung), lit. b (Vertrag und vorvertragliche Maßnahmen), lit. c (rechtliche Verpflichtung) und lit. f (berechtigtes Interesse).</p>
+
+          <h2>Hosting und Server-Logfiles</h2>
+          <p>Diese Website wird bei GitHub Pages gehostet, einem Dienst der GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. Beim Aufruf der Website werden technisch notwendige Daten verarbeitet, insbesondere IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Referrer-URL sowie Browser- und Betriebssysteminformationen. Dies dient dem sicheren und stabilen Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO).</p>
+          <p>Eine Übermittlung in die USA findet statt. Sie stützt sich auf den Angemessenheitsbeschluss der EU-Kommission zum EU-US Data Privacy Framework, soweit der Anbieter danach zertifiziert ist, ergänzend auf Standardvertragsklauseln.</p>
+
+          <h2>Kontaktformular</h2>
+          <p>Wenn Sie uns über das Kontaktformular schreiben, verarbeiten wir die von Ihnen eingegebenen Daten (Name, ggf. Firma, E-Mail-Adresse, ggf. Telefonnummer, Bereich, Nachricht) zur Bearbeitung Ihrer Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit Ihre Anfrage auf einen Vertrag abzielt, im Übrigen Art. 6 Abs. 1 lit. f DSGVO.</p>
+          <p>Für den Empfang und die Verwaltung der Anfragen setzen wir folgende Dienste ein: {services}</p>
+
+          <h2>KI-Chat-Assistent</h2>
+          <p>Auf unserer Website können Sie freiwillig einen KI-gestützten Chat-Assistenten nutzen. Er wird erst geladen und erhält erst Daten, wenn Sie den Chat öffnen und auf „Chat starten“ klicken. Verarbeitet werden Ihre Chat-Nachrichten sowie die Angaben, die Sie dort machen (z. B. Name, Firma, E-Mail-Adresse, Telefonnummer, Ihr Personalbedarf oder Ihre Berufserfahrung), und eine zufällige Sitzungskennung.</p>
+          <p>Zweck ist die Beantwortung Ihrer Fragen, die Vorbereitung einer Zusammenarbeit und auf Ihren Wunsch die Buchung eines Gesprächstermins. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen auf Ihre Anfrage), im Übrigen Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einer schnellen Beantwortung von Anfragen).</p>
+          <p>Eingesetzte Dienste: n8n GmbH, Berlin, Deutschland (Workflow-Plattform n8n Cloud); Anthropic, PBC, San Francisco, USA (KI-Modell Claude; Übermittlung in die USA auf Grundlage von Standardvertragsklauseln); Google Ireland Limited, Dublin, Irland (Google Calendar für Terminbuchungen, Gmail für die Weiterleitung der Zusammenfassung an uns). Buchen Sie einen Termin, erhalten Sie eine Kalendereinladung mit Google-Meet-Link an die angegebene E-Mail-Adresse.</p>
+          <p>Die Antworten werden automatisch von einer KI erzeugt und können Fehler enthalten. Verbindliche Auskünfte erhalten Sie nur von unseren Mitarbeitenden. Eine automatisierte Entscheidung im Sinne von Art. 22 DSGVO findet nicht statt. Bitte geben Sie im Chat keine Ausweis-, Gesundheits- oder anderen besonders schützenswerten Daten ein. Chatverläufe und Zusammenfassungen löschen wir nach denselben Fristen wie andere Anfragen.</p>
+
+          <h2>Kontakt per E-Mail, Telefon oder WhatsApp</h2>
+          <p>Wenn Sie uns per E-Mail, Telefon oder WhatsApp kontaktieren, verarbeiten wir Ihre Angaben zur Bearbeitung Ihres Anliegens (Art. 6 Abs. 1 lit. b bzw. f DSGVO). WhatsApp ist ein Dienst der WhatsApp Ireland Limited (Meta). Bei Nutzung von WhatsApp gelten zusätzlich die Datenschutzbestimmungen von WhatsApp. Der Link auf dieser Website öffnet WhatsApp erst nach Ihrem Klick.</p>
+
+          <h2>Bewerberdaten und Weitergabe an Arbeitgeber</h2>
+          <p>Wenn Sie sich bei uns als Bewerberin oder Bewerber melden, verarbeiten wir Ihre Angaben, um Ihnen passende Stellen zu vermitteln. Ihre Daten geben wir nur mit Ihrer Einwilligung an potenzielle Arbeitgeber in Deutschland weiter (Art. 6 Abs. 1 lit. a DSGVO). Im Rahmen eines Visum- oder Zustimmungsverfahrens werden Daten an die zuständigen Stellen übermittelt, soweit dies für das Verfahren erforderlich ist (Art. 6 Abs. 1 lit. b und c DSGVO).</p>
+
+          <h2>Verarbeitung in Albanien</h2>
+          <p>Unser Unternehmen hat seinen Sitz in Albanien. Ihre Anfragen werden daher auch dort bearbeitet. Für Albanien besteht kein Angemessenheitsbeschluss der EU-Kommission. Die Übermittlung erfolgt, weil sie zur Bearbeitung Ihrer Anfrage bzw. zur Durchführung vorvertraglicher Maßnahmen auf Ihren Antrag erforderlich ist (Art. 49 Abs. 1 lit. b DSGVO). Wir behandeln Ihre Daten nach den Grundsätzen der DSGVO.</p>
+
+          <h2>Speicherdauer</h2>
+          <p>Wir speichern personenbezogene Daten nur so lange, wie es für den jeweiligen Zweck erforderlich ist oder gesetzliche Aufbewahrungsfristen bestehen. Anfragen, aus denen keine Zusammenarbeit entsteht, löschen wir spätestens nach 6 Monaten.</p>
+
+          <h2>Cookies und lokale Speicherung</h2>
+          <p>Diese Website setzt keine Tracking- oder Marketing-Cookies und bindet keine externen Schriftarten, Karten oder Videos ein. Gespeichert wird lediglich Ihre Auswahl im Datenschutz-Hinweis im lokalen Speicher Ihres Browsers. Dies ist technisch erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Details finden Sie in unserer <a href={routes.cookies.de}>Cookie-Richtlinie</a>.</p>
+
+          <h2>Ihre Rechte</h2>
+          <p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21). Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3 DSGVO). Eine formlose Nachricht an {site.email} genügt.</p>
+          <p>Sie haben außerdem das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO), insbesondere in dem EU-Mitgliedstaat Ihres Aufenthaltsorts oder Arbeitsplatzes.</p>
+
+          <h2>Pflicht zur Bereitstellung</h2>
+          <p>Die Bereitstellung Ihrer Daten ist freiwillig. Ohne die als Pflichtfelder gekennzeichneten Angaben können wir Ihre Anfrage jedoch nicht bearbeiten.</p>
+
+          <h2>Keine automatisierte Entscheidungsfindung</h2>
+          <p>Eine automatisierte Entscheidungsfindung einschließlich Profiling im Sinne von Art. 22 DSGVO findet nicht statt.</p>
+        </>
+      ) : (
+        <>
+          <h1>Privacy policy</h1>
+          <p>Last updated: October 2026</p>
+
+          <h2>Controller</h2>
+          <address>
+            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.street}, {site.zip} {site.city}, {site.countryEn}<br />
+            Represented by: <span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span><br />
+            Email: <a href={`mailto:${site.email}`}>{site.email}</a> · Phone: {site.phone}
+          </address>
+
+          {site.euRepresentative && (<>
+          <h2>Representative in the European Union</h2>
+          <p>As we are established outside the EU and offer our services to companies and individuals in the EU, we have appointed the following representative pursuant to Art. 27 GDPR:</p>
+          <p>{site.euRepresentative}</p>
+          </>)}
+
+          <h2>General information</h2>
+          <p>We only process personal data to the extent necessary to provide this website, handle your enquiries and deliver our services. The legal bases are in particular Art. 6(1)(a) GDPR (consent), (b) (contract and pre-contractual measures), (c) (legal obligation) and (f) (legitimate interests).</p>
+
+          <h2>Hosting and server log files</h2>
+          <p>This website is hosted on GitHub Pages, a service of GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA. When you visit the website, technically necessary data is processed, in particular IP address, date and time, page visited, referrer URL and browser and operating system information. This serves the secure and stable operation of the website (Art. 6(1)(f) GDPR).</p>
+          <p>Data is transferred to the USA. The transfer is based on the European Commission’s adequacy decision for the EU-US Data Privacy Framework, insofar as the provider is certified under it, and additionally on standard contractual clauses.</p>
+
+          <h2>Contact form</h2>
+          <p>If you write to us via the contact form, we process the data you enter (name, company if applicable, email address, phone number if provided, area, message) to handle your enquiry. The legal basis is Art. 6(1)(b) GDPR where your enquiry relates to a contract, otherwise Art. 6(1)(f) GDPR.</p>
+          <p>We use the following services to transmit and manage enquiries: {servicesEn}</p>
+
+          <h2>AI chat assistant</h2>
+          <p>Our website offers an optional AI-powered chat assistant. It is only loaded and only receives data when you open the chat and click “Start chat”. We process your chat messages, the details you enter there (e.g. name, company, email address, phone number, your staffing needs or your work experience) and a random session ID.</p>
+          <p>The purpose is to answer your questions, prepare a possible cooperation and, at your request, book a call. The legal basis is Art. 6(1)(b) GDPR (pre-contractual measures at your request), otherwise Art. 6(1)(f) GDPR (legitimate interest in answering enquiries quickly).</p>
+          <p>Services used: n8n GmbH, Berlin, Germany (n8n Cloud workflow platform); Anthropic, PBC, San Francisco, USA (Claude AI model; transfer to the USA based on standard contractual clauses); Google Ireland Limited, Dublin, Ireland (Google Calendar for booking calls, Gmail for forwarding the summary to us). If you book a call, you receive a calendar invitation with a Google Meet link at the email address you provide.</p>
+          <p>Replies are generated automatically by an AI and may contain errors. Binding information is only provided by our staff. There is no automated decision-making within the meaning of Art. 22 GDPR. Please do not enter ID, health or other sensitive data in the chat. Chat histories and summaries are deleted according to the same periods as other enquiries.</p>
+
+          <h2>Contact by email, phone or WhatsApp</h2>
+          <p>If you contact us by email, phone or WhatsApp, we process your details to handle your request (Art. 6(1)(b) or (f) GDPR). WhatsApp is a service of WhatsApp Ireland Limited (Meta); WhatsApp’s privacy policy also applies when you use it. The link on this website only opens WhatsApp after you click it.</p>
+
+          <h2>Applicant data and disclosure to employers</h2>
+          <p>If you contact us as an applicant, we process your details to find suitable jobs for you. We only pass your data on to potential employers in Germany with your consent (Art. 6(1)(a) GDPR). In a visa or approval procedure, data is transmitted to the competent authorities insofar as this is necessary for the procedure (Art. 6(1)(b) and (c) GDPR).</p>
+
+          <h2>Processing in Albania</h2>
+          <p>Our company is based in Albania, so your enquiries are also handled there. There is no European Commission adequacy decision for Albania. The transfer takes place because it is necessary to handle your enquiry or to carry out pre-contractual measures at your request (Art. 49(1)(b) GDPR). We treat your data in line with the principles of the GDPR.</p>
+
+          <h2>Retention period</h2>
+          <p>We only store personal data for as long as necessary for the respective purpose or as required by statutory retention periods. Enquiries that do not lead to a cooperation are deleted after 6 months at the latest.</p>
+
+          <h2>Cookies and local storage</h2>
+          <p>This website does not use tracking or marketing cookies and does not load external fonts, maps or videos. Only your choice in the privacy notice is stored in your browser’s local storage. This is technically necessary (Section 25(2) No. 2 TDDDG). See our <a href={routes.cookies.en}>cookie policy</a> for details.</p>
+
+          <h2>Your rights</h2>
+          <p>You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18), data portability (Art. 20) and to object to processing based on legitimate interests (Art. 21). You can withdraw any consent at any time with effect for the future (Art. 7(3) GDPR). An informal message to {site.email} is sufficient.</p>
+          <p>You also have the right to lodge a complaint with a data protection supervisory authority (Art. 77 GDPR), in particular in the EU member state of your residence or place of work.</p>
+
+          <h2>Obligation to provide data</h2>
+          <p>Providing your data is voluntary. However, we cannot handle your enquiry without the information marked as required.</p>
+
+          <h2>No automated decision-making</h2>
+          <p>There is no automated decision-making, including profiling, within the meaning of Art. 22 GDPR.</p>
+        </>
+      )}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import { type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const isPh = (v: string) => v.startsWith('[');
+---
+<Base lang={lang} page="impressum"
+  title={lang === 'de' ? 'Impressum | Sion Consulting' : 'Legal notice | Sion Consulting'}
+  description={lang === 'de' ? 'Impressum und Anbieterkennzeichnung von Sion Consulting, Tirana.' : 'Legal notice and provider information of Sion Consulting, Tirana.'}>
+  <section class="page-hero">
+    <div class="container prose">
+      {lang === 'de' ? (
+        <>
+          <h1>Impressum</h1>
+          <h2>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</h2>
+          <address>
+            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.street}<br />
+            {site.zip} {site.city}<br />
+            {site.countryDe}
+          </address>
+          <h3>Vertreten durch</h3>
+          <p><span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span></p>
+          <h3>Kontakt</h3>
+          <p>Telefon: <a href={`tel:${site.phoneHref}`}>{site.phone}</a><br />E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <h3>Registereintrag</h3>
+          <p>Eingetragen im albanischen Unternehmensregister (Qendra Kombëtare e Biznesit)<br />NIPT: <span class:list={[{ ph: isPh(site.registry) }]}>{site.registry}</span></p>
+          {site.vatId && (<><h3>Umsatzsteuer-Identifikationsnummer</h3><p>{site.vatId}</p></>)}
+          <h2>Verbraucherstreitbeilegung</h2>
+          <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+          <h2>Haftung für Inhalte</h2>
+          <p>Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Allgemeine Informationen zu rechtlichen Verfahren (z. B. Westbalkanregelung, Visum, Führerschein) ersetzen keine Rechtsberatung im Einzelfall.</p>
+          <h2>Haftung für Links</h2>
+          <p>Unsere Website enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für diese fremden Inhalte ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Bei Bekanntwerden von Rechtsverletzungen entfernen wir derartige Links umgehend.</p>
+          <h2>Urheberrecht</h2>
+          <p>Die Texte und Gestaltung dieser Website unterliegen dem Urheberrecht. Fotos: Unsplash (unsplash.com), genutzt gemäß der Unsplash-Lizenz.</p>
+        </>
+      ) : (
+        <>
+          <h1>Legal notice</h1>
+          <p>Information pursuant to Section 5 of the German Digital Services Act (DDG).</p>
+          <address>
+            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.street}<br />
+            {site.zip} {site.city}<br />
+            {site.countryEn}
+          </address>
+          <h3>Represented by</h3>
+          <p><span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span></p>
+          <h3>Contact</h3>
+          <p>Phone: <a href={`tel:${site.phoneHref}`}>{site.phone}</a><br />Email: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <h3>Registration</h3>
+          <p>Registered with the Albanian National Business Center (Qendra Kombëtare e Biznesit)<br />NIPT: <span class:list={[{ ph: isPh(site.registry) }]}>{site.registry}</span></p>
+          {site.vatId && (<><h3>VAT ID</h3><p>{site.vatId}</p></>)}
+          <h2>Consumer dispute resolution</h2>
+          <p>We are neither willing nor obliged to participate in dispute resolution proceedings before a consumer arbitration board.</p>
+          <h2>Liability for content</h2>
+          <p>The content of this website has been prepared with great care. However, we cannot guarantee that it is correct, complete or up to date. General information on legal procedures (e.g. the Western Balkans Regulation, visas, driving licences) does not replace legal advice in an individual case.</p>
+          <h2>Liability for links</h2>
+          <p>Our website contains links to external third-party websites whose content we cannot influence. The respective provider or operator is always responsible for this content. We remove such links promptly if we become aware of any infringement.</p>
+          <h2>Copyright</h2>
+          <p>The texts and design of this website are protected by copyright. Photos: Unsplash (unsplash.com), used under the Unsplash licence.</p>
+        </>
+      )}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Process from '../components/Process.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'LKW-Fahrer C/CE aus dem Ausland vermitteln | Sion Consulting',
+    description: 'Wir vermitteln erfahrene LKW-Fahrer mit Führerschein C/CE aus dem Westbalkan und international an Speditionen und Logistiker in ganz Deutschland – inkl. Visum und Qualifikation.',
+    eyebrow: 'LKW-Fahrer-Vermittlung',
+    h1: 'LKW-Fahrer C/CE aus dem Westbalkan und international',
+    lead: 'Erfahrene Berufskraftfahrer für Speditionen, Transport- und Logistikunternehmen in ganz Deutschland. Wir übernehmen Suche, Prüfung und den gesamten Weg bis zum ersten Einsatz.',
+    cta: 'Fahrer anfragen', ctaSecondary: 'Zum Ablauf',
+    alt: 'Sattelzug auf einer Landstraße',
+    areas: ['Fernverkehr', 'Nahverkehr', 'Verteilerverkehr', 'Sattelzug & Hängerzug'],
+    servicesH2: 'Was wir für Sie übernehmen',
+    services: [
+      { icon: 'search', h: 'Suche & Vorauswahl', p: 'Wir suchen gezielt nach Fahrern, die zu Ihren Touren, Fahrzeugen und Arbeitszeiten passen.' },
+      { icon: 'idcard', h: 'Prüfung von Führerschein & Erfahrung', p: 'Fahrerlaubnis, Fahrpraxis und Nachweise werden vor der Vorstellung geprüft.' },
+      { icon: 'doc', h: 'Rechtlicher Weg & Antrag', p: 'Westbalkanregelung oder ein anderer passender Weg – wir bereiten Vertrag und Antrag vor.' },
+      { icon: 'globe', h: 'Visum & Einreise', p: 'Begleitung des Visumverfahrens bei der deutschen Auslandsvertretung bis zur Einreise.' },
+      { icon: 'truck', h: 'Führerschein & Code 95', p: 'Unterstützung bei Umschreibung der Fahrerlaubnis und Berufskraftfahrer-Qualifikation.' },
+      { icon: 'users', h: 'Begleitung nach dem Start', p: 'Anmeldung, Aufenthaltstitel und ein Ansprechpartner in den ersten Wochen.' },
+    ],
+    qualEyebrow: 'Gut zu wissen',
+    qualH2: 'Führerschein und Berufskraftfahrer-Qualifikation',
+    qualText: [
+      'Wer in Deutschland gewerblich LKW fährt, braucht eine hier gültige Fahrerlaubnis der Klasse C bzw. CE und die Berufskraftfahrer-Qualifikation, erkennbar am Eintrag „Code 95“ im Führerschein.',
+      'Ob ein ausländischer Führerschein umgeschrieben werden kann und welche Schulungen oder Prüfungen nötig sind, hängt vom Herkunftsland ab. Wir klären das vor der Einstellung – so gibt es nach der Ankunft keine Überraschungen.',
+    ],
+    procEyebrow: 'Ablauf', procH2: 'So kommen Ihre Fahrer zu Ihnen',
+    faqH2: 'Fragen zur Fahrer-Vermittlung',
+    faq: [
+      { q: 'Sind die Fahrer sofort einsetzbar?', a: 'Für den gewerblichen Güterverkehr brauchen Fahrer einen in der EU gültigen Führerschein C/CE und die Grundqualifikation (Code 95). Ein ausländischer Führerschein muss innerhalb von sechs Monaten nach Wohnsitznahme umgeschrieben werden. Für Führerscheine aus Albanien, Kosovo, Montenegro, Nordmazedonien und Serbien – auch Klasse C und CE – geht das ohne theoretische und praktische Prüfung. Wir klären das vor der Einstellung.' },
+      { q: 'Können Fahrer zunächst in einer anderen Tätigkeit anfangen?', a: 'Ja. Fehlt noch eine Qualifikation, ist unter bestimmten Voraussetzungen eine Beschäftigung z. B. im Lager möglich, während die Qualifikation innerhalb von 15 Monaten erworben wird. Die Bundesagentur für Arbeit muss zustimmen – wir bereiten das für Sie vor.' },
+      { q: 'Welche Erfahrung bringen die Fahrer mit?', a: 'Wir vermitteln Fahrer mit Berufserfahrung. Fahrpraxis, Fahrzeugtypen und bisherige Einsätze klären wir im Gespräch und nennen sie Ihnen im Profil.' },
+      { q: 'Wer trägt die Kosten für Umschreibung und Code 95?', a: 'Die Kosten für Führerscheinumschreibung und Grundqualifikation trägt der Fahrer. Wir organisieren und begleiten den Ablauf.' },
+      { q: 'Aus welchen Ländern kommen Ihre Fahrer?', a: 'Schwerpunkt ist der Westbalkan, insbesondere Albanien und Kosovo. Darüber hinaus rekrutieren wir international.' },
+      { q: 'Können wir mehrere Fahrer gleichzeitig anfragen?', a: 'Ja. Teilen Sie uns die gewünschte Anzahl mit – wir planen die Auswahl entsprechend.' },
+    ],
+    formH2: 'Fahrer anfragen',
+    formText: 'Beschreiben Sie kurz Ihren Bedarf – Touren, Fahrzeugtyp, Einsatzort. Wir melden uns mit einem Vorschlag.',
+  },
+  en: {
+    title: 'Recruit C/CE Truck Drivers from Abroad | Sion Consulting',
+    description: 'We recruit experienced truck drivers with C/CE licences from the Western Balkans and worldwide for hauliers and logistics companies across Germany – including visa and qualification support.',
+    eyebrow: 'Truck driver recruitment',
+    h1: 'C/CE truck drivers from the Western Balkans and worldwide',
+    lead: 'Experienced professional drivers for hauliers, transport and logistics companies across Germany. We handle the search, the checks and the entire journey to their first trip.',
+    cta: 'Request drivers', ctaSecondary: 'See the process',
+    alt: 'Semi-trailer truck on a country road',
+    areas: ['Long-haul', 'Regional transport', 'Distribution', 'Semi-trailer & drawbar'],
+    servicesH2: 'What we take care of',
+    services: [
+      { icon: 'search', h: 'Search & pre-selection', p: 'We look specifically for drivers who fit your routes, vehicles and working hours.' },
+      { icon: 'idcard', h: 'Licence & experience checks', p: 'Driving licence, driving experience and certificates are checked before we present a candidate.' },
+      { icon: 'doc', h: 'Legal route & application', p: 'Western Balkans Regulation or another suitable route – we prepare the contract and application.' },
+      { icon: 'globe', h: 'Visa & arrival', p: 'Support through the visa process at the German embassy up to arrival.' },
+      { icon: 'truck', h: 'Licence & Code 95', p: 'Support with licence conversion and the professional driver qualification.' },
+      { icon: 'users', h: 'Support after the start', p: 'Registration, residence permit and one contact person during the first weeks.' },
+    ],
+    qualEyebrow: 'Good to know',
+    qualH2: 'Driving licence and professional driver qualification',
+    qualText: [
+      'Anyone driving a truck commercially in Germany needs a valid class C or CE licence and the professional driver qualification, shown by the “Code 95” entry on the licence.',
+      'Whether a foreign licence can be converted and which training or tests are required depends on the country of origin. We clarify this before hiring – so there are no surprises after arrival.',
+    ],
+    procEyebrow: 'Process', procH2: 'How your drivers get to you',
+    faqH2: 'Questions about driver recruitment',
+    faq: [
+      { q: 'Can the drivers start driving right away?', a: 'Commercial freight transport requires an EU-valid C/CE licence and the initial qualification (Code 95). A foreign licence must be converted within six months of taking up residence. For licences from Albania, Kosovo, Montenegro, North Macedonia and Serbia – including classes C and CE – this works without a theory or practical test. We clarify this before hiring.' },
+      { q: 'Can drivers start in a different role first?', a: 'Yes. If a qualification is still missing, employment e.g. in the warehouse is possible under certain conditions while the qualification is obtained within 15 months. The Federal Employment Agency must approve – we prepare this for you.' },
+      { q: 'What experience do the drivers have?', a: 'We place drivers with professional experience. Driving experience, vehicle types and previous jobs are clarified in the interview and listed in the profile.' },
+      { q: 'Who pays for licence conversion and Code 95?', a: 'The driver pays for the licence conversion and initial qualification. We organise and support the process.' },
+      { q: 'Which countries do your drivers come from?', a: 'Our focus is the Western Balkans, especially Albania and Kosovo. We also recruit internationally.' },
+      { q: 'Can we request several drivers at once?', a: 'Yes. Tell us how many you need and we plan the selection accordingly.' },
+    ],
+    formH2: 'Request drivers',
+    formText: 'Briefly describe what you need – routes, vehicle type, location. We will get back to you with a proposal.',
+  },
+}[lang];
+---
+<Base lang={lang} page="lkw" title={c.title} description={c.description} image="/images/lkw-strasse.jpg">
+  <section class="page-hero">
+    <div class="container grid-2">
+      <div class="hero-copy">
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn-accent" href="#anfrage">{c.cta}</a>
+          <a class="link-arrow" href="#ablauf">{c.ctaSecondary}</a>
+        </div>
+        <div class="chips">{c.areas.map((a) => <span class="chip">{a}</span>)}</div>
+      </div>
+      <div class="media ratio-landscape">
+        <img src="/images/lkw-strasse.jpg" alt={c.alt} width="1600" height="1200" loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 24px">
+    <div class="container">
+      <div class="section-head"><h2>{c.servicesH2}</h2></div>
+      <div class="grid-3">
+        {c.services.map((s) => (
+          <article class="card">
+            <Icon name={s.icon} class="card-icon" />
+            <h3>{s.h}</h3>
+            <p>{s.p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container">
+      <div class="feature-box stack-lg" style="max-width: 980px">
+        <p class="eyebrow">{c.qualEyebrow}</p>
+        <h2>{c.qualH2}</h2>
+        {c.qualText.map((p) => <p class="muted">{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="ablauf" class="band-dark section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{c.procEyebrow}</p>
+        <h2>{c.procH2}</h2>
+      </div>
+      <Process lang={lang} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width: 940px">
+      <div class="section-head"><h2>{c.faqH2}</h2></div>
+      <Faq items={c.faq} />
+    </div>
+  </section>
+
+  <section id="anfrage" class="section band-sand">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h2>{c.formH2}</h2>
+        <p class="muted">{c.formText}</p>
+      </div>
+      <ContactForm lang={lang} audience="employer" topic="lkw" />
+    </div>
+  </section>
+</Base>

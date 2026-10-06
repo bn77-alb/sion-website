@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Kontakt | Sion Consulting – Personalvermittlung & Back-Office',
+    description: 'Kontaktieren Sie Sion Consulting: Personalvermittlung von LKW-Fahrern und Logistikpersonal sowie Back-Office-Services für Unternehmen in Deutschland.',
+    h1: 'Kontakt',
+    lead: 'Ob Personalbedarf, Back-Office oder Bewerbung – schreiben Sie uns. Wir antworten persönlich – innerhalb von einem Werktag.',
+    direct: 'Direkter Kontakt', address: 'Anschrift', country: site.countryDe,
+  },
+  en: {
+    title: 'Contact | Sion Consulting – Recruitment & Back Office',
+    description: 'Contact Sion Consulting: recruitment of truck drivers and logistics staff and back-office services for companies in Germany.',
+    h1: 'Contact',
+    lead: 'Staffing needs, back office or an application – write to us. We reply personally – within one working day.',
+    direct: 'Direct contact', address: 'Address', country: site.countryEn,
+  },
+}[lang];
+---
+<Base lang={lang} page="kontakt" title={c.title} description={c.description}>
+  <section class="page-hero">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.lead}</p>
+        <h2 style="font-size: 1.3rem; margin-top: 12px">{c.direct}</h2>
+        <ul class="contact-list">
+          <li><Icon name="mail" size={22} /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><Icon name="phone" size={22} /><a href={`tel:${site.phoneHref}`}>{site.phone}</a></li>
+          <li><Icon name="chat" size={22} /><a href={site.whatsapp} rel="noopener">WhatsApp</a></li>
+          <li><Icon name="pin" size={22} /><span>{site.name}<br />{site.street}<br />{site.zip} {site.city}, {c.country}</span></li>
+        </ul>
+      </div>
+      <ContactForm lang={lang} />
+    </div>
+  </section>
+</Base>

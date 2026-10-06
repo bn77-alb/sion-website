@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Externes Back-Office für Logistik & Dienstleistung | Sion Consulting',
+    description: 'Sion Consulting übernimmt als externer Back-Office-Partner Dokumentenvorbereitung, Personal- und Fahrerunterlagen sowie administrative Aufgaben für Unternehmen in Deutschland.',
+    eyebrow: 'Back-Office-Services',
+    h1: 'Ihr externes Back-Office – zuverlässig aus Tirana',
+    lead: 'Ob Logistik, Dienstleistung oder eine andere Branche: Papierkram kostet Zeit. Wir übernehmen wiederkehrende Verwaltungsaufgaben, damit sich Ihr Team auf das Kerngeschäft konzentrieren kann.',
+    cta: 'Back-Office anfragen',
+    alt: 'Zwei Mitarbeitende besprechen Unterlagen am Schreibtisch',
+    servicesH2: 'Was wir für Sie erledigen',
+    services: [
+      { icon: 'doc', h: 'Dokumentenvorbereitung', p: 'Verträge, Anschreiben und Standarddokumente nach Ihren Vorlagen – sauber und termingerecht.' },
+      { icon: 'folder', h: 'Personal- & Fahrerunterlagen', p: 'Pflege und Aktualisierung von Mitarbeiterakten, Nachweisen und Fristen.' },
+      { icon: 'idcard', h: 'Formulare & Anträge', p: 'Vorbereitung von Formularen für Behörden und Ämter – vollständig und geprüft.' },
+      { icon: 'table', h: 'Datenerfassung & -pflege', p: 'Erfassung und Pflege von Daten in Ihren Listen und Systemen.' },
+      { icon: 'clock', h: 'Administrative Unterstützung', p: 'Flexible Hilfe bei wiederkehrenden Büroaufgaben – Umfang nach Absprache.' },
+      { icon: 'chat', h: 'Mehrsprachige Kommunikation', p: 'Unterstützung bei der Kommunikation mit Mitarbeitenden auf Deutsch, Englisch und Albanisch.' },
+      { icon: 'table', h: 'Rechnungsunterstützung', p: 'Vorbereitung und Erfassung von Rechnungen nach Ihren Vorgaben.' },
+      { icon: 'idcard', h: 'Führerschein- & Fahrerkartenkontrolle', p: 'Regelmäßige Kontrolle und Dokumentation von Führerscheinen und Fahrerkarten.' },
+      { icon: 'globe', h: 'Übersetzungen', p: 'Übersetzung von Dokumenten und Korrespondenz zwischen Deutsch, Englisch und Albanisch.' },
+      { icon: 'users', h: 'Recruiting-Administration', p: 'Administrative Unterstützung für Personaldienstleister – von Bewerberunterlagen bis zur Terminplanung.' },
+    ],
+    forH2: 'Für wen?',
+    forList: ['Speditionen & Logistik', 'Paket- und Kurierdienste', 'Personaldienstleister', 'Kleine und mittlere Unternehmen aller Branchen'],
+    stepsH2: 'So starten wir',
+    steps: [
+      ['Erstgespräch', 'Wir besprechen, welche Aufgaben Sie abgeben möchten und in welchem Umfang.'],
+      ['Aufgaben & Vorlagen festlegen', 'Gemeinsam definieren wir Abläufe, Vorlagen und Ansprechpartner.'],
+      ['Laufende Bearbeitung', 'Wir erledigen die Aufgaben zuverlässig – mit einem festen Ansprechpartner für Sie.'],
+    ],
+    dpH2: 'Vertraulichkeit und Datenschutz',
+    dpText: 'Wir behandeln Ihre Unterlagen vertraulich. Für die Verarbeitung personenbezogener Daten in Ihrem Auftrag schließen wir mit Ihnen einen Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.',
+    formH2: 'Back-Office anfragen',
+    formText: 'Beschreiben Sie kurz, welche Aufgaben Sie abgeben möchten. Wir melden uns mit einem Vorschlag.',
+  },
+  en: {
+    title: 'External Back Office for Logistics & Services | Sion Consulting',
+    description: 'As an external back-office partner, Sion Consulting handles document preparation, staff and driver records and administrative tasks for companies in Germany.',
+    eyebrow: 'Back-office services',
+    h1: 'Your external back office – reliable, from Tirana',
+    lead: 'Logistics, services or any other industry: paperwork takes time. We take over recurring administrative tasks so your team can focus on the core business.',
+    cta: 'Request back-office support',
+    alt: 'Two colleagues discussing documents at a desk',
+    servicesH2: 'What we do for you',
+    services: [
+      { icon: 'doc', h: 'Document preparation', p: 'Contracts, letters and standard documents based on your templates – clean and on time.' },
+      { icon: 'folder', h: 'Staff & driver records', p: 'Maintaining and updating employee files, certificates and deadlines.' },
+      { icon: 'idcard', h: 'Forms & applications', p: 'Preparing forms for authorities and offices – complete and checked.' },
+      { icon: 'table', h: 'Data entry & maintenance', p: 'Entering and maintaining data in your lists and systems.' },
+      { icon: 'clock', h: 'Administrative support', p: 'Flexible help with recurring office tasks – scope as agreed.' },
+      { icon: 'chat', h: 'Multilingual communication', p: 'Support with communicating with employees in German, English and Albanian.' },
+      { icon: 'table', h: 'Invoicing support', p: 'Preparing and entering invoices according to your requirements.' },
+      { icon: 'idcard', h: 'Licence & driver card checks', p: 'Regular checks and documentation of driving licences and driver cards.' },
+      { icon: 'globe', h: 'Translations', p: 'Translating documents and correspondence between German, English and Albanian.' },
+      { icon: 'users', h: 'Recruitment administration', p: 'Administrative support for staffing agencies – from applicant files to scheduling.' },
+    ],
+    forH2: 'Who is it for?',
+    forList: ['Hauliers & logistics', 'Parcel and courier services', 'Staffing agencies', 'Small and medium-sized companies in any industry'],
+    stepsH2: 'How we get started',
+    steps: [
+      ['First call', 'We discuss which tasks you want to hand over and to what extent.'],
+      ['Define tasks & templates', 'Together we set up processes, templates and contact persons.'],
+      ['Ongoing work', 'We handle the tasks reliably – with one fixed contact person for you.'],
+    ],
+    dpH2: 'Confidentiality and data protection',
+    dpText: 'We treat your documents confidentially. For processing personal data on your behalf, we conclude a data processing agreement with you under Art. 28 GDPR.',
+    formH2: 'Request back-office support',
+    formText: 'Briefly describe which tasks you would like to hand over. We will get back to you with a proposal.',
+  },
+}[lang];
+---
+<Base lang={lang} page="backoffice" title={c.title} description={c.description} image="/images/backoffice.jpg">
+  <section class="page-hero">
+    <div class="container grid-2">
+      <div class="hero-copy">
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.lead}</p>
+        <div class="btn-row"><a class="btn btn-accent" href="#anfrage">{c.cta}</a></div>
+      </div>
+      <div class="media ratio-landscape">
+        <img src="/images/backoffice.jpg" alt={c.alt} width="1600" height="1200" loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 24px">
+    <div class="container">
+      <div class="section-head"><h2>{c.servicesH2}</h2></div>
+      <div class="grid-3">
+        {c.services.map((s) => (
+          <article class="card">
+            <Icon name={s.icon} class="card-icon" />
+            <h3>{s.h}</h3>
+            <p>{s.p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h2>{c.forH2}</h2>
+        <div class="chips">{c.forList.map((x) => <span class="chip">{x}</span>)}</div>
+        <div class="stack" style="margin-top: 16px">
+          <h3>{c.dpH2}</h3>
+          <p class="muted">{c.dpText}</p>
+        </div>
+      </div>
+      <div class="stack-lg">
+        <h2>{c.stepsH2}</h2>
+        <ol class="steps" style="grid-template-columns: 1fr">
+          {c.steps.map(([h, p]) => <li><h3>{h}</h3><p>{p}</p></li>)}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="anfrage" class="section band-sand">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h2>{c.formH2}</h2>
+        <p class="muted">{c.formText}</p>
+      </div>
+      <ContactForm lang={lang} audience="employer" topic="backoffice" />
+    </div>
+  </section>
+</Base>

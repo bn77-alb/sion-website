@@ -1,0 +1,163 @@
+---
+// AI chat window. Talks to the n8n workflow "Sion Consulting – Website Chatbot".
+// Nothing is sent and no external code is loaded until the visitor opens the chat and agrees.
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = {
+  de: {
+    open: 'Chat öffnen', close: 'Chat schließen', title: 'Sion Assistent', subtitle: 'KI-Assistent · antwortet sofort',
+    intro: 'Sie chatten mit einem KI-Assistenten. Er beantwortet Fragen zu unseren Leistungen und kann ein Gespräch mit uns für Sie buchen. Ihre Eingaben werden an unseren Server und an den KI-Anbieter Anthropic übermittelt. Bitte geben Sie keine Ausweis- oder Gesundheitsdaten ein.',
+    privacy: 'Datenschutzerklärung', start: 'Chat starten',
+    hello: 'Guten Tag! Ich bin der digitale Assistent von Sion Consulting. Suchen Sie Personal, interessieren Sie sich für unser Back-Office oder suchen Sie selbst eine Stelle?',
+    placeholder: 'Ihre Nachricht …', send: 'Senden', typing: 'schreibt …',
+    error: `Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an ${site.email}.`,
+  },
+  en: {
+    open: 'Open chat', close: 'Close chat', title: 'Sion Assistant', subtitle: 'AI assistant · replies instantly',
+    intro: 'You are chatting with an AI assistant. It answers questions about our services and can book a call with us for you. Your messages are sent to our server and to the AI provider Anthropic. Please do not enter ID or health data.',
+    privacy: 'Privacy policy', start: 'Start chat',
+    hello: 'Hello! I am the digital assistant of Sion Consulting. Are you looking for staff, interested in our back office, or looking for a job yourself?',
+    placeholder: 'Your message …', send: 'Send', typing: 'typing …',
+    error: `Something went wrong. Please try again or write to ${site.email}.`,
+  },
+}[lang];
+---
+{site.chatEndpoint && (
+<div class="chatw" data-chat data-endpoint={site.chatEndpoint} data-hello={t.hello} data-error={t.error} data-typing={t.typing}>
+  <div class="chatw-panel" id="chatw-panel" role="dialog" aria-labelledby="chatw-title" hidden>
+    <div class="chatw-head">
+      <div>
+        <p id="chatw-title" class="chatw-title">{t.title}</p>
+        <p class="chatw-sub">{t.subtitle}</p>
+      </div>
+      <button type="button" class="chatw-x" data-chat-close aria-label={t.close}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="chatw-consent" data-chat-consent>
+      <p>{t.intro} <a href={routes.datenschutz[lang]}>{t.privacy}</a></p>
+      <button type="button" class="btn btn-accent" data-chat-start>{t.start}</button>
+    </div>
+    <div class="chatw-log" data-chat-log aria-live="polite" hidden></div>
+    <form class="chatw-form" data-chat-form hidden>
+      <label class="sr-only" for="chatw-input">{t.placeholder}</label>
+      <textarea id="chatw-input" rows="1" maxlength="1000" placeholder={t.placeholder} required></textarea>
+      <button type="submit" class="chatw-send" aria-label={t.send}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </div>
+  <button type="button" class="chatw-fab" data-chat-toggle aria-expanded="false" aria-controls="chatw-panel">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
+    <span>{t.open}</span>
+  </button>
+</div>
+)}
+
+<style>
+  .chatw { position: fixed; right: 20px; bottom: 20px; z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .chatw-fab { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 12px 20px; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: 600 1rem var(--font-body); cursor: pointer; box-shadow: 0 10px 28px rgba(18, 33, 46, .28); }
+  .chatw-fab:hover { background: var(--ink-3); }
+  .chatw-panel { width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 120px)); background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 20px 48px rgba(18, 33, 46, .25); display: flex; flex-direction: column; overflow: hidden; }
+  .chatw-panel[hidden] { display: none; }
+  .chatw-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; background: var(--ink); color: #fff; }
+  .chatw-title { font: 700 1.05rem var(--font-display); }
+  .chatw-sub { font-size: .8rem; color: var(--on-dark); }
+  .chatw-x { width: 44px; height: 44px; border: 0; background: transparent; color: #fff; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .chatw-x:hover { background: var(--ink-3); }
+  .chatw-consent { padding: 20px; display: flex; flex-direction: column; gap: 16px; font-size: .92rem; color: var(--muted); overflow-y: auto; }
+  .chatw-log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
+  .chatw-log[hidden], .chatw-form[hidden] { display: none; }
+  .chatw-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: #fff; }
+  .chatw-form textarea { flex: 1; resize: none; font: 400 .95rem var(--font-body); padding: 11px 12px; border: 1px solid var(--line-strong); border-radius: 12px; min-height: 44px; max-height: 120px; color: var(--ink); }
+  .chatw-send { width: 44px; height: 44px; flex: none; border: 0; border-radius: 12px; background: var(--accent); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .chatw-send:hover { background: var(--accent-dark); }
+  .chatw-send:disabled { opacity: .5; cursor: default; }
+  @media (max-width: 520px) {
+    .chatw { right: 12px; bottom: 12px; }
+    .chatw-fab span { display: none; }
+    .chatw-fab { padding: 14px; }
+  }
+</style>
+<style is:global>
+  .chatw-msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: .95rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .chatw-msg.bot { align-self: flex-start; background: #fff; border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+  .chatw-msg.me { align-self: flex-end; background: var(--ink); color: #fff; border-bottom-right-radius: 4px; }
+  .chatw-msg.typing { color: var(--muted); font-style: italic; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-chat]').forEach((root) => {
+    const d = root.dataset;
+    const panel = root.querySelector<HTMLElement>('.chatw-panel')!;
+    const toggle = root.querySelector<HTMLButtonElement>('[data-chat-toggle]')!;
+    const consent = root.querySelector<HTMLElement>('[data-chat-consent]')!;
+    const log = root.querySelector<HTMLElement>('[data-chat-log]')!;
+    const form = root.querySelector<HTMLFormElement>('[data-chat-form]')!;
+    const input = form.querySelector<HTMLTextAreaElement>('textarea')!;
+    const sendBtn = form.querySelector<HTMLButtonElement>('button')!;
+    const sessionId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));
+    let started = false;
+
+    const setOpen = (open: boolean) => {
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      if (open && started) input.focus();
+    };
+    toggle.addEventListener('click', () => setOpen(panel.hidden));
+    root.querySelector('[data-chat-close]')!.addEventListener('click', () => { setOpen(false); toggle.focus(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { setOpen(false); toggle.focus(); } });
+
+    const add = (text: string, who: 'bot' | 'me', extra = '') => {
+      const el = document.createElement('div');
+      el.className = `chatw-msg ${who} ${extra}`.trim();
+      el.textContent = text;
+      log.appendChild(el);
+      log.scrollTop = log.scrollHeight;
+      return el;
+    };
+
+    root.querySelector('[data-chat-start]')!.addEventListener('click', () => {
+      started = true;
+      consent.hidden = true;
+      log.hidden = false;
+      form.hidden = false;
+      add(d.hello || '', 'bot');
+      input.focus();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      add(text, 'me');
+      input.value = '';
+      sendBtn.disabled = true;
+      const typing = add(d.typing || '…', 'bot', 'typing');
+      try {
+        const res = await fetch(d.endpoint!, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'sendMessage', sessionId, chatInput: text }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        const data = await res.json();
+        const reply = Array.isArray(data) ? data[0]?.output : data.output ?? data.text;
+        typing.remove();
+        add(reply || d.error || '', 'bot');
+      } catch {
+        typing.remove();
+        add(d.error || '', 'bot');
+      } finally {
+        sendBtn.disabled = false;
+        input.focus();
+      }
+    });
+  });
+</script>

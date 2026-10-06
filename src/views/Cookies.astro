@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import { routes, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<Base lang={lang} page="cookies"
+  title={lang === 'de' ? 'Cookie-Richtlinie | Sion Consulting' : 'Cookie policy | Sion Consulting'}
+  description={lang === 'de' ? 'Welche Cookies und lokalen Speicherungen sionconsulting.de verwendet und wie Sie Ihre Auswahl ändern.' : 'Which cookies and local storage sionconsulting.de uses and how to change your choice.'}>
+  <section class="page-hero">
+    <div class="container prose">
+      {lang === 'de' ? (
+        <>
+          <h1>Cookie-Richtlinie</h1>
+          <p>Stand: Oktober 2026</p>
+          <h2>Was sind Cookies?</h2>
+          <p>Cookies sind kleine Textdateien, die beim Besuch einer Website auf Ihrem Gerät gespeichert werden. Ähnlich funktioniert der lokale Speicher („Local Storage“) Ihres Browsers.</p>
+          <h2>Was wir verwenden</h2>
+          <p>Diese Website verzichtet auf Tracking-, Analyse- und Marketing-Cookies. Wir speichern ausschließlich Ihre Auswahl im Datenschutz-Hinweis, damit dieser nicht bei jedem Besuch erneut erscheint:</p>
+          <ul>
+            <li><strong>Name:</strong> sion-consent-v1</li>
+            <li><strong>Art:</strong> Local Storage (Browser), kein Cookie</li>
+            <li><strong>Zweck:</strong> Speicherung Ihrer Datenschutz-Auswahl</li>
+            <li><strong>Speicherdauer:</strong> bis Sie die Browserdaten löschen</li>
+            <li><strong>Rechtsgrundlage:</strong> § 25 Abs. 2 Nr. 2 TDDDG (technisch erforderlich)</li>
+            <li><strong>Empfänger:</strong> keine – die Information verlässt Ihr Gerät nicht</li>
+          </ul>
+          <h2>Statistik</h2>
+          <p>Derzeit setzen wir keine Statistik-Dienste ein. Sollten wir künftig eine datenschutzfreundliche Reichweitenmessung nutzen, geschieht dies nur mit Ihrer Einwilligung. Diese Richtlinie wird dann entsprechend ergänzt.</p>
+          <h2>Externe Inhalte</h2>
+          <p>Schriftarten werden von unserem eigenen Server geladen. Karten, Videos oder Social-Media-Plugins binden wir nicht ein. Links zu WhatsApp oder anderen Diensten werden erst aktiv, wenn Sie darauf klicken. Der KI-Chat setzt keine Cookies und überträgt erst Daten, wenn Sie ihn aktiv starten.</p>
+          <h2>Auswahl ändern</h2>
+          <p>Sie können Ihre Auswahl jederzeit ändern: <button type="button" class="linklike" data-cookie-open>Cookie-Einstellungen öffnen</button>. Außerdem können Sie gespeicherte Daten in den Einstellungen Ihres Browsers löschen.</p>
+          <p>Weitere Informationen finden Sie in unserer <a href={routes.datenschutz.de}>Datenschutzerklärung</a>.</p>
+        </>
+      ) : (
+        <>
+          <h1>Cookie policy</h1>
+          <p>Last updated: October 2026</p>
+          <h2>What are cookies?</h2>
+          <p>Cookies are small text files stored on your device when you visit a website. Your browser’s local storage works in a similar way.</p>
+          <h2>What we use</h2>
+          <p>This website does not use tracking, analytics or marketing cookies. We only store your choice in the privacy notice so that it does not appear again on every visit:</p>
+          <ul>
+            <li><strong>Name:</strong> sion-consent-v1</li>
+            <li><strong>Type:</strong> local storage (browser), not a cookie</li>
+            <li><strong>Purpose:</strong> storing your privacy choice</li>
+            <li><strong>Duration:</strong> until you delete your browser data</li>
+            <li><strong>Legal basis:</strong> Section 25(2) No. 2 TDDDG (technically necessary)</li>
+            <li><strong>Recipients:</strong> none – the information never leaves your device</li>
+          </ul>
+          <h2>Statistics</h2>
+          <p>We currently do not use any analytics services. If we use privacy-friendly audience measurement in the future, we will only do so with your consent and update this policy accordingly.</p>
+          <h2>External content</h2>
+          <p>Fonts are loaded from our own server. We do not embed maps, videos or social media plugins. Links to WhatsApp or other services only become active when you click them. The AI chat sets no cookies and only transfers data once you actively start it.</p>
+          <h2>Change your choice</h2>
+          <p>You can change your choice at any time: <button type="button" class="linklike" data-cookie-open>open cookie settings</button>. You can also delete stored data in your browser settings.</p>
+          <p>More information is available in our <a href={routes.datenschutz.en}>privacy policy</a>.</p>
+        </>
+      )}
+    </div>
+  </section>
+</Base>
