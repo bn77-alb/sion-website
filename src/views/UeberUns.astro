@@ -55,7 +55,7 @@ const c = {
     ],
     factsH2: 'At a glance',
     facts: [['Services', 'Recruitment & back office'], ['Clients', 'Companies throughout Germany'], ['Candidates', 'Germany & international, focus on the Western Balkans'], ['Office', `${site.city}, ${site.countryEn}`], ['Languages', 'German & English']],
-    contactH2: 'Your contact person',
+    contactH2: 'Your contact',
     contactText: 'Reach us directly by phone, WhatsApp or email – we reply within 1 working day.',
     languages: 'Languages', langsV: 'German | English',
   },
@@ -106,10 +106,11 @@ const c = {
             {m.photo ? <img src={m.photo} alt={m.name} width="160" height="160" loading="lazy" class="person-photo" /> : <span class="person-photo person-initials" aria-hidden="true">{m.name.split(' ').map((n) => n[0]).join('')}</span>}
             <h3>{m.name}</h3>
             <p class="person-role">{m.role[lang]}</p>
-            <p>{c.languages}: {m.languages}</p>
-            {m.phone && <a href={`tel:${m.phoneHref ?? m.phone}`}>{m.phone}</a>}
+            <p>{c.languages}: {m.languages[lang]}</p>
+            {m.phone && <a class="big-phone" href={`tel:${m.phoneHref ?? m.phone}`}>{m.phone}</a>}
             {m.email && <a href={`mailto:${m.email}`}>{m.email}</a>}
             {m.linkedin && <a href={m.linkedin} rel="noopener" target="_blank">LinkedIn</a>}
+            <a class="btn btn-whatsapp" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsappWrite}</a>
           </article>
         )) : (
           <article class="card person">

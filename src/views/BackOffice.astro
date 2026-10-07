@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import EmployerForm from '../components/EmployerForm.astro';
+import BackOfficeForm from '../components/BackOfficeForm.astro';
 import Photo from '../components/Photo.astro';
 import { site } from '../config';
 import { type Lang } from '../i18n';
@@ -135,7 +135,7 @@ const c = {
         <p class="muted">{c.formText}</p>
         <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
       </div>
-      <EmployerForm lang={lang} position="backoffice" />
+      <BackOfficeForm lang={lang} />
     </div>
   </section>
 </Base>

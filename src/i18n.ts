@@ -7,7 +7,7 @@ export const routes = {
   lkw: { de: '/lkw-fahrer/', en: '/en/truck-drivers/' },
   paket: { de: '/paketzusteller/', en: '/en/parcel-delivery-drivers/' },
   lager: { de: '/lager-logistik/', en: '/en/warehouse-logistics/' },
-  reinigung: { de: '/reinigung/', en: '/en/cleaning-staff/' },
+  reinigung: { de: '/reinigung/', en: '/en/cleaning/' },
   backoffice: { de: '/back-office/', en: '/en/back-office/' },
   unternehmen: { de: '/fuer-unternehmen/', en: '/en/for-employers/' },
   bewerber: { de: '/fuer-bewerber/', en: '/en/for-applicants/' },
@@ -67,6 +67,7 @@ export const ui = {
     whatsappWrite: 'WhatsApp schreiben',
     topbar: 'Personalvermittlung & Back Office für Unternehmen in Deutschland',
     contactBar: 'Schnellkontakt',
+    chat: 'Chat mit unserem KI-Assistenten',
   },
   en: {
     skip: 'Skip to content',
@@ -84,5 +85,6 @@ export const ui = {
     whatsappWrite: 'Message us on WhatsApp',
     topbar: 'Recruitment & back office for companies in Germany',
     contactBar: 'Quick contact',
+    chat: 'Chat with our AI assistant',
   },
 };

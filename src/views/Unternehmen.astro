@@ -19,26 +19,28 @@ const c = {
     lead: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung als Kernleistung und Back-Office-Services als zweitem Standbein.',
     challengesH2: 'Ihre Herausforderung – unsere Lösung',
     challenges: [
-      ['users', 'Personalmangel', 'Offene Stellen bleiben monatelang unbesetzt.', 'Wir suchen gezielt in Deutschland und international.', r('personalvermittlung')],
-      ['truck', 'Fahrermangel', 'Touren können nicht gefahren werden.', 'Wir vermitteln CE-Fahrer aus dem Ausland.', r('lkw')],
-      ['search', 'Recruiting-Probleme', 'Stellenanzeigen bringen keine passenden Bewerber.', 'Wir übernehmen Suche und Vorauswahl.', r('personalvermittlung')],
-      ['globe', 'Internationale Rekrutierung', 'Ausländische Bewerber bedeuten viele Formalitäten.', 'Wir unterstützen bei den administrativen Schritten.', r('lkw')],
-      ['doc', 'Verwaltungsaufwand', 'Dokumente und Fristen binden Ihr Team.', 'Wir übernehmen wiederkehrende Aufgaben.', r('backoffice')],
-      ['inbox', 'Back-Office-Last', 'E-Mails, Termine und Daten bleiben liegen.', 'Unser Büroteam arbeitet für Sie mit.', r('backoffice')],
+      ['users', 'Personalmangel', 'Offene Stellen bleiben monatelang unbesetzt.', 'Wir suchen gezielt in Deutschland und international.', r('personalvermittlung'), 'Unsere Bereiche'],
+      ['truck', 'Fahrermangel', 'Touren können nicht gefahren werden.', 'Wir vermitteln CE-Fahrer aus dem Ausland.', r('lkw'), 'LKW-Fahrer-Vermittlung'],
+      ['search', 'Recruiting-Probleme', 'Stellenanzeigen bringen keine passenden Bewerber.', 'Wir übernehmen Suche und Vorauswahl.', '#anfrage', 'Personal anfragen'],
+      ['globe', 'Internationale Rekrutierung', 'Ausländische Bewerber bedeuten viele Formalitäten.', 'Wir unterstützen bei den administrativen Schritten.', '#ablauf', 'So läuft es ab'],
+      ['doc', 'Verwaltungsaufwand', 'Dokumente und Fristen binden Ihr Team.', 'Wir übernehmen wiederkehrende Aufgaben.', r('backoffice'), 'Back-Office-Leistungen'],
+      ['inbox', 'Back-Office-Last', 'E-Mails, Termine und Daten bleiben liegen.', 'Unser Büroteam arbeitet für Sie mit.', `${r('backoffice')}#anfrage`, 'Back Office anfragen'],
     ],
     problem: 'Problem', solution: 'Lösung', more: 'Zur Lösung',
     termsH2: 'Was Sie von uns erwarten können',
     terms: ['Direkte Anstellung in Ihrem Unternehmen – keine Arbeitnehmerüberlassung', 'Individuelles Angebot je nach Position, Anzahl und Leistungsumfang', 'Bezahlung in Etappen – ein Teil des Honorars erst nach dem ersten Arbeitsmonat', 'Ein fester, deutschsprachiger Ansprechpartner', 'Antwort auf Ihre Anfrage innerhalb von 1 Werktag'],
     procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
+    dutiesH2: 'Ihre Aufgaben als Arbeitgeber', dutiesText: 'Damit die Einstellung reibungslos läuft, brauchen wir von Ihnen nur wenige Dinge:',
+    duties: ['Anforderungen an die Stelle klar beschreiben', 'Vorstellungsgespräche mit den vorgeschlagenen Kandidaten führen', 'Ein Arbeitsvertragsangebot zu den in Deutschland üblichen Bedingungen machen', 'Bei Kandidaten aus dem Ausland die erforderlichen Arbeitgeberangaben und Unterschriften bereitstellen', 'Einarbeitung am ersten Arbeitstag – und auf Wunsch eine Unterkunft stellen'],
     faqH2: 'Häufige Fragen von Arbeitgebern',
     faq: [
       { q: 'Was kostet die Vermittlung?', a: 'Die Kosten hängen von Position, Anzahl und Leistungsumfang ab – Sie erhalten ein individuelles Angebot. Bezahlt wird in Etappen entlang des Verfahrens, nicht alles im Voraus.' },
-      { q: 'Wie schnell können die Mitarbeiter bei uns anfangen?', a: 'Kandidaten, die bereits in Deutschland leben, können in der Regel innerhalb von etwa einer Woche starten. Bei Kandidaten aus dem Ausland rechnen Sie mit etwa 6 bis 8 Wochen – abhängig von der Bundesagentur für Arbeit und den Terminen der deutschen Auslandsvertretung. Wir halten Sie bei jedem Schritt auf dem Laufenden.' },
+      { q: 'Wie schnell können die Mitarbeiter bei uns anfangen?', a: 'Kandidaten, die bereits in Deutschland leben, können oft kurzfristig starten. Bei Kandidaten aus dem Ausland hängt die Dauer vom Herkunftsland, der Bundesagentur für Arbeit, der Auslandsvertretung und dem individuellen Fall ab – in vielen Fällen ca. 6–10 Wochen. Wir halten Sie bei jedem Schritt auf dem Laufenden.' },
       { q: 'Werden die Mitarbeiter bei uns oder bei Ihnen angestellt?', a: 'Direkt bei Ihnen. Sie schließen den Arbeitsvertrag mit den Mitarbeitern ab – es handelt sich nicht um Arbeitnehmerüberlassung.' },
       { q: 'Lernen wir die Kandidaten vorher kennen?', a: 'Ja. Sie erhalten aussagekräftige Profile und führen vorab ein Vorstellungsgespräch, auch per Video. Die Entscheidung liegt bei Ihnen.' },
       { q: 'Welche Bedingungen muss unser Arbeitsangebot erfüllen?', a: 'Bei Kandidaten aus Drittstaaten prüft die Bundesagentur für Arbeit unter anderem, ob Lohn und Arbeitsbedingungen denen vergleichbarer Beschäftigter in Deutschland entsprechen. Wir weisen Sie auf die üblichen Anforderungen hin und unterstützen bei der Vorbereitung der Unterlagen; verbindlich entscheidet die Behörde.' },
       { q: 'Wie viel Aufwand haben wir als Arbeitgeber?', a: 'Möglichst wenig. Wir unterstützen bei der Vorbereitung von Anträgen und Unterlagen – Sie prüfen, unterschreiben und stellen die Mitarbeiter ein.' },
-      { q: 'Was passiert, wenn ein Visum abgelehnt wird?', a: 'Das kommt selten vor. Falls doch, besprechen wir mit Ihnen die Gründe und die möglichen nächsten Schritte, zum Beispiel einen neuen Antrag mit ergänzten Unterlagen.' },
+      { q: 'Was passiert, wenn ein Visum abgelehnt wird?', a: 'Wird ein Visumantrag abgelehnt, prüfen wir gemeinsam mit Ihnen die Begründung und klären, welche nächsten Schritte möglich sind.' },
       { q: 'Was ist, wenn ein Mitarbeiter kurz nach dem Start kündigt?', a: 'Wir wählen gezielt Kandidaten aus, die langfristig in Deutschland und bei Ihnen arbeiten möchten. Zusätzlich wird ein Teil unseres Honorars erst fällig, wenn der Mitarbeiter einen Monat bei Ihnen gearbeitet hat.' },
       { q: 'Wie gut sprechen die Kandidaten Deutsch?', a: 'Das ist je nach Kandidat unterschiedlich. Wir nennen Ihnen den Sprachstand ehrlich vorab – so wissen Sie, was Sie erwartet.' },
       { q: 'Helfen Sie bei der Unterkunft?', a: 'Ja. Stellen Sie keine Unterkunft zur Verfügung, unterstützen wir Ihre neuen Mitarbeiter bei der Suche.' },
@@ -57,26 +59,28 @@ const c = {
     lead: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – with recruitment as the core service and back-office services as the second business area.',
     challengesH2: 'Your challenge – our solution',
     challenges: [
-      ['users', 'Staff shortage', 'Vacancies stay open for months.', 'We search specifically in Germany and internationally.', r('personalvermittlung')],
-      ['truck', 'Driver shortage', 'Routes cannot be covered.', 'We place CE drivers from abroad.', r('lkw')],
-      ['search', 'Recruiting problems', 'Job ads do not bring suitable applicants.', 'We handle the search and pre-selection.', r('personalvermittlung')],
-      ['globe', 'International recruitment', 'Foreign applicants mean a lot of paperwork.', 'We assist with the administrative steps.', r('lkw')],
-      ['doc', 'Administrative workload', 'Documents and deadlines tie up your team.', 'We take over recurring tasks.', r('backoffice')],
-      ['inbox', 'Back-office workload', 'Emails, appointments and data pile up.', 'Our office team works alongside you.', r('backoffice')],
+      ['users', 'Staff shortage', 'Vacancies stay open for months.', 'We search specifically in Germany and internationally.', r('personalvermittlung'), 'See our areas'],
+      ['truck', 'Driver shortage', 'Routes cannot be covered.', 'We place CE drivers from abroad.', r('lkw'), 'Truck driver recruitment'],
+      ['search', 'Recruiting problems', 'Job ads do not bring suitable applicants.', 'We handle the search and pre-selection.', '#anfrage', 'Request staff'],
+      ['globe', 'International recruitment', 'Foreign applicants mean a lot of paperwork.', 'We assist with the administrative steps.', '#ablauf', 'How it works'],
+      ['doc', 'Administrative workload', 'Documents and deadlines tie up your team.', 'We take over recurring tasks.', r('backoffice'), 'Back-office services'],
+      ['inbox', 'Back-office workload', 'Emails, appointments and data pile up.', 'Our office team works alongside you.', `${r('backoffice')}#anfrage`, 'Request back office support'],
     ],
     problem: 'Problem', solution: 'Solution', more: 'See the solution',
     termsH2: 'What you can expect from us',
     terms: ['Direct employment in your company – no temporary agency work', 'Individual offer depending on position, number and scope', 'Payment in stages – part of the fee only after the first month of work', 'One fixed, German-speaking contact person', 'Reply to your inquiry within 1 working day'],
     procEyebrow: 'Process', procH2: 'How we work together',
+    dutiesH2: 'Your responsibilities as an employer', dutiesText: 'For hiring to run smoothly, we only need a few things from you:',
+    duties: ['Describe the job requirements clearly', 'Interview the proposed candidates', 'Offer an employment contract on terms customary in Germany', 'For candidates from abroad, provide the required employer details and signatures', 'Induction on the first working day – and accommodation if you wish'],
     faqH2: 'Frequently asked questions from employers',
     faq: [
       { q: 'What does recruitment cost?', a: 'Costs depend on the position, number of hires and scope of services – you receive an individual offer. Payment is made in stages along the process, not all up front.' },
-      { q: 'How soon can the employees start?', a: 'Candidates who already live in Germany can usually start within about one week. For candidates from abroad, expect around 6 to 8 weeks – depending on the Federal Employment Agency and the German embassy’s appointments. We keep you informed at every step.' },
+      { q: 'How soon can the employees start?', a: 'Candidates who already live in Germany can often start at short notice. For candidates from abroad, the duration depends on the country of origin, the Federal Employment Agency, the German embassy and the individual case – in many cases around 6–10 weeks. We keep you informed at every step.' },
       { q: 'Are the employees employed by us or by you?', a: 'Directly by you. You sign the employment contract with the employees – this is not temporary agency work.' },
       { q: 'Do we get to meet the candidates first?', a: 'Yes. You receive detailed profiles and interview candidates first, also by video. The decision is yours.' },
       { q: 'What conditions must our job offer meet?', a: 'For candidates from non-EU countries, the Federal Employment Agency checks, among other things, that pay and working conditions match those of comparable employees in Germany. We point out the usual requirements and assist with preparing the documents; the authority makes the binding decision.' },
       { q: 'How much effort is it for us as an employer?', a: 'As little as possible. We assist with preparing applications and documents – you review, sign and hire.' },
-      { q: 'What happens if a visa is refused?', a: 'This is rare. If it happens, we discuss the reasons and possible next steps with you, for example a new application with additional documents.' },
+      { q: 'What happens if a visa is refused?', a: 'If a visa application is rejected, we review the reason with you and assess which next steps are possible.' },
       { q: 'What if an employee quits shortly after starting?', a: 'We specifically select candidates who want to work in Germany and with you long term. In addition, part of our fee only becomes due once the employee has worked for you for one month.' },
       { q: 'How good is the candidates’ German?', a: 'It varies by candidate. We tell you each candidate’s language level honestly in advance – so you know what to expect.' },
       { q: 'Do you help with accommodation?', a: 'Yes. If you do not provide accommodation, we help your new employees find a place to live.' },
@@ -111,13 +115,13 @@ const schema = {
   <section class="section section-first">
     <div class="container">
       <div class="section-head"><h2>{c.challengesH2}</h2></div>
-      <div class="grid-3">
-        {c.challenges.map(([icon, h, problem, solution, href]) => (
+      <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr))">
+        {c.challenges.map(([icon, h, problem, solution, href, cta]) => (
           <a class="service-card" href={href}>
             <span class="service-icon"><Icon name={icon} size={26} /></span>
             <h3>{h}</h3>
             <p><strong>{c.problem}:</strong> {problem}<br /><strong>{c.solution}:</strong> {solution}</p>
-            <span class="service-cta">{c.more} <Icon name="arrow" size={18} /></span>
+            <span class="service-cta">{cta} <Icon name="arrow" size={18} /></span>
           </a>
         ))}
       </div>
@@ -131,7 +135,7 @@ const schema = {
     </div>
   </section>
 
-  <section class="band-dark section">
+  <section id="ablauf" class="band-dark section">
     <div class="container">
       <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
       <Steps lang={lang} />
@@ -139,6 +143,14 @@ const schema = {
   </section>
 
   <section class="section">
+    <div class="container narrow">
+      <h2 style="margin-bottom: 12px">{c.dutiesH2}</h2>
+      <p class="muted" style="margin-bottom: 20px">{c.dutiesText}</p>
+      <ul class="checklist checklist-lg">{c.duties.map((x) => <li>{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
     <div class="container narrow">
       <div class="section-head"><h2>{c.faqH2}</h2></div>
       <Faq items={c.faq} />

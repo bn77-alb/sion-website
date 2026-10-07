@@ -1,0 +1,89 @@
+---
+// "Back-Office-Unterstützung anfragen" – inquiry form for outsourcing administrative work.
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const t = {
+  de: {
+    company: 'Unternehmen', contact: 'Ansprechpartner', phone: 'Telefonnummer', email: 'E-Mail',
+    industry: 'Branche', industryPh: 'z. B. Spedition, Handel, Dienstleistung',
+    tasks: 'Welche Aufgaben möchten Sie auslagern?',
+    taskList: ['Recruiting Support', 'Logistikadministration', 'Dokumentenbearbeitung', 'E-Mail-Bearbeitung', 'Datenerfassung', 'Kundenkommunikation', 'Fahrer-/Personaladministration', 'Sonstiges'],
+    message: 'Nachricht', messagePh: 'z. B. Umfang pro Woche, verwendete Programme, gewünschter Start',
+    consentA: 'Ich habe die', privacy: 'Datenschutzerklärung', consentB: 'gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verarbeitet werden.',
+    required: 'Pflichtfelder', submit: 'Back Office anfragen', reply: 'Antwort innerhalb von 1 Werktag – unverbindlich.',
+    sending: 'Wird gesendet …',
+    ok: 'Vielen Dank! Ihre Anfrage ist bei uns eingegangen. Wir melden uns innerhalb von 1 Werktag.',
+    err: `Das Senden hat leider nicht geklappt. Bitte rufen Sie uns an (${site.phone}) oder schreiben Sie an ${site.email}.`,
+    mail: 'Ihr E-Mail-Programm wird geöffnet. Bitte senden Sie die vorbereitete Nachricht ab.',
+    subject: 'Back-Office-Anfrage über sionconsulting.de',
+  },
+  en: {
+    company: 'Company', contact: 'Contact person', phone: 'Phone', email: 'Email',
+    industry: 'Industry', industryPh: 'e.g. haulage, retail, services',
+    tasks: 'Tasks to outsource',
+    taskList: ['Recruitment support', 'Logistics administration', 'Document processing', 'Email handling', 'Data entry', 'Customer communication', 'Driver/staff administration', 'Other'],
+    message: 'Message', messagePh: 'e.g. hours per week, software you use, preferred start',
+    consentA: 'I have read the', privacy: 'privacy policy', consentB: 'and agree that my details are processed to handle this inquiry.',
+    required: 'required fields', submit: 'Request back office support', reply: 'Reply within 1 working day – no obligation.',
+    sending: 'Sending …',
+    ok: 'Thank you! We have received your inquiry and will get back to you within 1 working day.',
+    err: `Sending failed. Please call us (${site.phone}) or email ${site.email}.`,
+    mail: 'Your email program will open. Please send the prepared message.',
+    subject: 'Back-office inquiry via sionconsulting.de',
+  },
+}[lang];
+const id = (n: string) => `bo-${n}`;
+---
+<form class="form" data-sion-form data-form-type="backoffice"
+  data-endpoint={site.formEndpoint} data-email={site.email} data-lang={lang}
+  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-msg-mail={t.mail} data-subject={t.subject}>
+  <div class="form-row">
+    <label class="field" for={id('company')}>
+      <span>{t.company} <span class="req" aria-hidden="true">*</span></span>
+      <input id={id('company')} name="company" data-label={t.company} type="text" required autocomplete="organization" />
+    </label>
+    <label class="field" for={id('name')}>
+      <span>{t.contact} <span class="req" aria-hidden="true">*</span></span>
+      <input id={id('name')} name="name" data-label={t.contact} type="text" required autocomplete="name" />
+    </label>
+  </div>
+  <div class="form-row">
+    <label class="field" for={id('phone')}>
+      <span>{t.phone} <span class="req" aria-hidden="true">*</span></span>
+      <input id={id('phone')} name="phone" data-label={t.phone} type="tel" required autocomplete="tel" inputmode="tel" />
+    </label>
+    <label class="field" for={id('email')}>
+      <span>{t.email} <span class="req" aria-hidden="true">*</span></span>
+      <input id={id('email')} name="email" data-label={t.email} type="email" required autocomplete="email" />
+    </label>
+  </div>
+  <label class="field" for={id('industry')}>
+    <span>{t.industry}</span>
+    <input id={id('industry')} name="industry" data-label={t.industry} type="text" placeholder={t.industryPh} />
+  </label>
+  <fieldset class="choice">
+    <legend>{t.tasks}</legend>
+    {t.taskList.map((task) => <label><input type="checkbox" name="tasks" data-label={t.tasks} value={task} /> {task}</label>)}
+  </fieldset>
+  <label class="field" for={id('message')}>
+    <span>{t.message}</span>
+    <textarea id={id('message')} name="message" data-label={t.message} rows="4" placeholder={t.messagePh}></textarea>
+  </label>
+  <div class="hp" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+  <label class="consent">
+    <input type="checkbox" name="consent" value="yes" required />
+    <span>{t.consentA} <a href={routes.datenschutz[lang]}>{t.privacy}</a> {t.consentB} <span class="req" aria-hidden="true">*</span></span>
+  </label>
+  <div class="form-submit">
+    <button type="submit" class="btn btn-accent btn-lg">{t.submit}</button>
+    <p class="form-note"><span class="req">*</span> {t.required} · {t.reply}</p>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<script>
+  import '../scripts/forms';
+</script>

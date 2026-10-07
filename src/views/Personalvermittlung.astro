@@ -2,10 +2,9 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import ServiceCards from '../components/ServiceCards.astro';
-import Steps from '../components/Steps.astro';
 import Trust from '../components/Trust.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { ui, requestHref, type Lang } from '../i18n';
+import { routes, ui, requestHref, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
@@ -15,30 +14,30 @@ const c = {
     description: 'Internationale Personalvermittlung für Transport, Logistik und Dienstleistung: LKW-Fahrer, Paketzusteller, Lagerpersonal und Reinigungskräfte – direkt bei Ihnen angestellt.',
     eyebrow: 'Personalvermittlung', h1: 'Personalvermittlung für Unternehmen in Deutschland',
     lead: 'Wir finden zuverlässige Mitarbeiter für Transport, Logistik und Dienstleistung – in Deutschland und international – und begleiten den Prozess bis zum ersten Arbeitstag.',
-    cta2: 'Ablauf ansehen',
+    cta2: 'Bereiche ansehen',
     areasH2: 'Für diese Bereiche vermitteln wir',
     sourceH2: 'Woher unsere Kandidaten kommen',
     sources: [
       ['globe', 'Internationale Rekrutierung', 'Schwerpunkt Westbalkan – Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro, Bosnien und Herzegowina – sowie weitere Länder. Wir unterstützen bei den administrativen Schritten für Zustimmung, Visum und Einreise.'],
-      ['pin', 'Kandidaten in Deutschland', 'Arbeitskräfte, die bereits in Deutschland leben und eine neue Stelle suchen – oft innerhalb von etwa einer Woche verfügbar.'],
+      ['pin', 'Kandidaten in Deutschland', 'Arbeitskräfte, die bereits in Deutschland leben und eine neue Stelle suchen – oft kurzfristig verfügbar.'],
       ['handshake', 'Direkte Anstellung', 'Alle Mitarbeiter werden direkt bei Ihnen angestellt. Es handelt sich nicht um Arbeitnehmerüberlassung.'],
     ],
-    procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
+    howH2: 'Wie läuft die Zusammenarbeit ab?', howText: 'Ablauf, Konditionen, Ihre Aufgaben als Arbeitgeber und häufige Fragen haben wir für Sie auf einer Seite zusammengefasst.', howCta: 'Zusammenarbeit für Unternehmen',
   },
   en: {
     title: 'Recruitment for Companies in Germany | SION Consulting',
     description: 'International recruitment for transport, logistics and services: truck drivers, parcel delivery drivers, warehouse staff and cleaning staff – employed directly by you.',
     eyebrow: 'Recruitment', h1: 'Recruitment for companies in Germany',
     lead: 'We find reliable employees for transport, logistics and services – in Germany and internationally – and support the process up to the first working day.',
-    cta2: 'See the process',
+    cta2: 'See our areas',
     areasH2: 'Areas we recruit for',
     sourceH2: 'Where our candidates come from',
     sources: [
       ['globe', 'International recruitment', 'Focus on the Western Balkans – Albania, Kosovo, North Macedonia, Serbia, Montenegro, Bosnia and Herzegovina – and other countries. We assist with the administrative steps for approval, visa and arrival.'],
-      ['pin', 'Candidates in Germany', 'Workers who already live in Germany and are looking for a new job – often available within about one week.'],
+      ['pin', 'Candidates in Germany', 'Workers who already live in Germany and are looking for a new job – often available at short notice.'],
       ['handshake', 'Direct employment', 'All employees are employed directly by you. This is not temporary agency work.'],
     ],
-    procEyebrow: 'Process', procH2: 'How we work together',
+    howH2: 'How does working with us work?', howText: 'Process, terms, your responsibilities as an employer and frequently asked questions – summarised on one page.', howCta: 'Working with us as an employer',
   },
 }[lang];
 ---
@@ -50,12 +49,12 @@ const c = {
       <p class="lead">{c.lead}</p>
       <div class="btn-row">
         <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{ui[lang].request}</a>
-        <a class="btn btn-ghost btn-lg" href="#ablauf">{c.cta2}</a>
+        <a class="btn btn-ghost btn-lg" href="#bereiche">{c.cta2}</a>
       </div>
     </div>
   </section>
 
-  <section class="section section-first">
+  <section class="section section-first" id="bereiche">
     <div class="container">
       <div class="section-head"><h2>{c.areasH2}</h2></div>
       <ServiceCards lang={lang} />
@@ -71,10 +70,13 @@ const c = {
     </div>
   </section>
 
-  <section id="ablauf" class="band-dark section">
-    <div class="container">
-      <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
-      <Steps lang={lang} />
+  <section class="section">
+    <div class="container applicant-band">
+      <div class="stack">
+        <h2>{c.howH2}</h2>
+        <p class="muted">{c.howText}</p>
+      </div>
+      <div class="btn-row"><a class="btn btn-dark btn-lg" href={routes.unternehmen[lang]}>{c.howCta}</a></div>
     </div>
   </section>
 

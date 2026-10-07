@@ -7,7 +7,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = {
   de: {
-    open: 'Chat öffnen', close: 'Chat schließen', title: 'Sion Assistent', subtitle: 'KI-Assistent · antwortet sofort',
+    open: 'Chat öffnen', close: 'Chat schließen', title: 'SION Assistent', subtitle: 'KI-Assistent · antwortet sofort',
     intro: 'Sie chatten mit einem KI-Assistenten. Er beantwortet Fragen zu unseren Leistungen und kann ein Gespräch mit uns für Sie buchen. Ihre Eingaben werden an unseren Server und an den KI-Anbieter Anthropic übermittelt. Bitte geben Sie keine Ausweis- oder Gesundheitsdaten ein.',
     privacy: 'Datenschutzerklärung', start: 'Chat starten',
     hello: 'Guten Tag! Ich bin der digitale Assistent von SION Consulting. Suchen Sie Personal, interessieren Sie sich für unser Back-Office oder suchen Sie selbst eine Stelle?',
@@ -15,7 +15,7 @@ const t = {
     error: `Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an ${site.email}.`,
   },
   en: {
-    open: 'Open chat', close: 'Close chat', title: 'Sion Assistant', subtitle: 'AI assistant · replies instantly',
+    open: 'Open chat', close: 'Close chat', title: 'SION Assistant', subtitle: 'AI assistant · replies instantly',
     intro: 'You are chatting with an AI assistant. It answers questions about our services and can book a call with us for you. Your messages are sent to our server and to the AI provider Anthropic. Please do not enter ID or health data.',
     privacy: 'Privacy policy', start: 'Start chat',
     hello: 'Hello! I am the digital assistant of SION Consulting. Are you looking for staff, interested in our back office, or looking for a job yourself?',
@@ -75,10 +75,12 @@ const t = {
   .chatw-send { width: 44px; height: 44px; flex: none; border: 0; border-radius: 12px; background: var(--accent); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .chatw-send:hover { background: var(--accent-dark); }
   .chatw-send:disabled { opacity: .5; cursor: default; }
+  /* Phones/tablets: no floating button (it would cover content and the contact bar).
+     The chat opens from the menu and sits above the contact bar. */
   @media (max-width: 900px) {
-    .chatw { right: 12px; bottom: calc(12px + var(--bar-h)); }
-    .chatw-fab span { display: none; }
-    .chatw-fab { padding: 14px; min-height: 50px; }
+    .chatw { left: 12px; right: 12px; bottom: calc(8px + var(--bar-h)); }
+    .chatw-fab { display: none; }
+    .chatw-panel { width: 100%; height: min(560px, calc(100dvh - var(--header-h) - var(--bar-h) - 24px)); }
   }
 </style>
 <style is:global>
@@ -107,6 +109,8 @@ const t = {
       if (open && started) input.focus();
     };
     toggle.addEventListener('click', () => setOpen(panel.hidden));
+    // Other buttons (e.g. in the mobile menu) can open the chat
+    document.querySelectorAll('[data-chat-open]').forEach((b) => b.addEventListener('click', () => setOpen(true)));
     root.querySelector('[data-chat-close]')!.addEventListener('click', () => { setOpen(false); toggle.focus(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { setOpen(false); toggle.focus(); } });
 

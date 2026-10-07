@@ -49,7 +49,7 @@ const c = {
       ['Einreise & Onboarding', 'Anreise, Anmeldung, Führerscheinumschreibung und Qualifikation – wir begleiten organisatorisch.'],
       ['Arbeitsbeginn', 'Der Fahrer startet bei Ihnen. Wir bleiben in den ersten Wochen Ihr Ansprechpartner.'],
     ] as [string, string][],
-    timing: 'Zeitrahmen: Fahrer, die bereits in Deutschland leben, können in der Regel innerhalb von etwa einer Woche starten. Bei Fahrern aus dem Ausland rechnen Sie mit etwa 6 bis 8 Wochen – abhängig von Bundesagentur für Arbeit und Terminen der deutschen Auslandsvertretung.',
+    timing: 'Zeitrahmen: Fahrer, die bereits in Deutschland leben, können oft kurzfristig starten. Bei Fahrern aus dem Ausland hängt die Dauer vom Herkunftsland, der Bundesagentur für Arbeit, der Auslandsvertretung und dem individuellen Fall ab – in vielen Fällen ca. 6–10 Wochen.',
     directH2: 'Direkte Anstellung – volle Kontrolle für Sie',
     directText: 'Die Fahrer werden direkt in Ihrem Unternehmen angestellt. Sie entscheiden über Auswahl, Vertrag und Einsatz. Wir übernehmen Suche, Vorauswahl und die organisatorische Begleitung.',
     faqH2: 'Häufige Fragen zur Vermittlung von LKW-Fahrern',
@@ -103,7 +103,7 @@ const c = {
       ['Arrival & onboarding', 'Travel, registration, licence conversion and qualification – we provide organisational support.'],
       ['First working day', 'The driver starts with you. We remain your contact person during the first weeks.'],
     ] as [string, string][],
-    timing: 'Timeframe: drivers who already live in Germany can usually start within about one week. For drivers from abroad, expect around 6 to 8 weeks – depending on the Federal Employment Agency and the German embassy’s appointments.',
+    timing: 'Timeframe: drivers who already live in Germany can often start at short notice. For drivers from abroad, the duration depends on the country of origin, the Federal Employment Agency, the German embassy and the individual case – in many cases around 6–10 weeks.',
     directH2: 'Direct employment – you stay in control',
     directText: 'The drivers are employed directly by your company. You decide on selection, contract and deployment. We handle the search, pre-selection and organisational support.',
     faqH2: 'Frequently asked questions about recruiting truck drivers',
@@ -203,7 +203,7 @@ const schema = {
         <p class="muted">{c.formText}</p>
         <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
       </div>
-      <EmployerForm lang={lang} position="lkw" />
+      <EmployerForm lang={lang} variant="lkw" />
     </div>
   </section>
 

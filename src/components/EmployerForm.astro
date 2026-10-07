@@ -2,14 +2,16 @@
 // "Personal anfragen" – inquiry form for companies.
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
-interface Props { lang: Lang; position?: string }
-const { lang, position = '' } = Astro.props;
+// variant 'lkw': fixed position (truck drivers), asks for the number of drivers instead of a position.
+interface Props { lang: Lang; position?: string; variant?: 'general' | 'lkw' }
+const { lang, position = '', variant = 'general' } = Astro.props;
+const isLkw = variant === 'lkw';
 
 const t = {
   de: {
     company: 'Unternehmen', contact: 'Ansprechpartner', phone: 'Telefonnummer', email: 'E-Mail', location: 'Standort',
     locationPh: 'z. B. Nürnberg', position: 'Gesuchte Position', choose: 'Bitte wählen', count: 'Anzahl Mitarbeiter',
-    start: 'Gewünschter Starttermin', message: 'Nachricht',
+    start: 'Gewünschter Starttermin', message: 'Nachricht', drivers: 'Anzahl Fahrer', lkwValue: 'LKW-Fahrer', lkwPh: 'z. B. Führerscheinklasse, Touren, Fahrzeugtyp, Arbeitszeiten, Unterkunft',
     messagePh: 'z. B. Führerscheinklasse, Touren, Arbeitszeiten, Unterkunft – oder welche Back-Office-Aufgaben Sie abgeben möchten',
     starts: ['So schnell wie möglich', 'Innerhalb von 1 Monat', 'In 1–3 Monaten', 'In mehr als 3 Monaten', 'Noch offen'],
     positions: [['lkw', 'LKW-Fahrer'], ['paket', 'Paketzusteller'], ['lager', 'Lagerarbeiter'], ['reinigung', 'Reinigungskräfte'], ['backoffice', 'Back Office'], ['andere', 'Andere']],
@@ -24,7 +26,7 @@ const t = {
   en: {
     company: 'Company', contact: 'Contact person', phone: 'Phone number', email: 'Email', location: 'Location',
     locationPh: 'e.g. Nuremberg', position: 'Position needed', choose: 'Please choose', count: 'Number of employees',
-    start: 'Preferred start date', message: 'Message',
+    start: 'Preferred start date', message: 'Message', drivers: 'Number of drivers', lkwValue: 'Truck drivers', lkwPh: 'e.g. licence class, routes, vehicle type, working hours, accommodation',
     messagePh: 'e.g. licence class, routes, working hours, accommodation – or which back-office tasks you want to hand over',
     starts: ['As soon as possible', 'Within 1 month', 'In 1–3 months', 'In more than 3 months', 'Not decided yet'],
     positions: [['lkw', 'Truck drivers'], ['paket', 'Parcel delivery drivers'], ['lager', 'Warehouse workers'], ['reinigung', 'Cleaning staff'], ['backoffice', 'Back office'], ['andere', 'Other']],
@@ -62,24 +64,36 @@ const id = (n: string) => `emp-${n}`;
       <input id={id('email')} name="email" data-label={t.email} type="email" required autocomplete="email" />
     </label>
   </div>
+  {isLkw ? (
+    <input type="hidden" name="position" data-label={t.position} value={t.lkwValue} />
+  ) : null}
   <div class="form-row">
+    {isLkw ? (
+      <label class="field" for={id('count')}>
+        <span>{t.drivers}</span>
+        <input id={id('count')} name="count" data-label={t.drivers} type="number" min="1" max="500" inputmode="numeric" />
+      </label>
+    ) : (
+      <label class="field" for={id('position')}>
+        <span>{t.position} <span class="req" aria-hidden="true">*</span></span>
+        <select id={id('position')} name="position" data-label={t.position} required>
+          <option value="">{t.choose}</option>
+          {t.positions.map(([v, l]) => <option value={l} selected={v === position}>{l}</option>)}
+        </select>
+      </label>
+    )}
     <label class="field" for={id('location')}>
       <span>{t.location}</span>
       <input id={id('location')} name="location" data-label={t.location} type="text" placeholder={t.locationPh} autocomplete="address-level2" />
     </label>
-    <label class="field" for={id('position')}>
-      <span>{t.position} <span class="req" aria-hidden="true">*</span></span>
-      <select id={id('position')} name="position" data-label={t.position} required>
-        <option value="">{t.choose}</option>
-        {t.positions.map(([v, l]) => <option value={l} selected={v === position}>{l}</option>)}
-      </select>
-    </label>
   </div>
   <div class="form-row">
-    <label class="field" for={id('count')}>
-      <span>{t.count}</span>
-      <input id={id('count')} name="count" data-label={t.count} type="number" min="1" max="500" inputmode="numeric" />
-    </label>
+    {!isLkw && (
+      <label class="field" for={id('count')}>
+        <span>{t.count}</span>
+        <input id={id('count')} name="count" data-label={t.count} type="number" min="1" max="500" inputmode="numeric" />
+      </label>
+    )}
     <label class="field" for={id('start')}>
       <span>{t.start}</span>
       <select id={id('start')} name="start" data-label={t.start}>
@@ -90,11 +104,9 @@ const id = (n: string) => `emp-${n}`;
   </div>
   <label class="field" for={id('message')}>
     <span>{t.message}</span>
-    <textarea id={id('message')} name="message" data-label={t.message} rows="4" placeholder={t.messagePh}></textarea>
+    <textarea id={id('message')} name="message" data-label={t.message} rows="4" placeholder={isLkw ? t.lkwPh : t.messagePh}></textarea>
   </label>
-  <div class="hp" aria-hidden="true">
-    <label>Website <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
-  </div>
+  <div class="hp" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
   <label class="consent">
     <input type="checkbox" name="consent" value="yes" required />
     <span>{t.consentA} <a href={routes.datenschutz[lang]}>{t.privacy}</a> {t.consentB} <span class="req" aria-hidden="true">*</span></span>

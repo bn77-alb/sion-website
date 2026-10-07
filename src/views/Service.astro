@@ -7,6 +7,7 @@ import Steps from '../components/Steps.astro';
 import EmployerForm from '../components/EmployerForm.astro';
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
+import { hasPhoto } from '../lib/photos';
 type Key = 'paket' | 'lager' | 'reinigung';
 interface Props { lang: Lang; service: Key }
 const { lang, service } = Astro.props;
@@ -44,7 +45,8 @@ const common = {
 
 const pages = {
   paket: {
-    image: '', icon: 'package',
+    image: 'paketzusteller', icon: 'package', focus: '50% 58%',
+    alt: { de: 'Paketzusteller trägt Pakete zur Auslieferung', en: 'Delivery driver carrying parcels for delivery' },
     de: {
       title: 'Paketzusteller vermitteln | Personal für Paketdienste | SION Consulting',
       description: 'SION Consulting vermittelt zuverlässige Paketzusteller mit Führerschein Klasse B an Paket- und Kurierdienste sowie Subunternehmer in ganz Deutschland.',
@@ -63,7 +65,8 @@ const pages = {
     },
   },
   lager: {
-    image: 'lager', icon: 'warehouse',
+    image: 'lager', icon: 'warehouse', focus: undefined,
+    alt: { de: 'Mitarbeiter in einem Logistiklager', en: 'Employees working in a logistics warehouse' },
     de: {
       title: 'Lagerpersonal & Logistikmitarbeiter vermitteln | SION Consulting',
       description: 'SION Consulting vermittelt Lagerarbeiter und Logistikpersonal für Kommissionierung, Verladung, Wareneingang und Versand an Unternehmen in ganz Deutschland.',
@@ -82,7 +85,8 @@ const pages = {
     },
   },
   reinigung: {
-    image: '', icon: 'sparkle',
+    image: 'reinigung', icon: 'sparkle', focus: undefined,
+    alt: { de: 'Reinigungskraft reinigt einen Büroschreibtisch', en: 'Cleaner cleaning an office desk' },
     de: {
       title: 'Reinigungskräfte vermitteln | Personal für Gebäudereinigung | SION Consulting',
       description: 'SION Consulting vermittelt Reinigungskräfte für Büro-, Unterhalts- und Objektreinigung an Unternehmen und Reinigungsfirmen in ganz Deutschland.',
@@ -122,9 +126,9 @@ const otherLabels = {
         </div>
         <ul class="chips">{p.areas.map((a) => <li><span class="chip">{a}</span></li>)}</ul>
       </div>
-      {page.image ? (
+      {hasPhoto(page.image) ? (
         <div class="media ratio-landscape hide-mobile-block">
-          <Photo name={page.image} alt="" priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
+          <Photo name={page.image} alt={page.alt[lang]} focus={page.focus} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
         </div>
       ) : (
         <div class="icon-panel hide-mobile-block" aria-hidden="true"><Icon name={page.icon} size={120} /></div>
