@@ -10,7 +10,7 @@ const t = {
     open: 'Chat öffnen', close: 'Chat schließen', title: 'Sion Assistent', subtitle: 'KI-Assistent · antwortet sofort',
     intro: 'Sie chatten mit einem KI-Assistenten. Er beantwortet Fragen zu unseren Leistungen und kann ein Gespräch mit uns für Sie buchen. Ihre Eingaben werden an unseren Server und an den KI-Anbieter Anthropic übermittelt. Bitte geben Sie keine Ausweis- oder Gesundheitsdaten ein.',
     privacy: 'Datenschutzerklärung', start: 'Chat starten',
-    hello: 'Guten Tag! Ich bin der digitale Assistent von Sion Consulting. Suchen Sie Personal, interessieren Sie sich für unser Back-Office oder suchen Sie selbst eine Stelle?',
+    hello: 'Guten Tag! Ich bin der digitale Assistent von SION Consulting. Suchen Sie Personal, interessieren Sie sich für unser Back-Office oder suchen Sie selbst eine Stelle?',
     placeholder: 'Ihre Nachricht …', send: 'Senden', typing: 'schreibt …',
     error: `Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an ${site.email}.`,
   },
@@ -18,7 +18,7 @@ const t = {
     open: 'Open chat', close: 'Close chat', title: 'Sion Assistant', subtitle: 'AI assistant · replies instantly',
     intro: 'You are chatting with an AI assistant. It answers questions about our services and can book a call with us for you. Your messages are sent to our server and to the AI provider Anthropic. Please do not enter ID or health data.',
     privacy: 'Privacy policy', start: 'Start chat',
-    hello: 'Hello! I am the digital assistant of Sion Consulting. Are you looking for staff, interested in our back office, or looking for a job yourself?',
+    hello: 'Hello! I am the digital assistant of SION Consulting. Are you looking for staff, interested in our back office, or looking for a job yourself?',
     placeholder: 'Your message …', send: 'Send', typing: 'typing …',
     error: `Something went wrong. Please try again or write to ${site.email}.`,
   },
@@ -49,7 +49,7 @@ const t = {
       </button>
     </form>
   </div>
-  <button type="button" class="chatw-fab" data-chat-toggle aria-expanded="false" aria-controls="chatw-panel">
+  <button type="button" class="chatw-fab" data-chat-toggle aria-expanded="false" aria-controls="chatw-panel" aria-label={t.open}>
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>
     <span>{t.open}</span>
   </button>
@@ -57,10 +57,10 @@ const t = {
 )}
 
 <style>
-  .chatw { position: fixed; right: 20px; bottom: 20px; z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .chatw { position: fixed; right: 20px; bottom: calc(20px + var(--bar-h)); z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
   .chatw-fab { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 12px 20px; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: 600 1rem var(--font-body); cursor: pointer; box-shadow: 0 10px 28px rgba(18, 33, 46, .28); }
   .chatw-fab:hover { background: var(--ink-3); }
-  .chatw-panel { width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 120px)); background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 20px 48px rgba(18, 33, 46, .25); display: flex; flex-direction: column; overflow: hidden; }
+  .chatw-panel { width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100dvh - 120px - var(--bar-h))); background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 20px 48px rgba(18, 33, 46, .25); display: flex; flex-direction: column; overflow: hidden; }
   .chatw-panel[hidden] { display: none; }
   .chatw-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; background: var(--ink); color: #fff; }
   .chatw-title { font: 700 1.05rem var(--font-display); }
@@ -71,14 +71,14 @@ const t = {
   .chatw-log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
   .chatw-log[hidden], .chatw-form[hidden] { display: none; }
   .chatw-form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: #fff; }
-  .chatw-form textarea { flex: 1; resize: none; font: 400 .95rem var(--font-body); padding: 11px 12px; border: 1px solid var(--line-strong); border-radius: 12px; min-height: 44px; max-height: 120px; color: var(--ink); }
+  .chatw-form textarea { flex: 1; resize: none; font: 400 1rem var(--font-body); padding: 11px 12px; border: 1px solid var(--line-strong); border-radius: 12px; min-height: 44px; max-height: 120px; color: var(--ink); }
   .chatw-send { width: 44px; height: 44px; flex: none; border: 0; border-radius: 12px; background: var(--accent); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
   .chatw-send:hover { background: var(--accent-dark); }
   .chatw-send:disabled { opacity: .5; cursor: default; }
-  @media (max-width: 520px) {
-    .chatw { right: 12px; bottom: 12px; }
+  @media (max-width: 900px) {
+    .chatw { right: 12px; bottom: calc(12px + var(--bar-h)); }
     .chatw-fab span { display: none; }
-    .chatw-fab { padding: 14px; }
+    .chatw-fab { padding: 14px; min-height: 50px; }
   }
 </style>
 <style is:global>

@@ -10,6 +10,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import ChatWidget from '../components/ChatWidget.astro';
+import MobileBar from '../components/MobileBar.astro';
 import { routes, ui, type Lang, type PageKey } from '../i18n';
 import { site } from '../config';
 
@@ -39,7 +40,7 @@ const canonical = abs(routes[page][lang]);
     <link rel="alternate" hreflang="x-default" href={abs(routes[page].de)} />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Sion Consulting" />
+    <meta property="og:site_name" content="SION Consulting" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -56,6 +57,7 @@ const canonical = abs(routes[page][lang]);
     <Header lang={lang} page={page} />
     <main id="main"><slot /></main>
     <Footer lang={lang} />
+    <MobileBar lang={lang} />
     <ChatWidget lang={lang} />
     <CookieBanner lang={lang} />
   </body>

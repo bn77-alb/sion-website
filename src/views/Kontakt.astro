@@ -1,44 +1,63 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { type Lang } from '../i18n';
+import ContactDirect from '../components/ContactDirect.astro';
+import EmployerForm from '../components/EmployerForm.astro';
+import { routes, type Lang } from '../i18n';
 import { site } from '../config';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
 const c = {
   de: {
-    title: 'Kontakt | Sion Consulting – Personalvermittlung & Back-Office',
-    description: 'Kontaktieren Sie Sion Consulting: Personalvermittlung von LKW-Fahrern und Logistikpersonal sowie Back-Office-Services für Unternehmen in Deutschland.',
-    h1: 'Kontakt',
-    lead: 'Ob Personalbedarf, Back-Office oder Bewerbung – schreiben Sie uns. Wir antworten persönlich – innerhalb von einem Werktag.',
-    direct: 'Direkter Kontakt', address: 'Anschrift', country: site.countryDe,
+    title: 'Kontakt & Personalanfrage | SION Consulting',
+    description: 'Kontaktieren Sie SION Consulting per Telefon, WhatsApp oder E-Mail – oder fragen Sie direkt Personal an. Personalvermittlung und Back Office für Unternehmen in Deutschland.',
+    eyebrow: 'Kontakt',
+    lead: 'Rufen Sie an, schreiben Sie per WhatsApp oder senden Sie uns Ihre Personalanfrage. Kostenloses Erstgespräch, Antwort innerhalb von 1 Werktag.',
+    addressH: 'Büro', country: site.countryDe,
+    formH2: 'Personal anfragen', formText: 'Je genauer Ihre Angaben, desto schneller können wir Ihnen passende Kandidaten vorschlagen.',
+    jobH: 'Sie suchen einen Job?', jobText: 'Bewerbungen bitte über unser Bewerberformular.', jobCta: 'Zum Bewerberformular',
   },
   en: {
-    title: 'Contact | Sion Consulting – Recruitment & Back Office',
-    description: 'Contact Sion Consulting: recruitment of truck drivers and logistics staff and back-office services for companies in Germany.',
-    h1: 'Contact',
-    lead: 'Staffing needs, back office or an application – write to us. We reply personally – within one working day.',
-    direct: 'Direct contact', address: 'Address', country: site.countryEn,
+    title: 'Contact & Staff Inquiry | SION Consulting',
+    description: 'Contact SION Consulting by phone, WhatsApp or email – or request staff directly. Recruitment and back office for companies in Germany.',
+    eyebrow: 'Contact',
+    lead: 'Call us, message us on WhatsApp or send us your staff inquiry. Free initial consultation, reply within 1 working day.',
+    addressH: 'Office', country: site.countryEn,
+    formH2: 'Request staff', formText: 'The more details you give, the faster we can suggest suitable candidates.',
+    jobH: 'Looking for a job?', jobText: 'Please apply via our applicant form.', jobCta: 'Go to the applicant form',
   },
 }[lang];
 ---
 <Base lang={lang} page="kontakt" title={c.title} description={c.description}>
   <section class="page-hero">
-    <div class="container grid-2" style="align-items: start">
+    <div class="container contact-top">
       <div class="stack-lg">
-        <h1>{c.h1}</h1>
+        <p class="eyebrow">{c.eyebrow}</p>
+        <ContactDirect lang={lang} headingLevel="h1" />
         <p class="lead">{c.lead}</p>
-        <h2 style="font-size: 1.3rem; margin-top: 12px">{c.direct}</h2>
-        <ul class="contact-list">
-          <li><Icon name="mail" size={22} /><a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><Icon name="phone" size={22} /><a href={`tel:${site.phoneHref}`}>{site.phone}</a></li>
-          <li><Icon name="chat" size={22} /><a href={site.whatsapp} rel="noopener">WhatsApp</a></li>
-          <li><Icon name="pin" size={22} /><span>{site.name}<br />{site.street}<br />{site.zip} {site.city}, {c.country}</span></li>
-        </ul>
       </div>
-      <ContactForm lang={lang} />
+      <aside class="stack-lg">
+        <div class="card">
+          <h2 class="h3"><Icon name="pin" size={22} class="card-icon" /> {c.addressH}</h2>
+          <address>{site.name}<br />{site.street}<br />{site.zip} {site.city}, {c.country}</address>
+        </div>
+        <div class="card">
+          <h2 class="h3">{c.jobH}</h2>
+          <p>{c.jobText}</p>
+          <a class="link-arrow" href={`${routes.bewerber[lang]}#bewerbung`}>{c.jobCta}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="anfrage" class="section band-sand">
+    <div class="container form-layout">
+      <div class="stack-lg">
+        <h2>{c.formH2}</h2>
+        <p class="muted">{c.formText}</p>
+      </div>
+      <EmployerForm lang={lang} />
     </div>
   </section>
 </Base>

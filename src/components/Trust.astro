@@ -1,0 +1,45 @@
+---
+// Case studies and testimonials. Renders nothing until real entries exist in src/config.ts.
+import { caseStudies, testimonials } from '../config';
+import type { Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = {
+  de: { csEyebrow: 'Referenzen', csTitle: 'Erfolgreiche Vermittlungen', situation: 'Ausgangssituation', solution: 'SION Lösung', result: 'Ergebnis', tTitle: 'Das sagen unsere Kunden' },
+  en: { csEyebrow: 'References', csTitle: 'Successful placements', situation: 'Situation', solution: 'SION solution', result: 'Result', tTitle: 'What our clients say' },
+}[lang];
+---
+{caseStudies.length > 0 && (
+  <section class="section band-soft" id="referenzen">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{t.csEyebrow}</p><h2>{t.csTitle}</h2></div>
+      <div class="grid-3">
+        {caseStudies.map((c) => (
+          <article class="card case">
+            <p class="case-client">{c.client[lang]}</p>
+            <dl>
+              <dt>{t.situation}</dt><dd>{c.situation[lang]}</dd>
+              <dt>{t.solution}</dt><dd>{c.solution[lang]}</dd>
+              <dt>{t.result}</dt><dd class="case-result">{c.result[lang]}</dd>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+{testimonials.length > 0 && (
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><h2>{t.tTitle}</h2></div>
+      <div class="grid-3">
+        {testimonials.map((q) => (
+          <figure class="card quote">
+            <blockquote>„{q.quote[lang]}“</blockquote>
+            <figcaption><strong>{q.author[lang]}</strong>{q.result && <span>{q.result[lang]}</span>}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

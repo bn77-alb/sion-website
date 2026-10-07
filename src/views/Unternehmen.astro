@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+import EmployerForm from '../components/EmployerForm.astro';
+import { routes, ui, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const r = (k: keyof typeof routes) => routes[k][lang];
+
+const c = {
+  de: {
+    title: 'Für Unternehmen: Personal & Back Office aus einer Hand | SION Consulting',
+    description: 'Personalmangel, Fahrermangel oder zu viel Verwaltung? SION Consulting unterstützt Unternehmen in Deutschland mit Personalvermittlung und Back-Office-Services.',
+    eyebrow: 'Für Unternehmen',
+    h1: 'Wir lösen Ihre Personal- und Verwaltungsengpässe',
+    lead: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung als Kernleistung und Back-Office-Services als zweitem Standbein.',
+    challengesH2: 'Ihre Herausforderung – unsere Lösung',
+    challenges: [
+      ['users', 'Personalmangel', 'Offene Stellen bleiben monatelang unbesetzt.', 'Wir suchen gezielt in Deutschland und international.', r('personalvermittlung')],
+      ['truck', 'Fahrermangel', 'Touren können nicht gefahren werden.', 'Wir vermitteln CE-Fahrer aus dem Ausland.', r('lkw')],
+      ['search', 'Recruiting-Probleme', 'Stellenanzeigen bringen keine passenden Bewerber.', 'Wir übernehmen Suche und Vorauswahl.', r('personalvermittlung')],
+      ['globe', 'Internationale Rekrutierung', 'Ausländische Bewerber bedeuten viele Formalitäten.', 'Wir unterstützen bei den administrativen Schritten.', r('lkw')],
+      ['doc', 'Verwaltungsaufwand', 'Dokumente und Fristen binden Ihr Team.', 'Wir übernehmen wiederkehrende Aufgaben.', r('backoffice')],
+      ['inbox', 'Back-Office-Last', 'E-Mails, Termine und Daten bleiben liegen.', 'Unser Büroteam arbeitet für Sie mit.', r('backoffice')],
+    ],
+    problem: 'Problem', solution: 'Lösung', more: 'Zur Lösung',
+    termsH2: 'Was Sie von uns erwarten können',
+    terms: ['Direkte Anstellung in Ihrem Unternehmen – keine Arbeitnehmerüberlassung', 'Individuelles Angebot je nach Position, Anzahl und Leistungsumfang', 'Bezahlung in Etappen – ein Teil des Honorars erst nach dem ersten Arbeitsmonat', 'Ein fester, deutschsprachiger Ansprechpartner', 'Antwort auf Ihre Anfrage innerhalb von 1 Werktag'],
+    procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
+    faqH2: 'Häufige Fragen von Arbeitgebern',
+    faq: [
+      { q: 'Was kostet die Vermittlung?', a: 'Die Kosten hängen von Position, Anzahl und Leistungsumfang ab – Sie erhalten ein individuelles Angebot. Bezahlt wird in Etappen entlang des Verfahrens, nicht alles im Voraus.' },
+      { q: 'Wie schnell können die Mitarbeiter bei uns anfangen?', a: 'Kandidaten, die bereits in Deutschland leben, können in der Regel innerhalb von etwa einer Woche starten. Bei Kandidaten aus dem Ausland rechnen Sie mit etwa 6 bis 8 Wochen – abhängig von der Bundesagentur für Arbeit und den Terminen der deutschen Auslandsvertretung. Wir halten Sie bei jedem Schritt auf dem Laufenden.' },
+      { q: 'Werden die Mitarbeiter bei uns oder bei Ihnen angestellt?', a: 'Direkt bei Ihnen. Sie schließen den Arbeitsvertrag mit den Mitarbeitern ab – es handelt sich nicht um Arbeitnehmerüberlassung.' },
+      { q: 'Lernen wir die Kandidaten vorher kennen?', a: 'Ja. Sie erhalten aussagekräftige Profile und führen vorab ein Vorstellungsgespräch, auch per Video. Die Entscheidung liegt bei Ihnen.' },
+      { q: 'Welche Bedingungen muss unser Arbeitsangebot erfüllen?', a: 'Bei Kandidaten aus Drittstaaten prüft die Bundesagentur für Arbeit unter anderem, ob Lohn und Arbeitsbedingungen denen vergleichbarer Beschäftigter in Deutschland entsprechen. Wir weisen Sie auf die üblichen Anforderungen hin und unterstützen bei der Vorbereitung der Unterlagen; verbindlich entscheidet die Behörde.' },
+      { q: 'Wie viel Aufwand haben wir als Arbeitgeber?', a: 'Möglichst wenig. Wir unterstützen bei der Vorbereitung von Anträgen und Unterlagen – Sie prüfen, unterschreiben und stellen die Mitarbeiter ein.' },
+      { q: 'Was passiert, wenn ein Visum abgelehnt wird?', a: 'Das kommt selten vor. Falls doch, besprechen wir mit Ihnen die Gründe und die möglichen nächsten Schritte, zum Beispiel einen neuen Antrag mit ergänzten Unterlagen.' },
+      { q: 'Was ist, wenn ein Mitarbeiter kurz nach dem Start kündigt?', a: 'Wir wählen gezielt Kandidaten aus, die langfristig in Deutschland und bei Ihnen arbeiten möchten. Zusätzlich wird ein Teil unseres Honorars erst fällig, wenn der Mitarbeiter einen Monat bei Ihnen gearbeitet hat.' },
+      { q: 'Wie gut sprechen die Kandidaten Deutsch?', a: 'Das ist je nach Kandidat unterschiedlich. Wir nennen Ihnen den Sprachstand ehrlich vorab – so wissen Sie, was Sie erwartet.' },
+      { q: 'Helfen Sie bei der Unterkunft?', a: 'Ja. Stellen Sie keine Unterkunft zur Verfügung, unterstützen wir Ihre neuen Mitarbeiter bei der Suche.' },
+      { q: 'Was ist die Westbalkanregelung?', a: 'Die Westbalkanregelung ermöglicht Staatsangehörigen aus Albanien, Bosnien und Herzegowina, Kosovo, Montenegro, Nordmazedonien und Serbien eine Beschäftigung in Deutschland. Voraussetzung sind ein konkretes Arbeitsplatzangebot und die Zustimmung der Bundesagentur für Arbeit. Für Fahrer gilt: Führerscheine aus Albanien, Kosovo, Montenegro, Nordmazedonien und Serbien – auch Klasse C und CE – werden in Deutschland ohne theoretische und praktische Prüfung umgeschrieben (Anlage 11 FeV). Die Berufskraftfahrer-Qualifikation (Code 95) ist zusätzlich erforderlich.' },
+      { q: 'Können wir nur Back-Office-Leistungen buchen?', a: 'Ja. Unsere Back-Office-Services sind unabhängig von einer Personalvermittlung buchbar – für Unternehmen aus der Logistik und aus anderen Branchen. Den Umfang legen wir gemeinsam fest, die Kosten richten sich nach dem Umfang.' },
+      { q: 'In welchen Regionen sind Sie tätig?', a: 'Bundesweit. Wir vermitteln Personal an Unternehmen in ganz Deutschland.' },
+    ],
+    formH2: 'Personal anfragen', formText: 'Schildern Sie uns kurz Ihren Bedarf – wir melden uns innerhalb von 1 Werktag.',
+    formCall: 'Lieber direkt sprechen?',
+  },
+  en: {
+    title: 'For Employers: Staff & Back Office from One Source | SION Consulting',
+    description: 'Staff shortages, driver shortages or too much administration? SION Consulting supports companies in Germany with recruitment and back-office services.',
+    eyebrow: 'For employers',
+    h1: 'We solve your staffing and admin bottlenecks',
+    lead: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – with recruitment as the core service and back-office services as the second business area.',
+    challengesH2: 'Your challenge – our solution',
+    challenges: [
+      ['users', 'Staff shortage', 'Vacancies stay open for months.', 'We search specifically in Germany and internationally.', r('personalvermittlung')],
+      ['truck', 'Driver shortage', 'Routes cannot be covered.', 'We place CE drivers from abroad.', r('lkw')],
+      ['search', 'Recruiting problems', 'Job ads do not bring suitable applicants.', 'We handle the search and pre-selection.', r('personalvermittlung')],
+      ['globe', 'International recruitment', 'Foreign applicants mean a lot of paperwork.', 'We assist with the administrative steps.', r('lkw')],
+      ['doc', 'Administrative workload', 'Documents and deadlines tie up your team.', 'We take over recurring tasks.', r('backoffice')],
+      ['inbox', 'Back-office workload', 'Emails, appointments and data pile up.', 'Our office team works alongside you.', r('backoffice')],
+    ],
+    problem: 'Problem', solution: 'Solution', more: 'See the solution',
+    termsH2: 'What you can expect from us',
+    terms: ['Direct employment in your company – no temporary agency work', 'Individual offer depending on position, number and scope', 'Payment in stages – part of the fee only after the first month of work', 'One fixed, German-speaking contact person', 'Reply to your inquiry within 1 working day'],
+    procEyebrow: 'Process', procH2: 'How we work together',
+    faqH2: 'Frequently asked questions from employers',
+    faq: [
+      { q: 'What does recruitment cost?', a: 'Costs depend on the position, number of hires and scope of services – you receive an individual offer. Payment is made in stages along the process, not all up front.' },
+      { q: 'How soon can the employees start?', a: 'Candidates who already live in Germany can usually start within about one week. For candidates from abroad, expect around 6 to 8 weeks – depending on the Federal Employment Agency and the German embassy’s appointments. We keep you informed at every step.' },
+      { q: 'Are the employees employed by us or by you?', a: 'Directly by you. You sign the employment contract with the employees – this is not temporary agency work.' },
+      { q: 'Do we get to meet the candidates first?', a: 'Yes. You receive detailed profiles and interview candidates first, also by video. The decision is yours.' },
+      { q: 'What conditions must our job offer meet?', a: 'For candidates from non-EU countries, the Federal Employment Agency checks, among other things, that pay and working conditions match those of comparable employees in Germany. We point out the usual requirements and assist with preparing the documents; the authority makes the binding decision.' },
+      { q: 'How much effort is it for us as an employer?', a: 'As little as possible. We assist with preparing applications and documents – you review, sign and hire.' },
+      { q: 'What happens if a visa is refused?', a: 'This is rare. If it happens, we discuss the reasons and possible next steps with you, for example a new application with additional documents.' },
+      { q: 'What if an employee quits shortly after starting?', a: 'We specifically select candidates who want to work in Germany and with you long term. In addition, part of our fee only becomes due once the employee has worked for you for one month.' },
+      { q: 'How good is the candidates’ German?', a: 'It varies by candidate. We tell you each candidate’s language level honestly in advance – so you know what to expect.' },
+      { q: 'Do you help with accommodation?', a: 'Yes. If you do not provide accommodation, we help your new employees find a place to live.' },
+      { q: 'What is the Western Balkans Regulation?', a: 'The Western Balkans Regulation allows nationals of Albania, Bosnia and Herzegovina, Kosovo, Montenegro, North Macedonia and Serbia to work in Germany. It requires a concrete job offer and the approval of the Federal Employment Agency. For drivers: licences from Albania, Kosovo, Montenegro, North Macedonia and Serbia – including classes C and CE – are converted in Germany without a theory or practical test (Annex 11 of the German Driving Licence Regulation). The professional driver qualification (Code 95) is required in addition.' },
+      { q: 'Can we book back-office services only?', a: 'Yes. Our back-office services can be booked independently of recruitment – for companies in logistics and other industries. We agree the scope together; costs depend on the scope.' },
+      { q: 'Which regions do you cover?', a: 'Nationwide. We place staff with companies throughout Germany.' },
+    ],
+    formH2: 'Request staff', formText: 'Briefly tell us what you need – we will reply within 1 working day.',
+    formCall: 'Prefer to talk directly?',
+  },
+}[lang];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base lang={lang} page="unternehmen" title={c.title} description={c.description} schema={schema}>
+  <section class="page-hero">
+    <div class="container narrow-hero hero-copy">
+      <p class="eyebrow">{c.eyebrow}</p>
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.lead}</p>
+      <div class="btn-row">
+        <a class="btn btn-accent btn-lg" href="#anfrage">{ui[lang].request}</a>
+        <a class="btn btn-ghost btn-lg" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {ui[lang].callNow}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container">
+      <div class="section-head"><h2>{c.challengesH2}</h2></div>
+      <div class="grid-3">
+        {c.challenges.map(([icon, h, problem, solution, href]) => (
+          <a class="service-card" href={href}>
+            <span class="service-icon"><Icon name={icon} size={26} /></span>
+            <h3>{h}</h3>
+            <p><strong>{c.problem}:</strong> {problem}<br /><strong>{c.solution}:</strong> {solution}</p>
+            <span class="service-cta">{c.more} <Icon name="arrow" size={18} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container narrow">
+      <h2 style="margin-bottom: 24px">{c.termsH2}</h2>
+      <ul class="checklist checklist-lg">{c.terms.map((x) => <li>{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="band-dark section">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
+      <Steps lang={lang} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="section-head"><h2>{c.faqH2}</h2></div>
+      <Faq items={c.faq} />
+    </div>
+  </section>
+
+  <section id="anfrage" class="section band-sand">
+    <div class="container form-layout">
+      <div class="stack-lg">
+        <h2>{c.formH2}</h2>
+        <p class="muted">{c.formText}</p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+      </div>
+      <EmployerForm lang={lang} />
+    </div>
+  </section>
+</Base>

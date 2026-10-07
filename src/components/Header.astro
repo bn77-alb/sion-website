@@ -1,48 +1,86 @@
 ---
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
-import { routes, nav, ui, type Lang, type PageKey } from '../i18n';
+import { routes, nav, ui, requestHref, type Lang, type PageKey } from '../i18n';
+import { site } from '../config';
 interface Props { lang: Lang; page: PageKey }
 const { lang, page } = Astro.props;
 const t = ui[lang];
+const items = nav(lang);
 ---
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span class="topbar-claim">{t.topbar}</span>
+    <div class="topbar-links">
+      <a href={`tel:${site.phoneHref}`} class="topbar-phone"><Icon name="phone" size={16} /> {site.phone}</a>
+      <a href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={16} /> {t.whatsapp}</a>
+      <a href={`mailto:${site.email}`}><Icon name="mail" size={16} /> {site.email}</a>
+      <div class="lang-switch lang-switch-sm" role="group" aria-label={t.language}>
+        <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+        <a href={routes[page].en} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+      </div>
+    </div>
+  </div>
+</div>
 <header class="site-header">
   <div class="container header-inner">
     <a href={routes.home[lang]} class="brand" aria-label={t.homeLabel}>
       <Logo />
-      <span>Sion Consulting</span>
+      <span>SION <span class="brand-light">Consulting</span></span>
     </a>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-      <Icon name="menu" size={24} />
-      <span class="sr-only">{t.menu}</span>
-    </button>
-    <nav id="site-nav" class="site-nav" aria-label={t.mainNav}>
+    <nav class="desktop-nav" aria-label={t.mainNav}>
       <ul>
-        {nav[lang].map((item) => (
+        {items.filter((i) => i.desktop).map((item) => (
           <li><a href={item.href} aria-current={item.key === page ? 'page' : undefined}>{item.label}</a></li>
         ))}
       </ul>
-      <div class="nav-actions">
-        <div class="lang-switch" role="group" aria-label={t.language}>
-          <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
-          <a href={routes[page].en} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
-        </div>
-        <a class="btn btn-dark" href={routes.kontakt[lang]}>{t.cta}</a>
-      </div>
     </nav>
+    <div class="header-actions">
+      <a class="btn btn-accent header-cta" href={requestHref(lang)}>{t.request}</a>
+      <a class="icon-btn header-call" href={`tel:${site.phoneHref}`} aria-label={`${t.callLabel}: ${site.phone}`}>
+        <Icon name="phone" size={22} />
+      </a>
+      <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-label-open={t.menu} data-label-close={t.close}>
+        <span class="icon-open"><Icon name="menu" size={24} /></span>
+        <span class="icon-close"><Icon name="close" size={24} /></span>
+        <span class="sr-only" data-menu-label>{t.menu}</span>
+      </button>
+    </div>
   </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label={t.mainNav} hidden>
+    <div class="container">
+      <ul>
+        {items.map((item) => (
+          <li><a href={item.href} aria-current={item.key === page ? 'page' : undefined}>{item.label}<Icon name="arrow" size={18} /></a></li>
+        ))}
+      </ul>
+      <div class="mobile-nav-contact">
+        <a class="btn btn-dark btn-block" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
+        <a class="btn btn-whatsapp btn-block" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {t.whatsappShort}</a>
+        <a class="btn btn-accent btn-block" href={requestHref(lang)}>{t.request}</a>
+      </div>
+      <div class="lang-switch mobile-lang" role="group" aria-label={t.language}>
+        <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>Deutsch</a>
+        <a href={routes[page].en} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>English</a>
+      </div>
+    </div>
+  </nav>
 </header>
 
 <script>
-  const toggle = document.querySelector('.menu-toggle');
-  const navEl = document.getElementById('site-nav');
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const navEl = document.getElementById('mobile-nav');
   if (toggle && navEl) {
+    const label = toggle.querySelector('[data-menu-label]');
     const setOpen = (open: boolean) => {
       toggle.setAttribute('aria-expanded', String(open));
-      navEl.classList.toggle('open', open);
+      navEl.hidden = !open;
+      document.documentElement.classList.toggle('menu-open', open);
+      if (label) label.textContent = (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) || '';
     };
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
     navEl.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+    window.matchMedia('(min-width: 1101px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
   }
 </script>

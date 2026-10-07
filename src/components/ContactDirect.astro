@@ -1,0 +1,39 @@
+---
+// "Sprechen Sie direkt mit uns" – phone, WhatsApp, email, languages.
+import Icon from './Icon.astro';
+import { ui, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang; headingLevel?: 'h1' | 'h2' }
+const { lang, headingLevel = 'h2' } = Astro.props;
+const H = headingLevel;
+const t = {
+  de: { title: 'Sprechen Sie direkt mit uns', phone: 'Telefon', email: 'E-Mail', langs: 'Sprachen', langsV: 'Deutsch & Englisch', request: 'Personal anfragen' },
+  en: { title: 'Talk to us directly', phone: 'Phone', email: 'Email', langs: 'Languages', langsV: 'German & English', request: 'Request staff' },
+}[lang];
+---
+<div class="direct">
+  <H class="direct-title">{t.title}</H>
+  <ul class="direct-list">
+    <li>
+      <Icon name="phone" size={24} />
+      <div><span class="direct-label">{t.phone}</span><a class="direct-value" href={`tel:${site.phoneHref}`}>{site.phone}</a></div>
+    </li>
+    <li>
+      <Icon name="whatsapp" size={24} />
+      <div><span class="direct-label">WhatsApp</span><a class="direct-value" href={site.whatsapp} rel="noopener" target="_blank">{ui[lang].whatsapp}</a></div>
+    </li>
+    <li>
+      <Icon name="mail" size={24} />
+      <div><span class="direct-label">{t.email}</span><a class="direct-value" href={`mailto:${site.email}`}>{site.email}</a></div>
+    </li>
+    <li>
+      <Icon name="chat" size={24} />
+      <div><span class="direct-label">{t.langs}</span><span class="direct-value">{t.langsV}</span></div>
+    </li>
+  </ul>
+  <div class="direct-buttons">
+    <a class="btn btn-dark btn-lg" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {ui[lang].callNow}</a>
+    <a class="btn btn-whatsapp btn-lg" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsappWrite}</a>
+    <a class="btn btn-accent btn-lg" href="#anfrage">{t.request}</a>
+  </div>
+</div>

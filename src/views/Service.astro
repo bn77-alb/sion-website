@@ -1,0 +1,180 @@
+---
+// Shared layout for the service pages Paketzusteller, Lager & Logistik, Reinigung.
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import Steps from '../components/Steps.astro';
+import EmployerForm from '../components/EmployerForm.astro';
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+type Key = 'paket' | 'lager' | 'reinigung';
+interface Props { lang: Lang; service: Key }
+const { lang, service } = Astro.props;
+
+const common = {
+  de: {
+    cta: 'Personal anfragen', cta2: 'Kostenloses Erstgespräch',
+    whatH2: 'Was wir für Sie übernehmen',
+    what: [
+      { icon: 'search', h: 'Suche & Vorauswahl', p: 'Wir suchen passende Kandidaten in Deutschland und international und prüfen Erfahrung und Unterlagen.' },
+      { icon: 'users', h: 'Vorstellung', p: 'Sie erhalten aussagekräftige Profile und lernen die Kandidaten im Gespräch kennen.' },
+      { icon: 'doc', h: 'Dokumente & Organisation', p: 'Unterstützung bei administrativen Schritten und der Vorbereitung erforderlicher Unterlagen.' },
+      { icon: 'handshake', h: 'Direkte Anstellung', p: 'Die Mitarbeiter werden direkt bei Ihnen angestellt. Wir bleiben Ihr Ansprechpartner.' },
+    ],
+    reqH2: 'Was die Kandidaten mitbringen',
+    procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
+    formH2: 'Personal anfragen', formText: 'Beschreiben Sie kurz Ihren Bedarf. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
+    formCall: 'Lieber direkt sprechen?', other: 'Weitere Bereiche',
+  },
+  en: {
+    cta: 'Request staff', cta2: 'Free initial consultation',
+    whatH2: 'What we take care of',
+    what: [
+      { icon: 'search', h: 'Search & pre-selection', p: 'We search for suitable candidates in Germany and internationally and check experience and documents.' },
+      { icon: 'users', h: 'Introduction', p: 'You receive meaningful profiles and meet the candidates in an interview.' },
+      { icon: 'doc', h: 'Documents & organisation', p: 'Assistance with administrative steps and the preparation of required documents.' },
+      { icon: 'handshake', h: 'Direct employment', p: 'The employees are employed directly by you. We remain your contact person.' },
+    ],
+    reqH2: 'What the candidates bring',
+    procEyebrow: 'Process', procH2: 'How we work together',
+    formH2: 'Request staff', formText: 'Briefly describe what you need. We will get back to you within 1 working day with a proposal.',
+    formCall: 'Prefer to talk directly?', other: 'Other areas',
+  },
+}[lang];
+
+const pages = {
+  paket: {
+    image: '', icon: 'package',
+    de: {
+      title: 'Paketzusteller vermitteln | Personal für Paketdienste | SION Consulting',
+      description: 'SION Consulting vermittelt zuverlässige Paketzusteller mit Führerschein Klasse B an Paket- und Kurierdienste sowie Subunternehmer in ganz Deutschland.',
+      eyebrow: 'Personalvermittlung', h1: 'Paketzusteller für Ihr Unternehmen',
+      lead: 'Zuverlässige Zustellfahrer für Paket- und Kurierdienste und deren Subunternehmer – bundesweit, aus Deutschland und dem Ausland.',
+      areas: ['Paketzustellung', 'Kurierdienste', 'Express & Same Day', 'Transporter bis 3,5 t'],
+      req: ['Führerschein Klasse B', 'Erfahrung in der Zustellung oder als Fahrer – je nach Kandidat', 'Zuverlässigkeit und körperliche Belastbarkeit', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+    },
+    en: {
+      title: 'Parcel Delivery Driver Recruitment | SION Consulting',
+      description: 'SION Consulting places reliable parcel delivery drivers with a class B licence with parcel and courier services and their subcontractors across Germany.',
+      eyebrow: 'Recruitment', h1: 'Parcel delivery drivers for your company',
+      lead: 'Reliable delivery drivers for parcel and courier services and their subcontractors – nationwide, from Germany and abroad.',
+      areas: ['Parcel delivery', 'Courier services', 'Express & same day', 'Vans up to 3.5 t'],
+      req: ['Class B driving licence', 'Experience in delivery or as a driver – depending on the candidate', 'Reliability and physical fitness', 'German skills vary by candidate – we tell you honestly in advance'],
+    },
+  },
+  lager: {
+    image: 'lager', icon: 'warehouse',
+    de: {
+      title: 'Lagerpersonal & Logistikmitarbeiter vermitteln | SION Consulting',
+      description: 'SION Consulting vermittelt Lagerarbeiter und Logistikpersonal für Kommissionierung, Verladung, Wareneingang und Versand an Unternehmen in ganz Deutschland.',
+      eyebrow: 'Personalvermittlung', h1: 'Lager- und Logistikpersonal',
+      lead: 'Motivierte Lagerarbeiter für Logistikzentren, Speditionen, Handel und Produktion – bundesweit, aus Deutschland und dem Ausland.',
+      areas: ['Kommissionierung', 'Verladung', 'Wareneingang & Versand', 'Staplerfahrer'],
+      req: ['Erfahrung im Lager oder in der Logistik – je nach Kandidat', 'Staplerschein auf Anfrage', 'Bereitschaft zur Schichtarbeit nach Absprache', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+    },
+    en: {
+      title: 'Warehouse & Logistics Staff Recruitment | SION Consulting',
+      description: 'SION Consulting places warehouse workers and logistics staff for order picking, loading, goods receipt and dispatch with companies across Germany.',
+      eyebrow: 'Recruitment', h1: 'Warehouse and logistics staff',
+      lead: 'Motivated warehouse workers for logistics centres, hauliers, retail and production – nationwide, from Germany and abroad.',
+      areas: ['Order picking', 'Loading', 'Goods receipt & dispatch', 'Forklift drivers'],
+      req: ['Experience in warehousing or logistics – depending on the candidate', 'Forklift licence on request', 'Willingness to work shifts as agreed', 'German skills vary by candidate – we tell you honestly in advance'],
+    },
+  },
+  reinigung: {
+    image: '', icon: 'sparkle',
+    de: {
+      title: 'Reinigungskräfte vermitteln | Personal für Gebäudereinigung | SION Consulting',
+      description: 'SION Consulting vermittelt Reinigungskräfte für Büro-, Unterhalts- und Objektreinigung an Unternehmen und Reinigungsfirmen in ganz Deutschland.',
+      eyebrow: 'Personalvermittlung', h1: 'Reinigungskräfte für Ihr Unternehmen',
+      lead: 'Zuverlässiges Reinigungspersonal für Gebäudereinigungen, Hotels und Unternehmen – bundesweit, aus Deutschland und dem Ausland.',
+      areas: ['Büroreinigung', 'Unterhaltsreinigung', 'Objektreinigung', 'Hotels & Gastronomie'],
+      req: ['Erfahrung in der Reinigung – je nach Kandidat', 'Sorgfalt und Zuverlässigkeit', 'Flexible Arbeitszeiten nach Absprache', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+    },
+    en: {
+      title: 'Cleaning Staff Recruitment | SION Consulting',
+      description: 'SION Consulting places cleaning staff for office, maintenance and commercial cleaning with companies and cleaning firms across Germany.',
+      eyebrow: 'Recruitment', h1: 'Cleaning staff for your company',
+      lead: 'Reliable cleaning staff for cleaning companies, hotels and businesses – nationwide, from Germany and abroad.',
+      areas: ['Office cleaning', 'Maintenance cleaning', 'Commercial cleaning', 'Hotels & hospitality'],
+      req: ['Experience in cleaning – depending on the candidate', 'Care and reliability', 'Flexible working hours as agreed', 'German skills vary by candidate – we tell you honestly in advance'],
+    },
+  },
+};
+const page = pages[service];
+const p = page[lang];
+const others = (['lkw', 'paket', 'lager', 'reinigung', 'backoffice'] as const).filter((k) => k !== service);
+const otherLabels = {
+  de: { lkw: 'LKW-Fahrer', paket: 'Paketzusteller', lager: 'Lager & Logistik', reinigung: 'Reinigung', backoffice: 'Back Office' },
+  en: { lkw: 'Truck drivers', paket: 'Parcel delivery', lager: 'Warehouse & logistics', reinigung: 'Cleaning', backoffice: 'Back office' },
+}[lang];
+---
+<Base lang={lang} page={service} title={p.title} description={p.description}>
+  <section class="page-hero">
+    <div class="container grid-2">
+      <div class="hero-copy">
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h1>{p.h1}</h1>
+        <p class="lead">{p.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn-accent btn-lg" href="#anfrage">{common.cta}</a>
+          <a class="btn btn-ghost btn-lg" href={routes.kontakt[lang]}>{common.cta2}</a>
+        </div>
+        <ul class="chips">{p.areas.map((a) => <li><span class="chip">{a}</span></li>)}</ul>
+      </div>
+      {page.image ? (
+        <div class="media ratio-landscape hide-mobile-block">
+          <Photo name={page.image} alt="" priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
+        </div>
+      ) : (
+        <div class="icon-panel hide-mobile-block" aria-hidden="true"><Icon name={page.icon} size={120} /></div>
+      )}
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container">
+      <div class="section-head"><h2>{common.whatH2}</h2></div>
+      <div class="grid-4">
+        {common.what.map((s) => (
+          <article class="card">
+            <Icon name={s.icon} class="card-icon" />
+            <h3>{s.h}</h3>
+            <p>{s.p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h2>{common.reqH2}</h2>
+        <ul class="checklist">{p.req.map((x) => <li>{x}</li>)}</ul>
+      </div>
+      <div class="stack-lg">
+        <h2 class="h2-sm">{common.other}</h2>
+        <ul class="chips">{others.map((k) => <li><a class="chip" href={routes[k][lang]}>{otherLabels[k]}</a></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-dark section">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{common.procEyebrow}</p><h2>{common.procH2}</h2></div>
+      <Steps lang={lang} />
+    </div>
+  </section>
+
+  <section id="anfrage" class="section band-sand">
+    <div class="container form-layout">
+      <div class="stack-lg">
+        <h2>{common.formH2}</h2>
+        <p class="muted">{common.formText}</p>
+        <p><strong>{common.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+      </div>
+      <EmployerForm lang={lang} position={service} />
+    </div>
+  </section>
+</Base>

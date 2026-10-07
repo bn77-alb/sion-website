@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import Steps from '../components/Steps.astro';
+import Trust from '../components/Trust.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { ui, requestHref, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Personalvermittlung für Unternehmen in Deutschland | SION Consulting',
+    description: 'Internationale Personalvermittlung für Transport, Logistik und Dienstleistung: LKW-Fahrer, Paketzusteller, Lagerpersonal und Reinigungskräfte – direkt bei Ihnen angestellt.',
+    eyebrow: 'Personalvermittlung', h1: 'Personalvermittlung für Unternehmen in Deutschland',
+    lead: 'Wir finden zuverlässige Mitarbeiter für Transport, Logistik und Dienstleistung – in Deutschland und international – und begleiten den Prozess bis zum ersten Arbeitstag.',
+    cta2: 'Ablauf ansehen',
+    areasH2: 'Für diese Bereiche vermitteln wir',
+    sourceH2: 'Woher unsere Kandidaten kommen',
+    sources: [
+      ['globe', 'Internationale Rekrutierung', 'Schwerpunkt Westbalkan – Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro, Bosnien und Herzegowina – sowie weitere Länder. Wir unterstützen bei den administrativen Schritten für Zustimmung, Visum und Einreise.'],
+      ['pin', 'Kandidaten in Deutschland', 'Arbeitskräfte, die bereits in Deutschland leben und eine neue Stelle suchen – oft innerhalb von etwa einer Woche verfügbar.'],
+      ['handshake', 'Direkte Anstellung', 'Alle Mitarbeiter werden direkt bei Ihnen angestellt. Es handelt sich nicht um Arbeitnehmerüberlassung.'],
+    ],
+    procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
+  },
+  en: {
+    title: 'Recruitment for Companies in Germany | SION Consulting',
+    description: 'International recruitment for transport, logistics and services: truck drivers, parcel delivery drivers, warehouse staff and cleaning staff – employed directly by you.',
+    eyebrow: 'Recruitment', h1: 'Recruitment for companies in Germany',
+    lead: 'We find reliable employees for transport, logistics and services – in Germany and internationally – and support the process up to the first working day.',
+    cta2: 'See the process',
+    areasH2: 'Areas we recruit for',
+    sourceH2: 'Where our candidates come from',
+    sources: [
+      ['globe', 'International recruitment', 'Focus on the Western Balkans – Albania, Kosovo, North Macedonia, Serbia, Montenegro, Bosnia and Herzegovina – and other countries. We assist with the administrative steps for approval, visa and arrival.'],
+      ['pin', 'Candidates in Germany', 'Workers who already live in Germany and are looking for a new job – often available within about one week.'],
+      ['handshake', 'Direct employment', 'All employees are employed directly by you. This is not temporary agency work.'],
+    ],
+    procEyebrow: 'Process', procH2: 'How we work together',
+  },
+}[lang];
+---
+<Base lang={lang} page="personalvermittlung" title={c.title} description={c.description}>
+  <section class="page-hero">
+    <div class="container narrow-hero hero-copy">
+      <p class="eyebrow">{c.eyebrow}</p>
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.lead}</p>
+      <div class="btn-row">
+        <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{ui[lang].request}</a>
+        <a class="btn btn-ghost btn-lg" href="#ablauf">{c.cta2}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container">
+      <div class="section-head"><h2>{c.areasH2}</h2></div>
+      <ServiceCards lang={lang} />
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container">
+      <div class="section-head"><h2>{c.sourceH2}</h2></div>
+      <div class="grid-3">
+        {c.sources.map(([icon, h, p]) => <article class="card"><Icon name={icon} class="card-icon" /><h3>{h}</h3><p>{p}</p></article>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="ablauf" class="band-dark section">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
+      <Steps lang={lang} />
+    </div>
+  </section>
+
+  <Trust lang={lang} />
+  <CtaBand lang={lang} />
+</Base>

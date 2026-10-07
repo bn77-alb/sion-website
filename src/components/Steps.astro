@@ -1,0 +1,34 @@
+---
+// Visual step sequence: horizontal on desktop, vertical timeline on phones.
+import type { Lang } from '../i18n';
+interface Props { lang: Lang; steps?: [string, string][]; dark?: boolean }
+const { lang, steps, dark = true } = Astro.props;
+const defaults: Record<Lang, [string, string][]> = {
+  de: [
+    ['Personalbedarf mitteilen', 'Sie sagen uns, welche Mitarbeiter Sie brauchen – Position, Anzahl, Standort und Starttermin.'],
+    ['Kandidatensuche', 'Wir suchen passende Kandidaten und prüfen Erfahrung, Qualifikation und Unterlagen vorab.'],
+    ['Vorstellungsgespräch', 'Sie lernen ausgewählte Kandidaten kennen – vor Ort oder per Video – und entscheiden selbst.'],
+    ['Dokumente & Organisation', 'Wir unterstützen bei den administrativen Schritten und der Vorbereitung der erforderlichen Unterlagen.'],
+    ['Arbeitsbeginn', 'Ihr neuer Mitarbeiter kommt an und startet bei Ihnen. Wir bleiben Ihr Ansprechpartner.'],
+  ],
+  en: [
+    ['Tell us what you need', 'You tell us which employees you need – position, number, location and start date.'],
+    ['Candidate search', 'We search for suitable candidates and check experience, qualifications and documents in advance.'],
+    ['Interview', 'You meet selected candidates – on site or by video – and make the decision yourself.'],
+    ['Documents & organisation', 'We assist with the administrative steps and the preparation of the required documents.'],
+    ['First working day', 'Your new employee arrives and starts with you. We remain your contact person.'],
+  ],
+};
+const list = steps ?? defaults[lang];
+---
+<ol class:list={['flow', { 'flow-dark': dark }]} style={`--n:${list.length}`}>
+  {list.map(([h, p], i) => (
+    <li>
+      <span class="flow-num" aria-hidden="true">{i + 1}</span>
+      <div>
+        <h3>{h}</h3>
+        <p>{p}</p>
+      </div>
+    </li>
+  ))}
+</ol>

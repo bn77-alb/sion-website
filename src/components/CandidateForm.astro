@@ -1,0 +1,128 @@
+---
+// "Ich suche einen Job" – application form for candidates (separate from company inquiries).
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const canUpload = Boolean(site.formEndpoint);
+
+const t = {
+  de: {
+    name: 'Vor- und Nachname', phone: 'Telefon / WhatsApp', email: 'E-Mail',
+    either: 'Bitte geben Sie eine Telefonnummer oder eine E-Mail-Adresse an.',
+    profession: 'Gewünschter Beruf', choose: 'Bitte wählen',
+    professions: ['LKW-Fahrer (C/CE)', 'Paketzusteller', 'Lager & Logistik', 'Reinigung', 'Büro / Back Office', 'Andere'],
+    licence: 'Führerschein', licences: ['B', 'C', 'CE', 'C1 / C1E', 'Code 95', 'Keinen'],
+    experience: 'Berufserfahrung', experiences: ['Weniger als 1 Jahr', '1–3 Jahre', '3–5 Jahre', 'Mehr als 5 Jahre'],
+    residence: 'Wo leben Sie derzeit?', residences: ['In Deutschland', 'In einem anderen EU-Land', 'Außerhalb der EU'],
+    message: 'Nachricht (optional)', messagePh: 'z. B. Deutschkenntnisse, bisherige Arbeitgeber, ab wann Sie verfügbar sind',
+    cv: 'Lebenslauf (optional)', cvHint: 'PDF, Word oder Foto, max. 5 MB',
+    cvLater: 'Lebenslauf: Bitte senden Sie ihn nach dem Absenden per WhatsApp oder E-Mail – wir ordnen ihn Ihrer Bewerbung zu.',
+    consentA: 'Ich habe die', privacy: 'Datenschutzerklärung', consentB: 'gelesen und bin einverstanden, dass SION Consulting meine Angaben zur Vermittlung einer Arbeitsstelle verarbeitet.',
+    required: 'Pflichtfelder', submit: 'Bewerbung senden',
+    sending: 'Wird gesendet …',
+    ok: 'Vielen Dank! Ihre Bewerbung ist eingegangen. Wir melden uns, sobald wir eine passende Stelle haben.',
+    err: `Das Senden hat leider nicht geklappt. Bitte schreiben Sie uns per WhatsApp (${site.phone}) oder an ${site.email}.`,
+    mail: 'Ihr E-Mail-Programm wird geöffnet. Bitte senden Sie die vorbereitete Nachricht ab und hängen Sie gern Ihren Lebenslauf an.',
+    file: 'Die Datei ist größer als 5 MB. Bitte wählen Sie eine kleinere Datei oder senden Sie sie per WhatsApp.',
+    subject: 'Bewerbung über sionconsulting.de',
+  },
+  en: {
+    name: 'Full name', phone: 'Phone / WhatsApp', email: 'Email',
+    either: 'Please enter a phone number or an email address.',
+    profession: 'Job you are looking for', choose: 'Please choose',
+    professions: ['Truck driver (C/CE)', 'Parcel delivery driver', 'Warehouse & logistics', 'Cleaning', 'Office / back office', 'Other'],
+    licence: 'Driving licence', licences: ['B', 'C', 'CE', 'C1 / C1E', 'Code 95', 'None'],
+    experience: 'Work experience', experiences: ['Less than 1 year', '1–3 years', '3–5 years', 'More than 5 years'],
+    residence: 'Where do you live now?', residences: ['In Germany', 'In another EU country', 'Outside the EU'],
+    message: 'Message (optional)', messagePh: 'e.g. German level, previous employers, when you can start',
+    cv: 'CV (optional)', cvHint: 'PDF, Word or photo, max. 5 MB',
+    cvLater: 'CV: please send it by WhatsApp or email after submitting – we will match it to your application.',
+    consentA: 'I have read the', privacy: 'privacy policy', consentB: 'and agree that SION Consulting processes my details to find me a job.',
+    required: 'required fields', submit: 'Send application',
+    sending: 'Sending …',
+    ok: 'Thank you! We have received your application and will contact you as soon as we have a suitable job.',
+    err: `Sending failed. Please message us on WhatsApp (${site.phone}) or email ${site.email}.`,
+    mail: 'Your email program will open. Please send the prepared message – you can attach your CV there.',
+    file: 'The file is larger than 5 MB. Please choose a smaller file or send it via WhatsApp.',
+    subject: 'Application via sionconsulting.de',
+  },
+}[lang];
+const id = (n: string) => `cand-${n}`;
+---
+<form class="form" data-sion-form data-form-type="candidate" data-require-contact="either"
+  data-endpoint={site.formEndpoint} data-email={site.email} data-lang={lang}
+  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-msg-mail={t.mail}
+  data-msg-either={t.either} data-msg-file={t.file} data-subject={t.subject}>
+  <label class="field" for={id('name')}>
+    <span>{t.name} <span class="req" aria-hidden="true">*</span></span>
+    <input id={id('name')} name="name" data-label={t.name} type="text" required autocomplete="name" />
+  </label>
+  <div class="form-row">
+    <label class="field" for={id('phone')}>
+      <span>{t.phone}</span>
+      <input id={id('phone')} name="phone" data-label={t.phone} type="tel" autocomplete="tel" inputmode="tel" />
+    </label>
+    <label class="field" for={id('email')}>
+      <span>{t.email}</span>
+      <input id={id('email')} name="email" data-label={t.email} type="email" autocomplete="email" />
+    </label>
+  </div>
+  <p class="form-hint">{t.either}</p>
+  <div class="form-row">
+    <label class="field" for={id('profession')}>
+      <span>{t.profession} <span class="req" aria-hidden="true">*</span></span>
+      <select id={id('profession')} name="profession" data-label={t.profession} required>
+        <option value="">{t.choose}</option>
+        {t.professions.map((p) => <option value={p}>{p}</option>)}
+      </select>
+    </label>
+    <label class="field" for={id('experience')}>
+      <span>{t.experience}</span>
+      <select id={id('experience')} name="experience" data-label={t.experience}>
+        <option value="">{t.choose}</option>
+        {t.experiences.map((p) => <option value={p}>{p}</option>)}
+      </select>
+    </label>
+  </div>
+  <fieldset class="choice">
+    <legend>{t.licence}</legend>
+    {t.licences.map((l) => <label><input type="checkbox" name="licence" data-label={t.licence} value={l} /> {l}</label>)}
+  </fieldset>
+  <label class="field" for={id('residence')}>
+    <span>{t.residence}</span>
+    <select id={id('residence')} name="residence" data-label={t.residence}>
+      <option value="">{t.choose}</option>
+      {t.residences.map((p) => <option value={p}>{p}</option>)}
+    </select>
+  </label>
+  <label class="field" for={id('message')}>
+    <span>{t.message}</span>
+    <textarea id={id('message')} name="message" data-label={t.message} rows="3" placeholder={t.messagePh}></textarea>
+  </label>
+  {canUpload ? (
+    <label class="field" for={id('cv')}>
+      <span>{t.cv}</span>
+      <input id={id('cv')} name="cv" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,application/pdf,image/*" />
+      <span class="form-hint">{t.cvHint}</span>
+    </label>
+  ) : (
+    <p class="form-hint">{t.cvLater} <a href={site.whatsapp} rel="noopener" target="_blank">WhatsApp</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+  )}
+  <div class="hp" aria-hidden="true">
+    <label>Website <input name="website" type="text" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <label class="consent">
+    <input type="checkbox" name="consent" value="yes" required />
+    <span>{t.consentA} <a href={routes.datenschutz[lang]}>{t.privacy}</a> {t.consentB} <span class="req" aria-hidden="true">*</span></span>
+  </label>
+  <div class="form-submit">
+    <button type="submit" class="btn btn-accent btn-lg">{t.submit}</button>
+    <p class="form-note"><span class="req">*</span> {t.required}</p>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<script>
+  import '../scripts/forms';
+</script>

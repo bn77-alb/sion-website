@@ -1,91 +1,90 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
 import Faq from '../components/Faq.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { type Lang } from '../i18n';
+import CandidateForm from '../components/CandidateForm.astro';
+import { ui, type Lang } from '../i18n';
 import { site } from '../config';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
 const c = {
   de: {
-    title: 'Arbeiten in Deutschland – Jobs für LKW-Fahrer & Logistik | Sion Consulting',
-    description: 'Sie möchten als LKW-Fahrer, Paketzusteller oder in der Logistik in Deutschland arbeiten? Sion Consulting begleitet Sie von der Bewerbung bis zur Anmeldung.',
+    title: 'Jobs in Deutschland für LKW-Fahrer, Zusteller & Logistik | SION Consulting',
+    description: 'Sie suchen einen Job in Deutschland als LKW-Fahrer, Paketzusteller, im Lager oder in der Reinigung? Bewerben Sie sich bei SION Consulting – wir begleiten Sie bis zum ersten Arbeitstag.',
     eyebrow: 'Für Bewerberinnen und Bewerber',
-    h1: 'Arbeiten in Deutschland – legal, sicher und begleitet',
-    lead: 'Wir vermitteln Arbeitsplätze bei Unternehmen in Deutschland und begleiten Sie durch alle Schritte: Bewerbung, Arbeitsvertrag, Visum und Ankunft.',
-    cta: 'Jetzt bewerben',
+    h1: 'Ihr Job in Deutschland – sicher und begleitet',
+    lead: 'Wir vermitteln Sie an Unternehmen in Deutschland und begleiten Sie durch alle Schritte: Bewerbung, Vorstellungsgespräch, Unterlagen und Ankunft.',
+    cta: 'Ich suche einen Job',
     alt: 'Mitarbeitende in einem Logistiklager',
     jobsH2: 'Für diese Tätigkeiten suchen wir',
     jobs: [
-      { icon: 'truck', h: 'LKW-Fahrer C/CE', p: 'Fern-, Nah- und Verteilerverkehr für Speditionen und Logistiker.' },
-      { icon: 'package', h: 'Paketzusteller', p: 'Zustellung von Paketen mit Transporter, Führerschein Klasse B.' },
-      { icon: 'warehouse', h: 'Lager & Logistik', p: 'Kommissionierung, Verladung und Lagerarbeit.' },
-      { icon: 'sparkle', h: 'Gebäudereinigung', p: 'Reinigung von Büros, Objekten und Gewerbeflächen.' },
-      { icon: 'build', h: 'Bau & Handwerk', p: 'Helfer und Fachkräfte auf Baustellen.' },
+      { icon: 'truck', h: 'LKW-Fahrer C/CE', p: 'Fern-, Nah- und Verteilerverkehr für Speditionen und Logistikunternehmen.' },
+      { icon: 'package', h: 'Paketzusteller', p: 'Zustellung von Paketen mit dem Transporter, Führerschein Klasse B.' },
+      { icon: 'warehouse', h: 'Lager & Logistik', p: 'Kommissionierung, Verladung, Wareneingang und Versand.' },
+      { icon: 'sparkle', h: 'Reinigung', p: 'Reinigung von Büros, Objekten und Gewerbeflächen.' },
     ],
     needH: 'Was Sie mitbringen',
     need: ['Gültiger Reisepass', 'Führerschein – je nach Stelle Klasse B, C oder CE', 'Berufserfahrung im gewünschten Bereich', 'Zuverlässigkeit und Motivation'],
     offerH: 'Was wir für Sie tun',
-    offer: ['Passende Stelle bei einem Arbeitgeber in Deutschland', 'Hilfe bei Arbeitsvertrag, Antrag und Visum', 'Unterstützung bei Anmeldung und Aufenthaltstitel', 'Ansprechpartner auf Albanisch, Deutsch und Englisch'],
-    stepsH2: 'In vier Schritten nach Deutschland',
+    offer: ['Passende Stelle bei einem Arbeitgeber in Deutschland', 'Unterstützung bei Unterlagen, Anträgen und Terminen', 'Hilfe bei Anreise, Unterkunftssuche und Anmeldung', 'Ansprechpartner auf Deutsch, Englisch und Albanisch'],
+    stepsH2: 'In vier Schritten zum Job in Deutschland',
     steps: [
       ['Bewerbung senden', 'Über das Formular, per E-Mail oder WhatsApp.'],
       ['Gespräch', 'Wir lernen Sie kennen und prüfen Ihre Unterlagen.'],
-      ['Vertrag & Visum', 'Wir begleiten Antrag und Termin bei der Botschaft.'],
-      ['Ankunft', 'Anmeldung und Start bei Ihrem neuen Arbeitgeber.'],
+      ['Vorstellung beim Arbeitgeber', 'Der Arbeitgeber lernt Sie kennen – oft per Video.'],
+      ['Unterlagen & Start', 'Wir unterstützen bei den Formalitäten bis zum ersten Arbeitstag.'],
     ],
     faqH2: 'Fragen von Bewerbern',
     faq: [
       { q: 'Muss ich Deutsch sprechen?', a: 'Das hängt von der Stelle und dem Arbeitgeber ab. Deutschkenntnisse sind immer ein Vorteil – sprechen Sie uns an.' },
       { q: 'Kann ich mich auch bewerben, wenn ich schon in Deutschland lebe?', a: 'Ja. Wir helfen auch beim Wechsel zu einem neuen Arbeitgeber in Deutschland.' },
-      { q: 'Welche Unterlagen brauche ich?', a: 'Zunächst reichen Reisepass, Führerschein und ein kurzer Lebenslauf. Alles Weitere besprechen wir im Gespräch.' },
+      { q: 'Welche Unterlagen brauche ich?', a: 'Zunächst reichen Ihre Kontaktdaten, Ihr Beruf und Ihre Führerscheinklassen. Lebenslauf, Pass und Führerschein fragen wir im nächsten Schritt an.' },
     ],
-    formH2: 'Bewerbung senden',
-    formText: 'Schreiben Sie uns kurz, welche Arbeit Sie suchen und welche Erfahrung und Führerscheinklassen Sie haben. Dokumente bitte noch nicht über das Formular senden – wir fragen sie im nächsten Schritt an.',
+    formH2: 'Ich suche einen Job',
+    formText: 'Füllen Sie das kurze Formular aus. Wir melden uns, sobald wir eine passende Stelle für Sie haben.',
     whatsapp: 'Lieber per WhatsApp?',
   },
   en: {
-    title: 'Work in Germany – Jobs for Truck Drivers & Logistics | Sion Consulting',
-    description: 'Would you like to work in Germany as a truck driver, parcel delivery driver or in logistics? Sion Consulting supports you from your application to your registration.',
+    title: 'Jobs in Germany for Truck Drivers, Delivery & Logistics | SION Consulting',
+    description: 'Looking for a job in Germany as a truck driver, parcel delivery driver, in a warehouse or in cleaning? Apply with SION Consulting – we support you up to your first working day.',
     eyebrow: 'For applicants',
-    h1: 'Working in Germany – legal, safe and supported',
-    lead: 'We place you with companies in Germany and support you through every step: application, employment contract, visa and arrival.',
-    cta: 'Apply now',
+    h1: 'Your job in Germany – safe and supported',
+    lead: 'We place you with companies in Germany and support you through every step: application, interview, documents and arrival.',
+    cta: 'I am looking for a job',
     alt: 'Workers in a logistics warehouse',
     jobsH2: 'Jobs we recruit for',
     jobs: [
       { icon: 'truck', h: 'Truck driver C/CE', p: 'Long-haul, regional and distribution transport for hauliers and logistics companies.' },
       { icon: 'package', h: 'Parcel delivery driver', p: 'Delivering parcels by van, class B licence.' },
-      { icon: 'warehouse', h: 'Warehouse & logistics', p: 'Order picking, loading and warehouse work.' },
-      { icon: 'sparkle', h: 'Building cleaning', p: 'Cleaning offices, buildings and commercial spaces.' },
-      { icon: 'build', h: 'Construction & trades', p: 'Helpers and skilled workers on construction sites.' },
+      { icon: 'warehouse', h: 'Warehouse & logistics', p: 'Order picking, loading, goods receipt and dispatch.' },
+      { icon: 'sparkle', h: 'Cleaning', p: 'Cleaning offices, buildings and commercial spaces.' },
     ],
     needH: 'What you need',
     need: ['A valid passport', 'Driving licence – class B, C or CE depending on the job', 'Work experience in the field you want', 'Reliability and motivation'],
     offerH: 'What we do for you',
-    offer: ['A suitable job with an employer in Germany', 'Help with employment contract, application and visa', 'Support with registration and residence permit', 'Contact person in Albanian, German and English'],
-    stepsH2: 'Four steps to Germany',
+    offer: ['A suitable job with an employer in Germany', 'Assistance with documents, applications and appointments', 'Help with travel, finding accommodation and registration', 'Contact person in German, English and Albanian'],
+    stepsH2: 'Four steps to your job in Germany',
     steps: [
       ['Send your application', 'Via the form, by email or WhatsApp.'],
       ['Interview', 'We get to know you and check your documents.'],
-      ['Contract & visa', 'We support the application and the embassy appointment.'],
-      ['Arrival', 'Registration and start with your new employer.'],
+      ['Meet the employer', 'The employer gets to know you – often by video.'],
+      ['Documents & start', 'We assist with the formalities up to your first working day.'],
     ],
     faqH2: 'Questions from applicants',
     faq: [
       { q: 'Do I need to speak German?', a: 'That depends on the job and the employer. German skills are always an advantage – just ask us.' },
       { q: 'Can I apply if I already live in Germany?', a: 'Yes. We also help with changing to a new employer in Germany.' },
-      { q: 'Which documents do I need?', a: 'To start, your passport, driving licence and a short CV are enough. We discuss everything else in the interview.' },
+      { q: 'Which documents do I need?', a: 'To start, your contact details, your job and your licence classes are enough. We will ask for your CV, passport and licence in the next step.' },
     ],
-    formH2: 'Send your application',
-    formText: 'Tell us briefly which job you are looking for and what experience and licence classes you have. Please do not send documents through the form yet – we will ask for them in the next step.',
+    formH2: 'I am looking for a job',
+    formText: 'Fill in the short form. We will contact you as soon as we have a suitable job for you.',
     whatsapp: 'Prefer WhatsApp?',
   },
 }[lang];
 ---
-<Base lang={lang} page="bewerber" title={c.title} description={c.description} image="/images/lager.jpg">
+<Base lang={lang} page="bewerber" title={c.title} description={c.description}>
   <section class="page-hero">
     <div class="container grid-2">
       <div class="hero-copy">
@@ -93,20 +92,20 @@ const c = {
         <h1>{c.h1}</h1>
         <p class="lead">{c.lead}</p>
         <div class="btn-row">
-          <a class="btn btn-accent" href="#bewerbung">{c.cta}</a>
-          <a class="btn btn-ghost" href={site.whatsapp} rel="noopener">WhatsApp</a>
+          <a class="btn btn-accent btn-lg" href="#bewerbung">{c.cta}</a>
+          <a class="btn btn-whatsapp btn-lg" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsappWrite}</a>
         </div>
       </div>
-      <div class="media ratio-landscape">
-        <img src="/images/lager.jpg" alt={c.alt} width="1600" height="1200" loading="eager" fetchpriority="high" />
+      <div class="media ratio-landscape hide-mobile-block">
+        <Photo name="lager" alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
       </div>
     </div>
   </section>
 
-  <section class="section" style="padding-top: 24px">
+  <section class="section section-first">
     <div class="container">
       <div class="section-head"><h2>{c.jobsH2}</h2></div>
-      <div class="grid-3">
+      <div class="grid-4">
         {c.jobs.map((j) => (
           <article class="card">
             <Icon name={j.icon} class="card-icon" />
@@ -133,20 +132,20 @@ const c = {
   </section>
 
   <section class="section" style="padding-top: 0">
-    <div class="container" style="max-width: 940px">
+    <div class="container narrow">
       <div class="section-head"><h2>{c.faqH2}</h2></div>
       <Faq items={c.faq} />
     </div>
   </section>
 
   <section id="bewerbung" class="section band-sand">
-    <div class="container grid-2" style="align-items: start">
+    <div class="container form-layout">
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
-        <p><strong>{c.whatsapp}</strong> <a href={site.whatsapp} rel="noopener">{site.phone}</a></p>
+        <p><strong>{c.whatsapp}</strong><br /><a class="big-phone" href={site.whatsapp} rel="noopener" target="_blank">{site.phone}</a></p>
       </div>
-      <ContactForm lang={lang} audience="applicant" />
+      <CandidateForm lang={lang} />
     </div>
   </section>
 </Base>
