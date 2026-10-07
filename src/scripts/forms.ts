@@ -1,8 +1,9 @@
-// Shared submit logic for the employer and candidate forms.
-// With an endpoint (site.formEndpoint) the form is posted as multipart/form-data (incl. CV file).
-// Without one, the visitor's email program opens with the details prefilled.
-
-const MAX_FILE = 5 * 1024 * 1024;
+// Shared submit logic for the employer, back-office and candidate forms.
+// With an endpoint (site.formEndpoint, the n8n workflow "SION – Website Forms") the inquiry is sent
+// directly and arrives by email at info@sionconsulting.de. Without one, the visitor's email program opens.
+//
+// The data goes as application/x-www-form-urlencoded (a "simple" request – no CORS preflight needed):
+//   formType, lang, page, sentAt, website (spam trap), payload = JSON { fields, summary }
 
 document.querySelectorAll<HTMLFormElement>('[data-sion-form]').forEach((form) => {
   const status = form.querySelector<HTMLElement>('.form-status');
@@ -19,27 +20,24 @@ document.querySelectorAll<HTMLFormElement>('[data-sion-form]').forEach((form) =>
     e.preventDefault();
     if (!form.reportValidity()) return;
     const fd = new FormData(form);
-    if (fd.get('website')) return; // spam trap
-    fd.delete('website');
+    const trap = String(fd.get('website') || '');
 
     if (d.requireContact === 'either' && !fd.get('email') && !fd.get('phone')) {
       show(d.msgEither || '', 'err');
       return;
     }
-    const file = fd.get('cv');
-    if (file instanceof File && file.size > MAX_FILE) {
-      show(d.msgFile || '', 'err');
-      return;
-    }
 
-    // Multiple checkboxes with the same name → one comma-separated value
+    // Collect fields; several checkboxes with the same name become one comma-separated value
+    const fields: Record<string, string> = {};
     const summary: [string, string][] = [];
     const seen = new Set<string>();
     fd.forEach((_, key) => {
-      if (seen.has(key) || key === 'cv' || key === 'consent') return;
+      if (seen.has(key) || ['website', 'consent', 'cv'].includes(key)) return;
       seen.add(key);
-      const value = fd.getAll(key).filter((v) => typeof v === 'string' && v).join(', ');
-      if (value) summary.push([form.querySelector(`[name="${key}"]`)?.getAttribute('data-label') || key, value]);
+      const value = fd.getAll(key).filter((v) => typeof v === 'string' && v.trim()).join(', ');
+      if (!value) return;
+      fields[key] = value;
+      summary.push([form.querySelector(`[name="${key}"]`)?.getAttribute('data-label') || key, value]);
     });
 
     if (!d.endpoint) {
@@ -49,17 +47,20 @@ document.querySelectorAll<HTMLFormElement>('[data-sion-form]').forEach((form) =>
       return;
     }
 
-    fd.set('formType', d.formType || '');
-    fd.set('lang', d.lang || '');
-    fd.set('page', location.pathname);
-    fd.set('sentAt', new Date().toISOString());
-    if (file instanceof File && !file.size) fd.delete('cv');
+    const params = new URLSearchParams({
+      formType: d.formType || '',
+      lang: d.lang || '',
+      page: location.pathname,
+      sentAt: new Date().toISOString(),
+      website: trap,
+      payload: JSON.stringify({ fields, summary }),
+    });
 
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     if (button) button.disabled = true;
     show(d.msgSending || '', 'info');
     try {
-      const res = await fetch(d.endpoint, { method: 'POST', body: fd });
+      const res = await fetch(d.endpoint, { method: 'POST', body: params });
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
       show(d.msgOk || '', 'ok');
