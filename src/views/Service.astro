@@ -45,7 +45,7 @@ const common = {
 
 const pages = {
   paket: {
-    image: 'paketzusteller', icon: 'package',
+    image: 'paketzusteller', icon: 'package', focus: '50% 58%',
     alt: { de: 'Paketzusteller trägt Pakete zur Auslieferung', en: 'Delivery driver carrying parcels for delivery' },
     de: {
       title: 'Paketzusteller vermitteln | Personal für Paketdienste | SION Consulting',
@@ -65,7 +65,7 @@ const pages = {
     },
   },
   lager: {
-    image: 'lager', icon: 'warehouse',
+    image: 'lager', icon: 'warehouse', focus: undefined,
     alt: { de: 'Mitarbeiter in einem Logistiklager', en: 'Employees working in a logistics warehouse' },
     de: {
       title: 'Lagerpersonal & Logistikmitarbeiter vermitteln | SION Consulting',
@@ -85,7 +85,7 @@ const pages = {
     },
   },
   reinigung: {
-    image: 'reinigung', icon: 'sparkle',
+    image: 'reinigung', icon: 'sparkle', focus: undefined,
     alt: { de: 'Reinigungskraft reinigt einen Büroschreibtisch', en: 'Cleaner cleaning an office desk' },
     de: {
       title: 'Reinigungskräfte vermitteln | Personal für Gebäudereinigung | SION Consulting',
@@ -128,7 +128,7 @@ const otherLabels = {
       </div>
       {hasPhoto(page.image) ? (
         <div class="media ratio-landscape hide-mobile-block">
-          <Photo name={page.image} alt={page.alt[lang]} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
+          <Photo name={page.image} alt={page.alt[lang]} focus={page.focus} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
         </div>
       ) : (
         <div class="icon-panel hide-mobile-block" aria-hidden="true"><Icon name={page.icon} size={120} /></div>

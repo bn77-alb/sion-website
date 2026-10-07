@@ -13,8 +13,9 @@ interface Props {
   priority?: boolean;
   hideOnMobile?: boolean;
   ratio?: 'portrait' | 'landscape' | 'wide';
+  focus?: string; // CSS object-position, e.g. '50% 75%'
 }
-const { name, alt, sizes = '(max-width: 760px) 100vw, 50vw', priority = false, hideOnMobile = false, ratio = 'landscape' } = Astro.props;
+const { name, alt, sizes = '(max-width: 760px) 100vw, 50vw', priority = false, hideOnMobile = false, ratio = 'landscape', focus } = Astro.props;
 const src: ImageMetadata | undefined = photoFor(name);
 const blank = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 const dims = { portrait: [1080, 1350], landscape: [1200, 900], wide: [1600, 900] }[ratio];
@@ -36,6 +37,6 @@ if (src) {
     <source type="image/webp" srcset={sources.webp} sizes={sizes} />
     <img src={sources.jpg} alt={alt} width={dims[0]} height={dims[1]}
       loading={priority ? 'eager' : 'lazy'} decoding={priority ? 'sync' : 'async'}
-      fetchpriority={priority ? 'high' : undefined} />
+      fetchpriority={priority ? 'high' : undefined} style={focus ? `object-position: ${focus}` : undefined} />
   </picture>
 )}
