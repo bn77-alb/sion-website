@@ -19,12 +19,12 @@ const c = {
     lead: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung als Kernleistung und Back-Office-Services als zweitem Standbein.',
     challengesH2: 'Ihre Herausforderung – unsere Lösung',
     challenges: [
-      ['users', 'Personalmangel', 'Offene Stellen bleiben monatelang unbesetzt.', 'Wir suchen gezielt in Deutschland und international.', r('personalvermittlung')],
-      ['truck', 'Fahrermangel', 'Touren können nicht gefahren werden.', 'Wir vermitteln CE-Fahrer aus dem Ausland.', r('lkw')],
-      ['search', 'Recruiting-Probleme', 'Stellenanzeigen bringen keine passenden Bewerber.', 'Wir übernehmen Suche und Vorauswahl.', r('personalvermittlung')],
-      ['globe', 'Internationale Rekrutierung', 'Ausländische Bewerber bedeuten viele Formalitäten.', 'Wir unterstützen bei den administrativen Schritten.', r('lkw')],
-      ['doc', 'Verwaltungsaufwand', 'Dokumente und Fristen binden Ihr Team.', 'Wir übernehmen wiederkehrende Aufgaben.', r('backoffice')],
-      ['inbox', 'Back-Office-Last', 'E-Mails, Termine und Daten bleiben liegen.', 'Unser Büroteam arbeitet für Sie mit.', r('backoffice')],
+      ['users', 'Personalmangel', 'Offene Stellen bleiben monatelang unbesetzt.', 'Wir suchen gezielt in Deutschland und international.', r('personalvermittlung'), 'Unsere Bereiche'],
+      ['truck', 'Fahrermangel', 'Touren können nicht gefahren werden.', 'Wir vermitteln CE-Fahrer aus dem Ausland.', r('lkw'), 'LKW-Fahrer-Vermittlung'],
+      ['search', 'Recruiting-Probleme', 'Stellenanzeigen bringen keine passenden Bewerber.', 'Wir übernehmen Suche und Vorauswahl.', '#anfrage', 'Personal anfragen'],
+      ['globe', 'Internationale Rekrutierung', 'Ausländische Bewerber bedeuten viele Formalitäten.', 'Wir unterstützen bei den administrativen Schritten.', '#ablauf', 'So läuft es ab'],
+      ['doc', 'Verwaltungsaufwand', 'Dokumente und Fristen binden Ihr Team.', 'Wir übernehmen wiederkehrende Aufgaben.', r('backoffice'), 'Back-Office-Leistungen'],
+      ['inbox', 'Back-Office-Last', 'E-Mails, Termine und Daten bleiben liegen.', 'Unser Büroteam arbeitet für Sie mit.', `${r('backoffice')}#anfrage`, 'Back Office anfragen'],
     ],
     problem: 'Problem', solution: 'Lösung', more: 'Zur Lösung',
     termsH2: 'Was Sie von uns erwarten können',
@@ -59,12 +59,12 @@ const c = {
     lead: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – with recruitment as the core service and back-office services as the second business area.',
     challengesH2: 'Your challenge – our solution',
     challenges: [
-      ['users', 'Staff shortage', 'Vacancies stay open for months.', 'We search specifically in Germany and internationally.', r('personalvermittlung')],
-      ['truck', 'Driver shortage', 'Routes cannot be covered.', 'We place CE drivers from abroad.', r('lkw')],
-      ['search', 'Recruiting problems', 'Job ads do not bring suitable applicants.', 'We handle the search and pre-selection.', r('personalvermittlung')],
-      ['globe', 'International recruitment', 'Foreign applicants mean a lot of paperwork.', 'We assist with the administrative steps.', r('lkw')],
-      ['doc', 'Administrative workload', 'Documents and deadlines tie up your team.', 'We take over recurring tasks.', r('backoffice')],
-      ['inbox', 'Back-office workload', 'Emails, appointments and data pile up.', 'Our office team works alongside you.', r('backoffice')],
+      ['users', 'Staff shortage', 'Vacancies stay open for months.', 'We search specifically in Germany and internationally.', r('personalvermittlung'), 'See our areas'],
+      ['truck', 'Driver shortage', 'Routes cannot be covered.', 'We place CE drivers from abroad.', r('lkw'), 'Truck driver recruitment'],
+      ['search', 'Recruiting problems', 'Job ads do not bring suitable applicants.', 'We handle the search and pre-selection.', '#anfrage', 'Request staff'],
+      ['globe', 'International recruitment', 'Foreign applicants mean a lot of paperwork.', 'We assist with the administrative steps.', '#ablauf', 'How it works'],
+      ['doc', 'Administrative workload', 'Documents and deadlines tie up your team.', 'We take over recurring tasks.', r('backoffice'), 'Back-office services'],
+      ['inbox', 'Back-office workload', 'Emails, appointments and data pile up.', 'Our office team works alongside you.', `${r('backoffice')}#anfrage`, 'Request back office support'],
     ],
     problem: 'Problem', solution: 'Solution', more: 'See the solution',
     termsH2: 'What you can expect from us',
@@ -115,13 +115,13 @@ const schema = {
   <section class="section section-first">
     <div class="container">
       <div class="section-head"><h2>{c.challengesH2}</h2></div>
-      <div class="grid-3">
-        {c.challenges.map(([icon, h, problem, solution, href]) => (
+      <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr))">
+        {c.challenges.map(([icon, h, problem, solution, href, cta]) => (
           <a class="service-card" href={href}>
             <span class="service-icon"><Icon name={icon} size={26} /></span>
             <h3>{h}</h3>
             <p><strong>{c.problem}:</strong> {problem}<br /><strong>{c.solution}:</strong> {solution}</p>
-            <span class="service-cta">{c.more} <Icon name="arrow" size={18} /></span>
+            <span class="service-cta">{cta} <Icon name="arrow" size={18} /></span>
           </a>
         ))}
       </div>
@@ -135,7 +135,7 @@ const schema = {
     </div>
   </section>
 
-  <section class="band-dark section">
+  <section id="ablauf" class="band-dark section">
     <div class="container">
       <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
       <Steps lang={lang} />

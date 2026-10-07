@@ -442,3 +442,4 @@ html.menu-open .chatw { display: none; }
   .eyebrow, .footer-title, .footer-sub, .direct-label { font-size: .875rem; }
   .site-footer, .form-note, .form-hint, .consent { font-size: .95rem; }
 }
+h3, .h3 { hyphens: manual; }
