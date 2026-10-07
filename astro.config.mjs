@@ -6,6 +6,7 @@ import sitemap from '@astrojs/sitemap';
 const redirects = {
   '/bewerber': '/fuer-bewerber/',
   '/en/applicants': '/en/for-applicants/',
+  '/en/cleaning-staff': '/en/cleaning/',
 };
 
 export default defineConfig({

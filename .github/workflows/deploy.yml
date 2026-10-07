@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Download photos
+        run: bash scripts/fetch-photos.sh
       - name: Build with Astro
         uses: withastro/action@v3
         with:

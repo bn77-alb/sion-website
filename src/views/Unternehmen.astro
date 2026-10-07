@@ -30,15 +30,17 @@ const c = {
     termsH2: 'Was Sie von uns erwarten können',
     terms: ['Direkte Anstellung in Ihrem Unternehmen – keine Arbeitnehmerüberlassung', 'Individuelles Angebot je nach Position, Anzahl und Leistungsumfang', 'Bezahlung in Etappen – ein Teil des Honorars erst nach dem ersten Arbeitsmonat', 'Ein fester, deutschsprachiger Ansprechpartner', 'Antwort auf Ihre Anfrage innerhalb von 1 Werktag'],
     procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
+    dutiesH2: 'Ihre Aufgaben als Arbeitgeber', dutiesText: 'Damit die Einstellung reibungslos läuft, brauchen wir von Ihnen nur wenige Dinge:',
+    duties: ['Anforderungen an die Stelle klar beschreiben', 'Vorstellungsgespräche mit den vorgeschlagenen Kandidaten führen', 'Ein Arbeitsvertragsangebot zu den in Deutschland üblichen Bedingungen machen', 'Bei Kandidaten aus dem Ausland die erforderlichen Arbeitgeberangaben und Unterschriften bereitstellen', 'Einarbeitung am ersten Arbeitstag – und auf Wunsch eine Unterkunft stellen'],
     faqH2: 'Häufige Fragen von Arbeitgebern',
     faq: [
       { q: 'Was kostet die Vermittlung?', a: 'Die Kosten hängen von Position, Anzahl und Leistungsumfang ab – Sie erhalten ein individuelles Angebot. Bezahlt wird in Etappen entlang des Verfahrens, nicht alles im Voraus.' },
-      { q: 'Wie schnell können die Mitarbeiter bei uns anfangen?', a: 'Kandidaten, die bereits in Deutschland leben, können in der Regel innerhalb von etwa einer Woche starten. Bei Kandidaten aus dem Ausland rechnen Sie mit etwa 6 bis 8 Wochen – abhängig von der Bundesagentur für Arbeit und den Terminen der deutschen Auslandsvertretung. Wir halten Sie bei jedem Schritt auf dem Laufenden.' },
+      { q: 'Wie schnell können die Mitarbeiter bei uns anfangen?', a: 'Kandidaten, die bereits in Deutschland leben, können oft kurzfristig starten. Bei Kandidaten aus dem Ausland hängt die Dauer vom Herkunftsland, der Bundesagentur für Arbeit, der Auslandsvertretung und dem individuellen Fall ab – in vielen Fällen ca. 6–10 Wochen. Wir halten Sie bei jedem Schritt auf dem Laufenden.' },
       { q: 'Werden die Mitarbeiter bei uns oder bei Ihnen angestellt?', a: 'Direkt bei Ihnen. Sie schließen den Arbeitsvertrag mit den Mitarbeitern ab – es handelt sich nicht um Arbeitnehmerüberlassung.' },
       { q: 'Lernen wir die Kandidaten vorher kennen?', a: 'Ja. Sie erhalten aussagekräftige Profile und führen vorab ein Vorstellungsgespräch, auch per Video. Die Entscheidung liegt bei Ihnen.' },
       { q: 'Welche Bedingungen muss unser Arbeitsangebot erfüllen?', a: 'Bei Kandidaten aus Drittstaaten prüft die Bundesagentur für Arbeit unter anderem, ob Lohn und Arbeitsbedingungen denen vergleichbarer Beschäftigter in Deutschland entsprechen. Wir weisen Sie auf die üblichen Anforderungen hin und unterstützen bei der Vorbereitung der Unterlagen; verbindlich entscheidet die Behörde.' },
       { q: 'Wie viel Aufwand haben wir als Arbeitgeber?', a: 'Möglichst wenig. Wir unterstützen bei der Vorbereitung von Anträgen und Unterlagen – Sie prüfen, unterschreiben und stellen die Mitarbeiter ein.' },
-      { q: 'Was passiert, wenn ein Visum abgelehnt wird?', a: 'Das kommt selten vor. Falls doch, besprechen wir mit Ihnen die Gründe und die möglichen nächsten Schritte, zum Beispiel einen neuen Antrag mit ergänzten Unterlagen.' },
+      { q: 'Was passiert, wenn ein Visum abgelehnt wird?', a: 'Wird ein Visumantrag abgelehnt, prüfen wir gemeinsam mit Ihnen die Begründung und klären, welche nächsten Schritte möglich sind.' },
       { q: 'Was ist, wenn ein Mitarbeiter kurz nach dem Start kündigt?', a: 'Wir wählen gezielt Kandidaten aus, die langfristig in Deutschland und bei Ihnen arbeiten möchten. Zusätzlich wird ein Teil unseres Honorars erst fällig, wenn der Mitarbeiter einen Monat bei Ihnen gearbeitet hat.' },
       { q: 'Wie gut sprechen die Kandidaten Deutsch?', a: 'Das ist je nach Kandidat unterschiedlich. Wir nennen Ihnen den Sprachstand ehrlich vorab – so wissen Sie, was Sie erwartet.' },
       { q: 'Helfen Sie bei der Unterkunft?', a: 'Ja. Stellen Sie keine Unterkunft zur Verfügung, unterstützen wir Ihre neuen Mitarbeiter bei der Suche.' },
@@ -68,15 +70,17 @@ const c = {
     termsH2: 'What you can expect from us',
     terms: ['Direct employment in your company – no temporary agency work', 'Individual offer depending on position, number and scope', 'Payment in stages – part of the fee only after the first month of work', 'One fixed, German-speaking contact person', 'Reply to your inquiry within 1 working day'],
     procEyebrow: 'Process', procH2: 'How we work together',
+    dutiesH2: 'Your responsibilities as an employer', dutiesText: 'For hiring to run smoothly, we only need a few things from you:',
+    duties: ['Describe the job requirements clearly', 'Interview the proposed candidates', 'Offer an employment contract on terms customary in Germany', 'For candidates from abroad, provide the required employer details and signatures', 'Induction on the first working day – and accommodation if you wish'],
     faqH2: 'Frequently asked questions from employers',
     faq: [
       { q: 'What does recruitment cost?', a: 'Costs depend on the position, number of hires and scope of services – you receive an individual offer. Payment is made in stages along the process, not all up front.' },
-      { q: 'How soon can the employees start?', a: 'Candidates who already live in Germany can usually start within about one week. For candidates from abroad, expect around 6 to 8 weeks – depending on the Federal Employment Agency and the German embassy’s appointments. We keep you informed at every step.' },
+      { q: 'How soon can the employees start?', a: 'Candidates who already live in Germany can often start at short notice. For candidates from abroad, the duration depends on the country of origin, the Federal Employment Agency, the German embassy and the individual case – in many cases around 6–10 weeks. We keep you informed at every step.' },
       { q: 'Are the employees employed by us or by you?', a: 'Directly by you. You sign the employment contract with the employees – this is not temporary agency work.' },
       { q: 'Do we get to meet the candidates first?', a: 'Yes. You receive detailed profiles and interview candidates first, also by video. The decision is yours.' },
       { q: 'What conditions must our job offer meet?', a: 'For candidates from non-EU countries, the Federal Employment Agency checks, among other things, that pay and working conditions match those of comparable employees in Germany. We point out the usual requirements and assist with preparing the documents; the authority makes the binding decision.' },
       { q: 'How much effort is it for us as an employer?', a: 'As little as possible. We assist with preparing applications and documents – you review, sign and hire.' },
-      { q: 'What happens if a visa is refused?', a: 'This is rare. If it happens, we discuss the reasons and possible next steps with you, for example a new application with additional documents.' },
+      { q: 'What happens if a visa is refused?', a: 'If a visa application is rejected, we review the reason with you and assess which next steps are possible.' },
       { q: 'What if an employee quits shortly after starting?', a: 'We specifically select candidates who want to work in Germany and with you long term. In addition, part of our fee only becomes due once the employee has worked for you for one month.' },
       { q: 'How good is the candidates’ German?', a: 'It varies by candidate. We tell you each candidate’s language level honestly in advance – so you know what to expect.' },
       { q: 'Do you help with accommodation?', a: 'Yes. If you do not provide accommodation, we help your new employees find a place to live.' },
@@ -139,6 +143,14 @@ const schema = {
   </section>
 
   <section class="section">
+    <div class="container narrow">
+      <h2 style="margin-bottom: 12px">{c.dutiesH2}</h2>
+      <p class="muted" style="margin-bottom: 20px">{c.dutiesText}</p>
+      <ul class="checklist checklist-lg">{c.duties.map((x) => <li>{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
     <div class="container narrow">
       <div class="section-head"><h2>{c.faqH2}</h2></div>
       <Faq items={c.faq} />

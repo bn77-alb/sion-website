@@ -51,6 +51,13 @@ export const caseStudies: { client: Bi; situation: Bi; solution: Bi; result: Bi 
 export const testimonials: { quote: Bi; author: Bi; result?: Bi }[] = [];
 
 // "Ihr Ansprechpartner" on the About page. photo: file in public/images/team/, e.g. '/images/team/name.jpg'
-// { name: 'Vorname Nachname', role: { de: 'Geschäftsführung', en: 'Managing Director' }, languages: 'Deutsch | Englisch',
+// { name: 'Vorname Nachname', role: { de: 'Geschäftsführung', en: 'Managing Director' }, languages: { de: 'Deutsch | Englisch', en: 'German | English' },
 //   phone: '+49 152 095 112 59', phoneHref: '+4915209511259', email: 'info@sionconsulting.de', linkedin: '', photo: '' },
-export const team: { name: string; role: Bi; languages: string; phone?: string; phoneHref?: string; email?: string; linkedin?: string; photo?: string }[] = [];
+export const team: { name: string; role: Bi; languages: Bi; phone?: string; phoneHref?: string; email?: string; linkedin?: string; photo?: string }[] = [
+  {
+    name: 'Egla Nela',
+    role: { de: 'Geschäftsführerin', en: 'Managing Director' },
+    languages: { de: 'Deutsch | Englisch', en: 'German | English' },
+    phone: site.phone, phoneHref: site.phoneHref, email: site.email,
+  },
+];

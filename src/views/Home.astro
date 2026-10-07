@@ -53,7 +53,7 @@ const c = {
     appEyebrow: 'Für Bewerberinnen und Bewerber',
     appH2: 'Sie suchen einen Job in Deutschland?',
     appText: 'Ob als LKW-Fahrer, Paketzusteller, im Lager oder in der Reinigung: Bewerben Sie sich bei uns. Wir begleiten Sie von der Bewerbung bis zum ersten Arbeitstag.',
-    appCta: 'Ich suche einen Job', appCta2: 'Infos für Bewerber',
+    appCta: 'Jetzt bewerben', appCta2: 'Infos für Bewerber', heroApplicant: 'Sie suchen Arbeit?',
   },
   en: {
     title: 'Recruitment Agency Germany | Truck Drivers & Logistics Staff | SION Consulting',
@@ -95,7 +95,7 @@ const c = {
     appEyebrow: 'For applicants',
     appH2: 'Looking for a job in Germany?',
     appText: 'Whether as a truck driver, parcel delivery driver, in a warehouse or in cleaning: apply with us. We support you from your application to your first working day.',
-    appCta: 'I am looking for a job', appCta2: 'Information for applicants',
+    appCta: 'Apply now', appCta2: 'Information for applicants', heroApplicant: 'Looking for work?',
   },
 }[lang];
 
@@ -126,6 +126,7 @@ const schema = {
           <a class="btn btn-whatsapp btn-lg show-mobile" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsappWrite}</a>
         </div>
         <p class="hero-call"><Icon name="phone" size={18} /> {c.callNow} <a href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+        <p class="hero-applicant">{c.heroApplicant} <a class="link-arrow" href={`${r('bewerber')}#bewerbung`}>{c.appCta}</a></p>
       </div>
       <div class="hero-visual hide-mobile-block">
         <div class="media ratio-portrait">
@@ -221,7 +222,7 @@ const schema = {
         <p class="muted">{c.appText}</p>
       </div>
       <div class="btn-row">
-        <a class="btn btn-dark btn-lg" href={`${r('bewerber')}#bewerbung`}>{c.appCta}</a>
+        <a class="btn btn-ghost btn-lg" href={`${r('bewerber')}#bewerbung`}>{c.appCta}</a>
         <a class="link-arrow" href={r('bewerber')}>{c.appCta2}</a>
       </div>
     </div>

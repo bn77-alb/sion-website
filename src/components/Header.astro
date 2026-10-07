@@ -58,6 +58,7 @@ const items = nav(lang);
         <a class="btn btn-dark btn-block" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
         <a class="btn btn-whatsapp btn-block" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {t.whatsappShort}</a>
         <a class="btn btn-accent btn-block" href={requestHref(lang)}>{t.request}</a>
+        {site.chatEndpoint && <button type="button" class="btn btn-ghost btn-block" data-chat-open data-close-menu><Icon name="chat" size={20} /> {t.chat}</button>}
       </div>
       <div class="lang-switch mobile-lang" role="group" aria-label={t.language}>
         <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>Deutsch</a>
@@ -79,7 +80,7 @@ const items = nav(lang);
       if (label) label.textContent = (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) || '';
     };
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-    navEl.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    navEl.querySelectorAll('a, [data-close-menu]').forEach((a) => a.addEventListener('click', () => setOpen(false)));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
     window.matchMedia('(min-width: 1101px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
   }
