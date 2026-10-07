@@ -20,7 +20,7 @@ export const site = {
 
   // Contact
   email: 'info@sionconsulting.de',
-  phone: '+49 152 095 112 59',
+  phone: '+49 152 09511259',
   phoneHref: '+4915209511259',
   whatsapp: 'https://wa.me/4915209511259',
 
@@ -52,7 +52,7 @@ export const testimonials: { quote: Bi; author: Bi; result?: Bi }[] = [];
 
 // "Ihr Ansprechpartner" on the About page. photo: file in public/images/team/, e.g. '/images/team/name.jpg'
 // { name: 'Vorname Nachname', role: { de: 'Geschäftsführung', en: 'Managing Director' }, languages: { de: 'Deutsch | Englisch', en: 'German | English' },
-//   phone: '+49 152 095 112 59', phoneHref: '+4915209511259', email: 'info@sionconsulting.de', linkedin: '', photo: '' },
+//   phone: '+49 152 09511259', phoneHref: '+4915209511259', email: 'info@sionconsulting.de', linkedin: '', photo: '' },
 export const team: { name: string; role: Bi; languages: Bi; phone?: string; phoneHref?: string; email?: string; linkedin?: string; photo?: string }[] = [
   {
     name: 'Egla Nela',
