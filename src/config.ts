@@ -24,9 +24,10 @@ export const site = {
   phoneHref: '+4915209511259',
   whatsapp: 'https://wa.me/4915209511259',
 
-  // Forms: paste your n8n Production Webhook URL here.
-  // While empty, the forms open the visitor's email program instead (no CV upload possible then).
-  formEndpoint: '',
+  // Forms: n8n workflow "SION – Website Forms" – stores each inquiry in the data table
+  // "SION Website Anfragen" and emails it to info@sionconsulting.de.
+  // Set to '' to fall back to opening the visitor's email program.
+  formEndpoint: 'https://norvia2.app.n8n.cloud/webhook/sion-website-forms',
 
   // AI chat (n8n workflow "Sion Consulting – Website Chatbot"). Set to '' to hide the chat.
   chatEndpoint: 'https://norvia2.app.n8n.cloud/webhook/e6f64d6c-e631-4942-91c7-5e1441898071/chat',
