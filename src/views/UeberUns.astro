@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { routes, ui, type Lang } from '../i18n';
+import { site, team } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Über uns | SION Consulting – Personalvermittlung & Back Office',
+    description: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung und einem Back-Office-Team in Tirana.',
+    eyebrow: 'Über uns',
+    h1: 'SION Consulting hilft deutschen Unternehmen, Personal- und Betriebsengpässe zu lösen',
+    lead: 'Unsere Kernleistung ist die Personalvermittlung – mit besonderem Fokus auf LKW-Fahrer. Als zweites Standbein entlasten wir Unternehmen mit Back-Office-Services.',
+    alt: 'Zwei Mitarbeitende besprechen Unterlagen am Schreibtisch',
+    whoH2: 'Wer wir sind',
+    who: [
+      'SION Consulting vermittelt Arbeitskräfte an Unternehmen in ganz Deutschland – vor allem LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal. Wir rekrutieren in Deutschland und international, mit Schwerpunkt auf dem Westbalkan.',
+      'Unser Büro in Tirana (Albanien) ist unser operativer Standort: Hier finden Rekrutierung, Vorauswahl und unsere Back-Office-Arbeit statt – nah an den Kandidaten und mit klarer Ausrichtung auf den deutschen Markt.',
+    ],
+    valuesH2: 'Wie wir arbeiten',
+    values: [
+      ['eye', 'Ehrlich', 'Wir sagen Ihnen offen, was möglich ist – auch zu Sprachstand, Zeitrahmen und Kosten.'],
+      ['check', 'Sorgfältig', 'Unterlagen werden geprüft, bevor etwas eingereicht wird.'],
+      ['chat', 'Persönlich', 'Ein fester Ansprechpartner – auf Deutsch oder Englisch.'],
+      ['handshake', 'Fair', 'Faire Bedingungen für Unternehmen und Bewerber.'],
+    ],
+    factsH2: 'Auf einen Blick',
+    facts: [['Leistungen', 'Personalvermittlung & Back Office'], ['Kunden', 'Unternehmen in ganz Deutschland'], ['Kandidaten', 'Deutschland & international, Schwerpunkt Westbalkan'], ['Büro', `${site.city}, ${site.countryDe}`], ['Sprachen', 'Deutsch & Englisch']],
+    contactH2: 'Ihr Ansprechpartner',
+    contactText: 'Sie erreichen uns direkt per Telefon, WhatsApp oder E-Mail – wir antworten innerhalb von 1 Werktag.',
+    languages: 'Sprachen', langsV: 'Deutsch | Englisch',
+  },
+  en: {
+    title: 'About Us | SION Consulting – Recruitment & Back Office',
+    description: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – through recruitment and a back-office team in Tirana.',
+    eyebrow: 'About us',
+    h1: 'SION Consulting helps German companies solve staffing and operational challenges',
+    lead: 'Our core service is recruitment – with a particular focus on truck drivers. As our second business area, we support companies with back-office services.',
+    alt: 'Two colleagues discussing documents at a desk',
+    whoH2: 'Who we are',
+    who: [
+      'SION Consulting places workers with companies throughout Germany – mainly truck drivers, parcel delivery drivers, warehouse and cleaning staff. We recruit in Germany and internationally, with a focus on the Western Balkans.',
+      'Our office in Tirana (Albania) is our operational base: recruitment, pre-selection and our back-office work take place here – close to the candidates and clearly focused on the German market.',
+    ],
+    valuesH2: 'How we work',
+    values: [
+      ['eye', 'Honest', 'We tell you openly what is possible – including language level, timeframe and costs.'],
+      ['check', 'Careful', 'Documents are checked before anything is submitted.'],
+      ['chat', 'Personal', 'One fixed contact person – in German or English.'],
+      ['handshake', 'Fair', 'Fair conditions for companies and applicants.'],
+    ],
+    factsH2: 'At a glance',
+    facts: [['Services', 'Recruitment & back office'], ['Clients', 'Companies throughout Germany'], ['Candidates', 'Germany & international, focus on the Western Balkans'], ['Office', `${site.city}, ${site.countryEn}`], ['Languages', 'German & English']],
+    contactH2: 'Your contact person',
+    contactText: 'Reach us directly by phone, WhatsApp or email – we reply within 1 working day.',
+    languages: 'Languages', langsV: 'German | English',
+  },
+}[lang];
+---
+<Base lang={lang} page="ueberuns" title={c.title} description={c.description}>
+  <section class="page-hero">
+    <div class="container grid-2">
+      <div class="hero-copy">
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h1 class="h1-md">{c.h1}</h1>
+        <p class="lead">{c.lead}</p>
+      </div>
+      <div class="media ratio-landscape hide-mobile-block">
+        <Photo name="backoffice" alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h2>{c.whoH2}</h2>
+        {c.who.map((p) => <p class="muted">{p}</p>)}
+      </div>
+      <div class="card">
+        <h3>{c.factsH2}</h3>
+        <dl class="facts">{c.facts.map(([k, v]) => <><dt>{k}</dt><dd>{v}</dd></>)}</dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container">
+      <div class="section-head"><h2>{c.valuesH2}</h2></div>
+      <div class="grid-4">
+        {c.values.map(([icon, h, p]) => <div class="value"><Icon name={icon} class="card-icon" /><h3>{h}</h3><p>{p}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><h2>{c.contactH2}</h2></div>
+      <div class="grid-3">
+        {team.length > 0 ? team.map((m) => (
+          <article class="card person">
+            {m.photo ? <img src={m.photo} alt={m.name} width="160" height="160" loading="lazy" class="person-photo" /> : <span class="person-photo person-initials" aria-hidden="true">{m.name.split(' ').map((n) => n[0]).join('')}</span>}
+            <h3>{m.name}</h3>
+            <p class="person-role">{m.role[lang]}</p>
+            <p>{c.languages}: {m.languages}</p>
+            {m.phone && <a href={`tel:${m.phoneHref ?? m.phone}`}>{m.phone}</a>}
+            {m.email && <a href={`mailto:${m.email}`}>{m.email}</a>}
+            {m.linkedin && <a href={m.linkedin} rel="noopener" target="_blank">LinkedIn</a>}
+          </article>
+        )) : (
+          <article class="card person">
+            <span class="person-photo person-initials" aria-hidden="true">SC</span>
+            <h3>SION Consulting</h3>
+            <p>{c.contactText}</p>
+            <p>{c.languages}: {c.langsV}</p>
+            <a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+            <a class="btn btn-whatsapp" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsapp}</a>
+          </article>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

@@ -1,0 +1,14 @@
+---
+// Sticky contact bar at the bottom of the screen on phones and small tablets.
+import Icon from './Icon.astro';
+import { ui, requestHref, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+<nav class="mobile-bar" aria-label={t.contactBar}>
+  <a href={`tel:${site.phoneHref}`} aria-label={`${t.callLabel}: ${site.phone}`}><Icon name="phone" size={20} /><span>{t.call}</span></a>
+  <a href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /><span>{t.whatsappShort}</span></a>
+  <a href={requestHref(lang)} class="mobile-bar-cta"><Icon name="users" size={20} /><span>{t.request}</span></a>
+</nav>

@@ -1,91 +1,133 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import Process from '../components/Process.astro';
+import Photo from '../components/Photo.astro';
+import Steps from '../components/Steps.astro';
 import Faq from '../components/Faq.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { type Lang } from '../i18n';
+import EmployerForm from '../components/EmployerForm.astro';
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
 const c = {
   de: {
-    title: 'LKW-Fahrer C/CE aus dem Ausland vermitteln | Sion Consulting',
-    description: 'Wir vermitteln erfahrene LKW-Fahrer mit Führerschein C/CE aus dem Westbalkan und international an Speditionen und Logistiker in ganz Deutschland – inkl. Visum und Qualifikation.',
-    eyebrow: 'LKW-Fahrer-Vermittlung',
-    h1: 'LKW-Fahrer C/CE aus dem Westbalkan und international',
-    lead: 'Erfahrene Berufskraftfahrer für Speditionen, Transport- und Logistikunternehmen in ganz Deutschland. Wir übernehmen Suche, Prüfung und den gesamten Weg bis zum ersten Einsatz.',
-    cta: 'Fahrer anfragen', ctaSecondary: 'Zum Ablauf',
+    title: 'LKW-Fahrer aus dem Ausland | Personalvermittlung | SION Consulting',
+    description: 'LKW-Fahrer aus dem Ausland für Ihr Unternehmen: SION Consulting vermittelt CE-Fahrer und Berufskraftfahrer an Transport- und Logistikunternehmen in ganz Deutschland – mit Vorauswahl und Unterstützung bei Führerschein, Code 95 und Visum.',
+    eyebrow: 'Internationale Personalvermittlung',
+    h1: 'LKW-Fahrer aus dem Ausland',
+    lead: 'Wir vermitteln qualifizierte CE-Fahrer und Berufskraftfahrer an Transport- und Logistikunternehmen in ganz Deutschland – von der Kandidatensuche bis zum ersten Arbeitstag.',
+    cta: 'LKW-Fahrer anfragen', cta2: 'Kostenloses Erstgespräch',
     alt: 'Sattelzug auf einer Landstraße',
     areas: ['Fernverkehr', 'Nahverkehr', 'Verteilerverkehr', 'Sattelzug & Hängerzug'],
-    servicesH2: 'Was wir für Sie übernehmen',
+    servicesEyebrow: 'Leistungen', servicesH2: 'Was wir bei der Vermittlung von Berufskraftfahrern übernehmen',
     services: [
-      { icon: 'search', h: 'Suche & Vorauswahl', p: 'Wir suchen gezielt nach Fahrern, die zu Ihren Touren, Fahrzeugen und Arbeitszeiten passen.' },
-      { icon: 'idcard', h: 'Prüfung von Führerschein & Erfahrung', p: 'Fahrerlaubnis, Fahrpraxis und Nachweise werden vor der Vorstellung geprüft.' },
-      { icon: 'doc', h: 'Rechtlicher Weg & Antrag', p: 'Westbalkanregelung oder ein anderer passender Weg – wir bereiten Vertrag und Antrag vor.' },
-      { icon: 'globe', h: 'Visum & Einreise', p: 'Begleitung des Visumverfahrens bei der deutschen Auslandsvertretung bis zur Einreise.' },
-      { icon: 'truck', h: 'Führerschein & Code 95', p: 'Unterstützung bei Umschreibung der Fahrerlaubnis und Berufskraftfahrer-Qualifikation.' },
-      { icon: 'users', h: 'Begleitung nach dem Start', p: 'Anmeldung, Aufenthaltstitel und ein Ansprechpartner in den ersten Wochen.' },
+      { icon: 'truck', h: 'Rekrutierung von CE-Fahrern', p: 'Gezielte Suche nach Fahrern, die zu Ihren Touren, Fahrzeugen und Arbeitszeiten passen.' },
+      { icon: 'globe', h: 'Internationale Kandidatensuche', p: 'Kandidaten aus dem Westbalkan und weiteren Ländern – sowie Fahrer, die bereits in Deutschland leben.' },
+      { icon: 'search', h: 'Vorauswahl (Pre-Screening)', p: 'Führerschein, Fahrpraxis, Fahrzeugtypen und Unterlagen werden vor der Vorstellung geprüft.' },
+      { icon: 'users', h: 'Vorstellungsgespräche', p: 'Sie lernen die Kandidaten vor Ort oder per Video kennen und entscheiden selbst.' },
+      { icon: 'doc', h: 'Arbeitsvertrag', p: 'Wir koordinieren den Ablauf rund um Ihr Vertragsangebot und die benötigten Unterlagen.' },
+      { icon: 'idcard', h: 'Führerscheinumschreibung', p: 'Unterstützung bei der Vorbereitung der Unterlagen und den Terminen bei der Fahrerlaubnisbehörde.' },
+      { icon: 'award', h: 'Code 95 / Fahrerqualifizierungsnachweis', p: 'Organisation der erforderlichen Berufskraftfahrer-Qualifikation gemeinsam mit dem Fahrer.' },
+      { icon: 'folder', h: 'Visum & Aufenthalt', p: 'Administrative Unterstützung bei Antrag, Unterlagen und Terminen im Visum- und Aufenthaltsverfahren.' },
+      { icon: 'plane', h: 'Relocation & Onboarding', p: 'Hilfe bei Anreise, Unterkunftssuche, Anmeldung und den ersten Wochen im neuen Job.' },
+      { icon: 'handshake', h: 'Direkte Anstellung', p: 'Der Fahrer wird direkt bei Ihnen angestellt – keine Arbeitnehmerüberlassung.' },
     ],
     qualEyebrow: 'Gut zu wissen',
-    qualH2: 'Führerschein und Berufskraftfahrer-Qualifikation',
+    qualH2: 'Führerschein, Code 95 und Fahrerqualifizierungsnachweis',
     qualText: [
-      'Wer in Deutschland gewerblich LKW fährt, braucht eine hier gültige Fahrerlaubnis der Klasse C bzw. CE und die Berufskraftfahrer-Qualifikation, erkennbar am Eintrag „Code 95“ im Führerschein.',
-      'Ob ein ausländischer Führerschein umgeschrieben werden kann und welche Schulungen oder Prüfungen nötig sind, hängt vom Herkunftsland ab. Wir klären das vor der Einstellung – so gibt es nach der Ankunft keine Überraschungen.',
+      'Wer in Deutschland gewerblich LKW fährt, braucht eine gültige Fahrerlaubnis der Klasse C bzw. CE und die Berufskraftfahrer-Qualifikation. Nachgewiesen wird sie durch die Schlüsselzahl 95 im Führerschein oder – bei Fahrern mit Führerschein aus einem Drittstaat – durch den Fahrerqualifizierungsnachweis (FQN).',
+      'Führerscheine aus Albanien, Kosovo, Montenegro, Nordmazedonien und Serbien – auch Klasse C und CE – können in Deutschland ohne theoretische und praktische Prüfung umgeschrieben werden (Anlage 11 FeV). Welche Schritte im Einzelfall nötig sind, klären wir vor der Einstellung mit Ihnen und den zuständigen Stellen.',
     ],
-    procEyebrow: 'Ablauf', procH2: 'So kommen Ihre Fahrer zu Ihnen',
-    faqH2: 'Fragen zur Fahrer-Vermittlung',
+    note: 'Wir unterstützen bei administrativen Prozessen und der Vorbereitung erforderlicher Unterlagen. Eine Rechtsberatung bieten wir nicht an; verbindliche Entscheidungen treffen die zuständigen Behörden.',
+    procEyebrow: 'Ablauf', procH2: 'So läuft die Vermittlung von LKW-Fahrern aus dem Ausland ab',
+    steps: [
+      ['Bedarf mitteilen', 'Touren, Fahrzeugtyp, Einsatzort, Arbeitszeiten und gewünschte Anzahl an Fahrern.'],
+      ['Suche & Vorauswahl', 'Wir suchen international, führen Vorgespräche und prüfen Führerschein und Unterlagen.'],
+      ['Vorstellungsgespräch', 'Sie sprechen mit den vorgeschlagenen Fahrern – auch per Video – und treffen Ihre Wahl.'],
+      ['Vertrag & Unterlagen', 'Sie erstellen das Vertragsangebot, wir unterstützen bei Anträgen und Unterlagen für Zustimmung und Visum.'],
+      ['Einreise & Onboarding', 'Anreise, Anmeldung, Führerscheinumschreibung und Qualifikation – wir begleiten organisatorisch.'],
+      ['Arbeitsbeginn', 'Der Fahrer startet bei Ihnen. Wir bleiben in den ersten Wochen Ihr Ansprechpartner.'],
+    ] as [string, string][],
+    timing: 'Zeitrahmen: Fahrer, die bereits in Deutschland leben, können in der Regel innerhalb von etwa einer Woche starten. Bei Fahrern aus dem Ausland rechnen Sie mit etwa 6 bis 8 Wochen – abhängig von Bundesagentur für Arbeit und Terminen der deutschen Auslandsvertretung.',
+    directH2: 'Direkte Anstellung – volle Kontrolle für Sie',
+    directText: 'Die Fahrer werden direkt in Ihrem Unternehmen angestellt. Sie entscheiden über Auswahl, Vertrag und Einsatz. Wir übernehmen Suche, Vorauswahl und die organisatorische Begleitung.',
+    faqH2: 'Häufige Fragen zur Vermittlung von LKW-Fahrern',
     faq: [
-      { q: 'Sind die Fahrer sofort einsetzbar?', a: 'Für den gewerblichen Güterverkehr brauchen Fahrer einen in der EU gültigen Führerschein C/CE und die Grundqualifikation (Code 95). Ein ausländischer Führerschein muss innerhalb von sechs Monaten nach Wohnsitznahme umgeschrieben werden. Für Führerscheine aus Albanien, Kosovo, Montenegro, Nordmazedonien und Serbien – auch Klasse C und CE – geht das ohne theoretische und praktische Prüfung. Wir klären das vor der Einstellung.' },
-      { q: 'Können Fahrer zunächst in einer anderen Tätigkeit anfangen?', a: 'Ja. Fehlt noch eine Qualifikation, ist unter bestimmten Voraussetzungen eine Beschäftigung z. B. im Lager möglich, während die Qualifikation innerhalb von 15 Monaten erworben wird. Die Bundesagentur für Arbeit muss zustimmen – wir bereiten das für Sie vor.' },
+      { q: 'Sind die Fahrer sofort einsetzbar?', a: 'Für den gewerblichen Güterverkehr brauchen Fahrer einen gültigen Führerschein C/CE und die Berufskraftfahrer-Qualifikation (Code 95 bzw. Fahrerqualifizierungsnachweis). Ein ausländischer Führerschein muss in der Regel innerhalb von sechs Monaten nach Wohnsitznahme umgeschrieben werden. Für Führerscheine aus Albanien, Kosovo, Montenegro, Nordmazedonien und Serbien – auch Klasse C und CE – geht das ohne theoretische und praktische Prüfung. Was im Einzelfall nötig ist, klären wir vor der Einstellung.' },
+      { q: 'Können Fahrer zunächst in einer anderen Tätigkeit anfangen?', a: 'Unter bestimmten Voraussetzungen ist das möglich, etwa eine Beschäftigung im Lager, während die Qualifikation erworben wird. Ob das in Ihrem Fall in Frage kommt, entscheidet die Bundesagentur für Arbeit. Wir unterstützen bei der Vorbereitung der Unterlagen.' },
       { q: 'Welche Erfahrung bringen die Fahrer mit?', a: 'Wir vermitteln Fahrer mit Berufserfahrung. Fahrpraxis, Fahrzeugtypen und bisherige Einsätze klären wir im Gespräch und nennen sie Ihnen im Profil.' },
       { q: 'Wer trägt die Kosten für Umschreibung und Code 95?', a: 'Die Kosten für Führerscheinumschreibung und Grundqualifikation trägt der Fahrer. Wir organisieren und begleiten den Ablauf.' },
-      { q: 'Aus welchen Ländern kommen Ihre Fahrer?', a: 'Schwerpunkt ist der Westbalkan, insbesondere Albanien und Kosovo. Darüber hinaus rekrutieren wir international.' },
+      { q: 'Aus welchen Ländern kommen Ihre Fahrer?', a: 'Schwerpunkt ist der Westbalkan, insbesondere Albanien und Kosovo. Darüber hinaus rekrutieren wir international und vermitteln auch Fahrer, die bereits in Deutschland leben.' },
       { q: 'Können wir mehrere Fahrer gleichzeitig anfragen?', a: 'Ja. Teilen Sie uns die gewünschte Anzahl mit – wir planen die Auswahl entsprechend.' },
     ],
-    formH2: 'Fahrer anfragen',
-    formText: 'Beschreiben Sie kurz Ihren Bedarf – Touren, Fahrzeugtyp, Einsatzort. Wir melden uns mit einem Vorschlag.',
+    formH2: 'LKW-Fahrer anfragen',
+    formText: 'Beschreiben Sie kurz Ihren Bedarf – Touren, Fahrzeugtyp, Einsatzort. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
+    formCall: 'Lieber direkt sprechen?',
   },
   en: {
-    title: 'Recruit C/CE Truck Drivers from Abroad | Sion Consulting',
-    description: 'We recruit experienced truck drivers with C/CE licences from the Western Balkans and worldwide for hauliers and logistics companies across Germany – including visa and qualification support.',
-    eyebrow: 'Truck driver recruitment',
-    h1: 'C/CE truck drivers from the Western Balkans and worldwide',
-    lead: 'Experienced professional drivers for hauliers, transport and logistics companies across Germany. We handle the search, the checks and the entire journey to their first trip.',
-    cta: 'Request drivers', ctaSecondary: 'See the process',
+    title: 'Truck Drivers from Abroad | Recruitment | SION Consulting',
+    description: 'Truck drivers from abroad for your company: SION Consulting places CE drivers and professional drivers with transport and logistics companies across Germany – with pre-screening and assistance with licence, Code 95 and visa.',
+    eyebrow: 'International recruitment',
+    h1: 'Truck drivers from abroad',
+    lead: 'We place qualified CE drivers and professional drivers with transport and logistics companies across Germany – from the candidate search to the first working day.',
+    cta: 'Request truck drivers', cta2: 'Free initial consultation',
     alt: 'Semi-trailer truck on a country road',
     areas: ['Long-haul', 'Regional transport', 'Distribution', 'Semi-trailer & drawbar'],
-    servicesH2: 'What we take care of',
+    servicesEyebrow: 'Services', servicesH2: 'What we take care of when recruiting professional drivers',
     services: [
-      { icon: 'search', h: 'Search & pre-selection', p: 'We look specifically for drivers who fit your routes, vehicles and working hours.' },
-      { icon: 'idcard', h: 'Licence & experience checks', p: 'Driving licence, driving experience and certificates are checked before we present a candidate.' },
-      { icon: 'doc', h: 'Legal route & application', p: 'Western Balkans Regulation or another suitable route – we prepare the contract and application.' },
-      { icon: 'globe', h: 'Visa & arrival', p: 'Support through the visa process at the German embassy up to arrival.' },
-      { icon: 'truck', h: 'Licence & Code 95', p: 'Support with licence conversion and the professional driver qualification.' },
-      { icon: 'users', h: 'Support after the start', p: 'Registration, residence permit and one contact person during the first weeks.' },
+      { icon: 'truck', h: 'CE driver recruitment', p: 'Targeted search for drivers who match your routes, vehicles and working hours.' },
+      { icon: 'globe', h: 'International candidate sourcing', p: 'Candidates from the Western Balkans and other countries – as well as drivers already living in Germany.' },
+      { icon: 'search', h: 'Pre-screening', p: 'Licence, driving experience, vehicle types and documents are checked before we present anyone.' },
+      { icon: 'users', h: 'Employer interviews', p: 'You meet the candidates on site or by video and make the decision yourself.' },
+      { icon: 'doc', h: 'Employment contract', p: 'We coordinate the process around your contract offer and the documents required.' },
+      { icon: 'idcard', h: 'Licence conversion', p: 'Assistance preparing the documents and appointments with the driving licence authority.' },
+      { icon: 'award', h: 'Code 95 / driver qualification card', p: 'Organising the required professional driver qualification together with the driver.' },
+      { icon: 'folder', h: 'Visa & residence', p: 'Administrative assistance with applications, documents and appointments in the visa and residence process.' },
+      { icon: 'plane', h: 'Relocation & onboarding', p: 'Help with travel, finding accommodation, registration and the first weeks in the new job.' },
+      { icon: 'handshake', h: 'Direct employment', p: 'The driver is employed directly by you – no temporary agency work.' },
     ],
     qualEyebrow: 'Good to know',
-    qualH2: 'Driving licence and professional driver qualification',
+    qualH2: 'Driving licence, Code 95 and driver qualification card',
     qualText: [
-      'Anyone driving a truck commercially in Germany needs a valid class C or CE licence and the professional driver qualification, shown by the “Code 95” entry on the licence.',
-      'Whether a foreign licence can be converted and which training or tests are required depends on the country of origin. We clarify this before hiring – so there are no surprises after arrival.',
+      'Anyone driving a truck commercially in Germany needs a valid class C or CE licence and the professional driver qualification. It is shown by code 95 on the licence or – for drivers with a licence from a non-EU country – by the driver qualification card (Fahrerqualifizierungsnachweis, FQN).',
+      'Licences from Albania, Kosovo, Montenegro, North Macedonia and Serbia – including classes C and CE – can be converted in Germany without a theory or practical test (Annex 11 of the German Driving Licence Regulation). We clarify the steps needed in each case with you and the competent authorities before hiring.',
     ],
-    procEyebrow: 'Process', procH2: 'How your drivers get to you',
-    faqH2: 'Questions about driver recruitment',
+    note: 'We assist with administrative processes and the preparation of required documents. We do not provide legal advice; binding decisions are made by the competent authorities.',
+    procEyebrow: 'Process', procH2: 'How recruiting truck drivers from abroad works',
+    steps: [
+      ['Tell us what you need', 'Routes, vehicle type, location, working hours and the number of drivers.'],
+      ['Search & pre-selection', 'We search internationally, hold first interviews and check licences and documents.'],
+      ['Interview', 'You talk to the proposed drivers – also by video – and make your choice.'],
+      ['Contract & documents', 'You issue the contract offer; we assist with applications and documents for approval and visa.'],
+      ['Arrival & onboarding', 'Travel, registration, licence conversion and qualification – we provide organisational support.'],
+      ['First working day', 'The driver starts with you. We remain your contact person during the first weeks.'],
+    ] as [string, string][],
+    timing: 'Timeframe: drivers who already live in Germany can usually start within about one week. For drivers from abroad, expect around 6 to 8 weeks – depending on the Federal Employment Agency and the German embassy’s appointments.',
+    directH2: 'Direct employment – you stay in control',
+    directText: 'The drivers are employed directly by your company. You decide on selection, contract and deployment. We handle the search, pre-selection and organisational support.',
+    faqH2: 'Frequently asked questions about recruiting truck drivers',
     faq: [
-      { q: 'Can the drivers start driving right away?', a: 'Commercial freight transport requires an EU-valid C/CE licence and the initial qualification (Code 95). A foreign licence must be converted within six months of taking up residence. For licences from Albania, Kosovo, Montenegro, North Macedonia and Serbia – including classes C and CE – this works without a theory or practical test. We clarify this before hiring.' },
-      { q: 'Can drivers start in a different role first?', a: 'Yes. If a qualification is still missing, employment e.g. in the warehouse is possible under certain conditions while the qualification is obtained within 15 months. The Federal Employment Agency must approve – we prepare this for you.' },
+      { q: 'Can the drivers start driving right away?', a: 'Commercial freight transport requires a valid C/CE licence and the professional driver qualification (code 95 or driver qualification card). A foreign licence usually has to be converted within six months of taking up residence. For licences from Albania, Kosovo, Montenegro, North Macedonia and Serbia – including classes C and CE – this works without a theory or practical test. We clarify what is needed in each case before hiring.' },
+      { q: 'Can drivers start in a different role first?', a: 'Under certain conditions this is possible, for example working in the warehouse while the qualification is obtained. Whether this applies in your case is decided by the Federal Employment Agency. We assist with preparing the documents.' },
       { q: 'What experience do the drivers have?', a: 'We place drivers with professional experience. Driving experience, vehicle types and previous jobs are clarified in the interview and listed in the profile.' },
       { q: 'Who pays for licence conversion and Code 95?', a: 'The driver pays for the licence conversion and initial qualification. We organise and support the process.' },
-      { q: 'Which countries do your drivers come from?', a: 'Our focus is the Western Balkans, especially Albania and Kosovo. We also recruit internationally.' },
+      { q: 'Which countries do your drivers come from?', a: 'Our focus is the Western Balkans, especially Albania and Kosovo. We also recruit internationally and place drivers who already live in Germany.' },
       { q: 'Can we request several drivers at once?', a: 'Yes. Tell us how many you need and we plan the selection accordingly.' },
     ],
-    formH2: 'Request drivers',
-    formText: 'Briefly describe what you need – routes, vehicle type, location. We will get back to you with a proposal.',
+    formH2: 'Request truck drivers',
+    formText: 'Briefly describe what you need – routes, vehicle type, location. We will get back to you within 1 working day with a proposal.',
+    formCall: 'Prefer to talk directly?',
   },
 }[lang];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
 ---
-<Base lang={lang} page="lkw" title={c.title} description={c.description} image="/images/lkw-strasse.jpg">
+<Base lang={lang} page="lkw" title={c.title} description={c.description} schema={schema}>
   <section class="page-hero">
     <div class="container grid-2">
       <div class="hero-copy">
@@ -93,20 +135,20 @@ const c = {
         <h1>{c.h1}</h1>
         <p class="lead">{c.lead}</p>
         <div class="btn-row">
-          <a class="btn btn-accent" href="#anfrage">{c.cta}</a>
-          <a class="link-arrow" href="#ablauf">{c.ctaSecondary}</a>
+          <a class="btn btn-accent btn-lg" href="#anfrage">{c.cta}</a>
+          <a class="btn btn-ghost btn-lg" href={routes.kontakt[lang]}>{c.cta2}</a>
         </div>
-        <div class="chips">{c.areas.map((a) => <span class="chip">{a}</span>)}</div>
+        <ul class="chips">{c.areas.map((a) => <li><span class="chip">{a}</span></li>)}</ul>
       </div>
-      <div class="media ratio-landscape">
-        <img src="/images/lkw-strasse.jpg" alt={c.alt} width="1600" height="1200" loading="eager" fetchpriority="high" />
+      <div class="media ratio-landscape hide-mobile-block">
+        <Photo name="lkw-strasse" alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
       </div>
     </div>
   </section>
 
-  <section class="section" style="padding-top: 24px">
+  <section class="section section-first">
     <div class="container">
-      <div class="section-head"><h2>{c.servicesH2}</h2></div>
+      <div class="section-head"><p class="eyebrow">{c.servicesEyebrow}</p><h2>{c.servicesH2}</h2></div>
       <div class="grid-3">
         {c.services.map((s) => (
           <article class="card">
@@ -120,11 +162,18 @@ const c = {
   </section>
 
   <section class="section" style="padding-top: 0">
-    <div class="container">
-      <div class="feature-box stack-lg" style="max-width: 980px">
+    <div class="container grid-2" style="align-items: stretch">
+      <div class="feature-box stack-lg">
         <p class="eyebrow">{c.qualEyebrow}</p>
-        <h2>{c.qualH2}</h2>
+        <h2 class="h2-sm">{c.qualH2}</h2>
         {c.qualText.map((p) => <p class="muted">{p}</p>)}
+        <p class="note">{c.note}</p>
+      </div>
+      <div class="feature-box feature-dark stack-lg">
+        <Icon name="handshake" size={36} class="card-icon" />
+        <h2 class="h2-sm">{c.directH2}</h2>
+        <p>{c.directText}</p>
+        <div class="btn-row"><a class="btn btn-accent btn-lg" href="#anfrage">{c.cta}</a></div>
       </div>
     </div>
   </section>
@@ -135,24 +184,27 @@ const c = {
         <p class="eyebrow">{c.procEyebrow}</p>
         <h2>{c.procH2}</h2>
       </div>
-      <Process lang={lang} />
+      <Steps lang={lang} steps={c.steps} />
+      <p class="timing">{c.timing}</p>
     </div>
   </section>
 
   <section class="section">
-    <div class="container" style="max-width: 940px">
+    <div class="container narrow">
       <div class="section-head"><h2>{c.faqH2}</h2></div>
       <Faq items={c.faq} />
     </div>
   </section>
 
   <section id="anfrage" class="section band-sand">
-    <div class="container grid-2" style="align-items: start">
+    <div class="container form-layout">
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
       </div>
-      <ContactForm lang={lang} audience="employer" topic="lkw" />
+      <EmployerForm lang={lang} position="lkw" />
     </div>
   </section>
+
 </Base>

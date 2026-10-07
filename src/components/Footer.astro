@@ -1,62 +1,65 @@
 ---
-import { routes, type Lang } from '../i18n';
+import Icon from './Icon.astro';
+import { routes, ui, type Lang } from '../i18n';
 import { site } from '../config';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const year = new Date().getFullYear();
+const r = (k: keyof typeof routes) => routes[k][lang];
 const t = {
   de: {
-    claim: 'Personalvermittlung aus dem Westbalkan und international für Unternehmen in Deutschland – plus externes Back-Office.',
-    services: 'Leistungen', contact: 'Kontakt', legal: 'Rechtliches',
-    lkw: 'LKW-Fahrer-Vermittlung', recruiting: 'Recruiting', backoffice: 'Back-Office-Services', bewerber: 'Für Bewerber',
-    impressum: 'Impressum', privacy: 'Datenschutzerklärung', cookies: 'Cookie-Richtlinie', cookieSettings: 'Cookie-Einstellungen',
-    country: site.countryDe, area: 'Tätig in ganz Deutschland',
+    claim: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung und Back-Office-Services.',
+    services: 'Leistungen', company: 'Unternehmen', contact: 'Kontakt',
+    links: [['Personalvermittlung', r('personalvermittlung')], ['LKW-Fahrer', r('lkw')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Back Office', r('backoffice')]],
+    company2: [['Für Unternehmen', r('unternehmen')], ['Für Bewerber', r('bewerber')], ['Über uns', r('ueberuns')], ['Kontakt', r('kontakt')]],
+    office: 'Büro', country: site.countryDe, langs: 'Deutsch & Englisch',
+    rights: 'Alle Rechte vorbehalten.',
+    impressum: 'Impressum', privacy: 'Datenschutz', cookieSettings: 'Cookie-Einstellungen', contactLink: 'Kontakt', legal: 'Rechtliche Hinweise',
   },
   en: {
-    claim: 'Recruitment from the Western Balkans and worldwide for companies in Germany – plus an external back office.',
-    services: 'Services', contact: 'Contact', legal: 'Legal',
-    lkw: 'Truck driver recruitment', recruiting: 'Recruitment', backoffice: 'Back-office services', bewerber: 'For applicants',
-    impressum: 'Legal notice', privacy: 'Privacy policy', cookies: 'Cookie policy', cookieSettings: 'Cookie settings',
-    country: site.countryEn, area: 'Active throughout Germany',
+    claim: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – through recruitment and back-office services.',
+    services: 'Services', company: 'Company', contact: 'Contact',
+    links: [['Recruitment', r('personalvermittlung')], ['Truck drivers', r('lkw')], ['Parcel delivery drivers', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning staff', r('reinigung')], ['Back office', r('backoffice')]],
+    company2: [['For employers', r('unternehmen')], ['For applicants', r('bewerber')], ['About us', r('ueberuns')], ['Contact', r('kontakt')]],
+    office: 'Office', country: site.countryEn, langs: 'German & English',
+    rights: 'All rights reserved.',
+    impressum: 'Legal notice', privacy: 'Privacy', cookieSettings: 'Cookie settings', contactLink: 'Contact', legal: 'Legal information',
   },
 }[lang];
 ---
 <footer class="site-footer">
   <div class="container footer-grid">
-    <div>
-      <p class="footer-brand">Sion Consulting</p>
+    <div class="footer-about">
+      <p class="footer-brand">SION Consulting</p>
       <p>{t.claim}</p>
+      <a class="footer-phone" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
+      <a class="btn btn-whatsapp footer-wa" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsapp}</a>
     </div>
     <div>
       <p class="footer-title">{t.services}</p>
-      <ul class="footer-list">
-        <li><a href={routes.lkw[lang]}>{t.lkw}</a></li>
-        <li><a href={`${routes.home[lang]}#recruiting`}>{t.recruiting}</a></li>
-        <li><a href={routes.backoffice[lang]}>{t.backoffice}</a></li>
-        <li><a href={routes.bewerber[lang]}>{t.bewerber}</a></li>
-      </ul>
+      <ul class="footer-list">{t.links.map(([l, h]) => <li><a href={h}>{l}</a></li>)}</ul>
+    </div>
+    <div>
+      <p class="footer-title">{t.company}</p>
+      <ul class="footer-list">{t.company2.map(([l, h]) => <li><a href={h}>{l}</a></li>)}</ul>
     </div>
     <div>
       <p class="footer-title">{t.contact}</p>
       <ul class="footer-list">
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
         <li><a href={`tel:${site.phoneHref}`}>{site.phone}</a></li>
-        <li><a href={site.whatsapp} rel="noopener">WhatsApp</a></li>
-        <li>{site.street}, {site.zip} {site.city}, {t.country}</li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer-title">{t.legal}</p>
-      <ul class="footer-list">
-        <li><a href={routes.impressum[lang]}>{t.impressum}</a></li>
-        <li><a href={routes.datenschutz[lang]}>{t.privacy}</a></li>
-        <li><a href={routes.cookies[lang]}>{t.cookies}</a></li>
-        <li><button type="button" class="linklike" data-cookie-open>{t.cookieSettings}</button></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>{t.langs}</li>
+        <li><span class="footer-sub">{t.office}</span><br />{site.street}<br />{site.zip} {site.city}, {t.country}</li>
       </ul>
     </div>
   </div>
   <div class="container footer-bottom">
-    <span>© {year} Sion Consulting</span>
-    <span>{t.area}</span>
+    <span>© {year} SION Consulting. {t.rights}</span>
+    <nav aria-label={t.legal} class="footer-legal">
+      <a href={r('impressum')}>{t.impressum}</a>
+      <a href={r('datenschutz')}>{t.privacy}</a>
+      <button type="button" class="linklike" data-cookie-open>{t.cookieSettings}</button>
+      <a href={r('kontakt')}>{t.contactLink}</a>
+    </nav>
   </div>
 </footer>

@@ -7,8 +7,8 @@ const { lang } = Astro.props;
 const isPh = (v: string) => v.startsWith('[');
 ---
 <Base lang={lang} page="impressum"
-  title={lang === 'de' ? 'Impressum | Sion Consulting' : 'Legal notice | Sion Consulting'}
-  description={lang === 'de' ? 'Impressum und Anbieterkennzeichnung von Sion Consulting, Tirana.' : 'Legal notice and provider information of Sion Consulting, Tirana.'}>
+  title={lang === 'de' ? 'Impressum | SION Consulting' : 'Legal notice | SION Consulting'}
+  description={lang === 'de' ? 'Impressum und Anbieterkennzeichnung von SION Consulting, Tirana.' : 'Legal notice and provider information of SION Consulting, Tirana.'}>
   <section class="page-hero">
     <div class="container prose">
       {lang === 'de' ? (

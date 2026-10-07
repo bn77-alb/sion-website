@@ -1,35 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import ContactForm from '../components/ContactForm.astro';
+import EmployerForm from '../components/EmployerForm.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../config';
 import { type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
 const c = {
   de: {
-    title: 'Externes Back-Office für Logistik & Dienstleistung | Sion Consulting',
-    description: 'Sion Consulting übernimmt als externer Back-Office-Partner Dokumentenvorbereitung, Personal- und Fahrerunterlagen sowie administrative Aufgaben für Unternehmen in Deutschland.',
-    eyebrow: 'Back-Office-Services',
-    h1: 'Ihr externes Back-Office – zuverlässig aus Tirana',
-    lead: 'Ob Logistik, Dienstleistung oder eine andere Branche: Papierkram kostet Zeit. Wir übernehmen wiederkehrende Verwaltungsaufgaben, damit sich Ihr Team auf das Kerngeschäft konzentrieren kann.',
-    cta: 'Back-Office anfragen',
+    title: 'Back-Office-Services für KMU in Deutschland | SION Consulting',
+    description: 'SION Consulting entlastet kleine und mittlere Unternehmen in Deutschland: Recruiting-Support, Logistik-Administration, Dokumente, Datenerfassung, E-Mail und Kundenkommunikation.',
+    eyebrow: 'Back Office Services',
+    h1: 'Back Office: operative Unterstützung für Ihr Unternehmen',
+    lead: 'SION Consulting unterstützt kleine und mittlere Unternehmen in Deutschland aus unserem Büro heraus. Wir übernehmen wiederkehrende Verwaltungsaufgaben, damit sich Ihr Team auf das Kerngeschäft konzentrieren kann.',
+    cta: 'Back-Office-Unterstützung anfragen',
     alt: 'Zwei Mitarbeitende besprechen Unterlagen am Schreibtisch',
     servicesH2: 'Was wir für Sie erledigen',
     services: [
-      { icon: 'doc', h: 'Dokumentenvorbereitung', p: 'Verträge, Anschreiben und Standarddokumente nach Ihren Vorlagen – sauber und termingerecht.' },
-      { icon: 'folder', h: 'Personal- & Fahrerunterlagen', p: 'Pflege und Aktualisierung von Mitarbeiterakten, Nachweisen und Fristen.' },
-      { icon: 'idcard', h: 'Formulare & Anträge', p: 'Vorbereitung von Formularen für Behörden und Ämter – vollständig und geprüft.' },
-      { icon: 'table', h: 'Datenerfassung & -pflege', p: 'Erfassung und Pflege von Daten in Ihren Listen und Systemen.' },
-      { icon: 'clock', h: 'Administrative Unterstützung', p: 'Flexible Hilfe bei wiederkehrenden Büroaufgaben – Umfang nach Absprache.' },
-      { icon: 'chat', h: 'Mehrsprachige Kommunikation', p: 'Unterstützung bei der Kommunikation mit Mitarbeitenden auf Deutsch, Englisch und Albanisch.' },
-      { icon: 'table', h: 'Rechnungsunterstützung', p: 'Vorbereitung und Erfassung von Rechnungen nach Ihren Vorgaben.' },
-      { icon: 'idcard', h: 'Führerschein- & Fahrerkartenkontrolle', p: 'Regelmäßige Kontrolle und Dokumentation von Führerscheinen und Fahrerkarten.' },
-      { icon: 'globe', h: 'Übersetzungen', p: 'Übersetzung von Dokumenten und Korrespondenz zwischen Deutsch, Englisch und Albanisch.' },
-      { icon: 'users', h: 'Recruiting-Administration', p: 'Administrative Unterstützung für Personaldienstleister – von Bewerberunterlagen bis zur Terminplanung.' },
+      { icon: 'users', h: 'Recruiting-Support', p: 'Bewerberunterlagen sichten, Termine koordinieren und mit Kandidaten kommunizieren.' },
+      { icon: 'truck', h: 'Logistik-Administration', p: 'Tourenunterlagen, Lieferscheine und Auftragsdaten pflegen und nachhalten.' },
+      { icon: 'doc', h: 'Dokumentenbearbeitung', p: 'Verträge, Anschreiben und Standarddokumente nach Ihren Vorlagen – sauber und termingerecht.' },
+      { icon: 'table', h: 'Datenerfassung', p: 'Erfassung und Pflege von Daten in Ihren Listen und Systemen.' },
+      { icon: 'mail', h: 'E-Mail-Administration', p: 'Postfach sortieren, Standardanfragen beantworten, Wichtiges an Sie weiterleiten.' },
+      { icon: 'headset', h: 'Kundenkommunikation', p: 'Freundliche und zuverlässige Kommunikation mit Ihren Kunden – auf Deutsch oder Englisch.' },
+      { icon: 'calendar', h: 'Terminkoordination', p: 'Termine vereinbaren, bestätigen und im Kalender pflegen.' },
+      { icon: 'idcard', h: 'Fahrer- & Dokumentenmanagement', p: 'Fahrerakten, Führerschein- und Fahrerkartenkontrollen, Nachweise und Fristen im Blick.' },
+      { icon: 'folder', h: 'Allgemeine Verwaltung', p: 'Flexible Hilfe bei wiederkehrenden Büroaufgaben – Umfang nach Absprache.' },
     ],
     forH2: 'Für wen?',
-    forList: ['Speditionen & Logistik', 'Paket- und Kurierdienste', 'Personaldienstleister', 'Kleine und mittlere Unternehmen aller Branchen'],
+    forList: ['Kleine und mittlere Unternehmen (KMU)', 'Speditionen & Logistik', 'Paket- und Kurierdienste', 'Personaldienstleister'],
     stepsH2: 'So starten wir',
     steps: [
       ['Erstgespräch', 'Wir besprechen, welche Aufgaben Sie abgeben möchten und in welchem Umfang.'],
@@ -38,32 +39,32 @@ const c = {
     ],
     dpH2: 'Vertraulichkeit und Datenschutz',
     dpText: 'Wir behandeln Ihre Unterlagen vertraulich. Für die Verarbeitung personenbezogener Daten in Ihrem Auftrag schließen wir mit Ihnen einen Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.',
-    formH2: 'Back-Office anfragen',
-    formText: 'Beschreiben Sie kurz, welche Aufgaben Sie abgeben möchten. Wir melden uns mit einem Vorschlag.',
+    formH2: 'Back-Office-Unterstützung anfragen',
+    formText: 'Beschreiben Sie kurz, welche Aufgaben Sie abgeben möchten. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
+    formCall: 'Lieber direkt sprechen?',
   },
   en: {
-    title: 'External Back Office for Logistics & Services | Sion Consulting',
-    description: 'As an external back-office partner, Sion Consulting handles document preparation, staff and driver records and administrative tasks for companies in Germany.',
+    title: 'Back-Office Services for SMEs in Germany | SION Consulting',
+    description: 'SION Consulting supports small and medium-sized companies in Germany: recruitment support, logistics administration, documents, data entry, email and customer communication.',
     eyebrow: 'Back-office services',
-    h1: 'Your external back office – reliable, from Tirana',
-    lead: 'Logistics, services or any other industry: paperwork takes time. We take over recurring administrative tasks so your team can focus on the core business.',
+    h1: 'Back office: operational support for your company',
+    lead: 'SION Consulting supports small and medium-sized companies in Germany from our office. We take over recurring administrative tasks so your team can focus on the core business.',
     cta: 'Request back-office support',
     alt: 'Two colleagues discussing documents at a desk',
     servicesH2: 'What we do for you',
     services: [
-      { icon: 'doc', h: 'Document preparation', p: 'Contracts, letters and standard documents based on your templates – clean and on time.' },
-      { icon: 'folder', h: 'Staff & driver records', p: 'Maintaining and updating employee files, certificates and deadlines.' },
-      { icon: 'idcard', h: 'Forms & applications', p: 'Preparing forms for authorities and offices – complete and checked.' },
-      { icon: 'table', h: 'Data entry & maintenance', p: 'Entering and maintaining data in your lists and systems.' },
-      { icon: 'clock', h: 'Administrative support', p: 'Flexible help with recurring office tasks – scope as agreed.' },
-      { icon: 'chat', h: 'Multilingual communication', p: 'Support with communicating with employees in German, English and Albanian.' },
-      { icon: 'table', h: 'Invoicing support', p: 'Preparing and entering invoices according to your requirements.' },
-      { icon: 'idcard', h: 'Licence & driver card checks', p: 'Regular checks and documentation of driving licences and driver cards.' },
-      { icon: 'globe', h: 'Translations', p: 'Translating documents and correspondence between German, English and Albanian.' },
-      { icon: 'users', h: 'Recruitment administration', p: 'Administrative support for staffing agencies – from applicant files to scheduling.' },
+      { icon: 'users', h: 'Recruitment support', p: 'Screening applicant files, coordinating interviews and communicating with candidates.' },
+      { icon: 'truck', h: 'Logistics administration', p: 'Maintaining and following up route documents, delivery notes and order data.' },
+      { icon: 'doc', h: 'Document processing', p: 'Contracts, letters and standard documents based on your templates – clean and on time.' },
+      { icon: 'table', h: 'Data entry', p: 'Entering and maintaining data in your lists and systems.' },
+      { icon: 'mail', h: 'Email administration', p: 'Sorting your inbox, answering standard requests, forwarding what matters to you.' },
+      { icon: 'headset', h: 'Customer communication', p: 'Friendly, reliable communication with your customers – in German or English.' },
+      { icon: 'calendar', h: 'Appointment coordination', p: 'Scheduling, confirming and maintaining appointments in your calendar.' },
+      { icon: 'idcard', h: 'Driver & document management', p: 'Driver files, licence and driver card checks, certificates and deadlines under control.' },
+      { icon: 'folder', h: 'General administration', p: 'Flexible help with recurring office tasks – scope as agreed.' },
     ],
     forH2: 'Who is it for?',
-    forList: ['Hauliers & logistics', 'Parcel and courier services', 'Staffing agencies', 'Small and medium-sized companies in any industry'],
+    forList: ['Small and medium-sized companies (SMEs)', 'Hauliers & logistics', 'Parcel and courier services', 'Staffing agencies'],
     stepsH2: 'How we get started',
     steps: [
       ['First call', 'We discuss which tasks you want to hand over and to what extent.'],
@@ -73,26 +74,27 @@ const c = {
     dpH2: 'Confidentiality and data protection',
     dpText: 'We treat your documents confidentially. For processing personal data on your behalf, we conclude a data processing agreement with you under Art. 28 GDPR.',
     formH2: 'Request back-office support',
-    formText: 'Briefly describe which tasks you would like to hand over. We will get back to you with a proposal.',
+    formText: 'Briefly describe which tasks you would like to hand over. We will get back to you within 1 working day with a proposal.',
+    formCall: 'Prefer to talk directly?',
   },
 }[lang];
 ---
-<Base lang={lang} page="backoffice" title={c.title} description={c.description} image="/images/backoffice.jpg">
+<Base lang={lang} page="backoffice" title={c.title} description={c.description}>
   <section class="page-hero">
     <div class="container grid-2">
       <div class="hero-copy">
         <p class="eyebrow">{c.eyebrow}</p>
         <h1>{c.h1}</h1>
         <p class="lead">{c.lead}</p>
-        <div class="btn-row"><a class="btn btn-accent" href="#anfrage">{c.cta}</a></div>
+        <div class="btn-row"><a class="btn btn-accent btn-lg" href="#anfrage">{c.cta}</a></div>
       </div>
-      <div class="media ratio-landscape">
-        <img src="/images/backoffice.jpg" alt={c.alt} width="1600" height="1200" loading="eager" fetchpriority="high" />
+      <div class="media ratio-landscape hide-mobile-block">
+        <Photo name="backoffice" alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
       </div>
     </div>
   </section>
 
-  <section class="section" style="padding-top: 24px">
+  <section class="section section-first">
     <div class="container">
       <div class="section-head"><h2>{c.servicesH2}</h2></div>
       <div class="grid-3">
@@ -127,12 +129,13 @@ const c = {
   </section>
 
   <section id="anfrage" class="section band-sand">
-    <div class="container grid-2" style="align-items: start">
+    <div class="container form-layout">
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
       </div>
-      <ContactForm lang={lang} audience="employer" topic="backoffice" />
+      <EmployerForm lang={lang} position="backoffice" />
     </div>
   </section>
 </Base>

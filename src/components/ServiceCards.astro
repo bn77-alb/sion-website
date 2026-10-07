@@ -1,0 +1,35 @@
+---
+// The recruitment service cards (icon, heading, short text, action link).
+import Icon from './Icon.astro';
+import { routes, type Lang } from '../i18n';
+interface Props { lang: Lang; withBackOffice?: boolean }
+const { lang, withBackOffice = false } = Astro.props;
+const r = (k: keyof typeof routes) => routes[k][lang];
+const cards = {
+  de: [
+    { icon: 'truck', h: 'LKW-Fahrer / Berufskraftfahrer', p: 'Qualifizierte CE-Fahrer für deutsche Transport- und Logistikunternehmen – aus Deutschland und dem Ausland.', cta: 'Mehr zu LKW-Fahrern', href: r('lkw'), featured: true },
+    { icon: 'package', h: 'Paketzusteller', p: 'Zuverlässige Zusteller mit Führerschein Klasse B für Paket- und Kurierdienste.', cta: 'Mehr zu Paketzustellern', href: r('paket') },
+    { icon: 'warehouse', h: 'Lager & Logistik', p: 'Lagerarbeiter für Kommissionierung, Verladung, Wareneingang und Versand.', cta: 'Mehr zu Lager & Logistik', href: r('lager') },
+    { icon: 'sparkle', h: 'Reinigung', p: 'Reinigungskräfte für Büros, Gewerbeflächen und Objekte.', cta: 'Mehr zu Reinigungskräften', href: r('reinigung') },
+    { icon: 'inbox', h: 'Back Office', p: 'Administrative und operative Unterstützung für KMU – von Dokumenten bis Kundenkommunikation.', cta: 'Mehr zum Back Office', href: r('backoffice') },
+  ],
+  en: [
+    { icon: 'truck', h: 'Truck drivers / professional drivers', p: 'Qualified CE drivers for German transport and logistics companies – from Germany and abroad.', cta: 'More about truck drivers', href: r('lkw'), featured: true },
+    { icon: 'package', h: 'Parcel delivery drivers', p: 'Reliable drivers with a class B licence for parcel and courier services.', cta: 'More about delivery drivers', href: r('paket') },
+    { icon: 'warehouse', h: 'Warehouse & logistics', p: 'Warehouse workers for order picking, loading, goods receipt and dispatch.', cta: 'More about warehouse staff', href: r('lager') },
+    { icon: 'sparkle', h: 'Cleaning', p: 'Cleaning staff for offices, commercial spaces and buildings.', cta: 'More about cleaning staff', href: r('reinigung') },
+    { icon: 'inbox', h: 'Back office', p: 'Administrative and operational support for SMEs – from documents to customer communication.', cta: 'More about the back office', href: r('backoffice') },
+  ],
+}[lang];
+const list = withBackOffice ? cards : cards.slice(0, 4);
+---
+<div class="service-grid">
+  {list.map((c) => (
+    <a class:list={['service-card', { featured: c.featured }]} href={c.href}>
+      <span class="service-icon"><Icon name={c.icon} size={26} /></span>
+      <h3>{c.h}</h3>
+      <p>{c.p}</p>
+      <span class="service-cta">{c.cta} <Icon name="arrow" size={18} /></span>
+    </a>
+  ))}
+</div>
