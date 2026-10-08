@@ -15,6 +15,8 @@ $photos = [ordered]@{
   'backoffice'  = 'photo-1780733066250-fe359ed8214c'  # colleagues reviewing documents
   'paketzusteller' = 'photo-1543499459-d1460946bdc6'  # man carrying cardboard boxes
   'reinigung'   = 'photo-1627905646269-7f034dcc5738'  # gloved hands cleaning a desk
+  'saison-bau'  = 'photo-1673978483693-9e4be55b2a35'  # construction worker with hard hat
+  'saison-hotel' = 'photo-1580256081112-e49377338b7f'  # housekeeping cart in hotel corridor
 }
 
 foreach ($name in $photos.Keys) {

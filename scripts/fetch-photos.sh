@@ -10,4 +10,6 @@ dl() {
 }
 dl paketzusteller photo-1543499459-d1460946bdc6   # man carrying cardboard boxes (Handy Wicaksono)
 dl reinigung      photo-1627905646269-7f034dcc5738 # gloved hands cleaning a desk (Towfiqu barbhuiya)
+dl saison-bau     photo-1673978483693-9e4be55b2a35 # construction worker with hard hat (d c)
+dl saison-hotel   photo-1580256081112-e49377338b7f # housekeeping cart in hotel corridor (Ashwini Chaudhary)
 exit 0
