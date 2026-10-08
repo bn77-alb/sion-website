@@ -81,6 +81,6 @@ const items = nav(lang);
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
     navEl.querySelectorAll('a, [data-close-menu]').forEach((a) => a.addEventListener('click', () => setOpen(false)));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
-    window.matchMedia('(min-width: 1101px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
+    window.matchMedia('(min-width: 1241px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
   }
 </script>
