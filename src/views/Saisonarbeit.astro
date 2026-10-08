@@ -1,0 +1,211 @@
+---
+// Saisonarbeit – seasonal workers for construction, cleaning and hotels/restaurants
+// via "kurzzeitige kontingentierte Beschäftigung" (§ 15d BeschV).
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+import EmployerForm from '../components/EmployerForm.astro';
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+import { hasPhoto } from '../lib/photos';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+
+const c = {
+  de: {
+    title: 'Saisonarbeitskräfte für Bau, Reinigung & Hotel | SION Consulting',
+    description: 'Saisonkräfte aus dem Ausland für Bau, Gebäudereinigung sowie Hotel und Gastronomie – über die kurzzeitige kontingentierte Beschäftigung (§ 15d BeschV) für bis zu 8 Monate. SION Consulting übernimmt Suche, Vorauswahl und Organisation.',
+    eyebrow: 'Saisonarbeit',
+    h1: 'Saisonkräfte für Bau, Reinigung und Hotel',
+    lead: 'Für Ihre Hochsaison: Wir vermitteln Arbeitskräfte aus dem Ausland für bis zu 8 Monate – über die kurzzeitige kontingentierte Beschäftigung. Sie stellen direkt ein, wir übernehmen Suche, Vorauswahl und die organisatorische Begleitung.',
+    cta: 'Saisonkräfte anfragen', cta2: 'Kostenloses Erstgespräch',
+    chips: ['Bis zu 8 Monate', 'Ohne Qualifikationsnachweis', 'Direkte Anstellung'],
+    sectorsH2: 'Für diese Branchen vermitteln wir Saisonkräfte',
+    sectors: [
+      { key: 'bau', photo: 'saison-bau', focus: '50% 28%', icon: 'build', alt: 'Bauarbeiter mit Schutzhelm bei der Arbeit', h: 'Bau', p: 'Für Hoch-, Tief- und Ausbau – in der Bausaison oder bei Auftragsspitzen.', roles: ['Bauhelfer', 'Fachkräfte je nach Kandidat, z. B. Maurer, Betonbau, Trockenbau', 'Unterstützung auf der Baustelle'] },
+      { key: 'reinigung', photo: 'reinigung', focus: '50% 60%', icon: 'sparkle', alt: 'Reinigungskraft reinigt einen Schreibtisch', h: 'Reinigung', p: 'Für Gebäudereinigung, Grund- und Saisonreinigung sowie Ferienanlagen.', roles: ['Unterhaltsreinigung', 'Grund- und Bauendreinigung', 'Reinigung von Ferienwohnungen und Hotels'] },
+      { key: 'hotel', photo: 'saison-hotel', focus: '50% 58%', icon: 'users', alt: 'Housekeeping-Wagen im Hotelflur', h: 'Hotel & Gastronomie', p: 'Für Sommer- und Wintersaison in Hotels, Restaurants und Ferienanlagen.', roles: ['Housekeeping und Zimmerreinigung', 'Küchenhilfe und Spülkraft', 'Service und Frühstück'] },
+    ],
+    routeEyebrow: 'Rechtlicher Rahmen',
+    routeH2: 'Kurzzeitige kontingentierte Beschäftigung (§ 15d BeschV)',
+    routeText: [
+      'Unternehmen können Arbeitskräfte aus Ländern außerhalb der EU für einen begrenzten Zeitraum beschäftigen – unabhängig von deren beruflicher Qualifikation und in vielen Branchen. Die Arbeitsspitze muss dabei nicht saisonal bedingt sein.',
+      'Die Bundesagentur für Arbeit legt dafür jährlich ein Kontingent fest. Den Antrag stellt der Arbeitgeber – wir unterstützen bei der Vorbereitung der Unterlagen und den Terminen.',
+    ],
+    facts: [['Bis zu 8 Monate', 'innerhalb von 12 Monaten'], ['25.000 Plätze', 'jährliches Kontingent der Bundesagentur für Arbeit'], ['Bis zu 10 Kräfte', 'pro Betrieb innerhalb von 12 Monaten'], ['Mind. 30 Std./Woche', 'sozialversicherungspflichtige Beschäftigung']],
+    note: 'Wir unterstützen bei administrativen Prozessen und der Vorbereitung erforderlicher Unterlagen. Eine Rechtsberatung bieten wir nicht an; verbindlich entscheiden die Bundesagentur für Arbeit und die Auslandsvertretung.',
+    reqH2: 'Was Ihr Betrieb mitbringen muss',
+    req: ['Tarifbindung: Für Ihren Betrieb gilt ein Tarifvertrag, der die Vergütung der Tätigkeit regelt – bezahlt wird nach Tarif', 'Mindestens 30 Stunden pro Woche, sozialversicherungspflichtig', 'Übernahme der Reisekosten für Hin- und Rückreise', 'Direkte Anstellung in Ihrem Betrieb – keine Arbeitnehmerüberlassung', 'Unterkunft für die Saison – stellen Sie keine, unterstützen wir bei der Suche'],
+    reqNote: 'Nicht tarifgebunden? Dann prüfen wir gemeinsam andere Wege, zum Beispiel die Westbalkanregelung (mit längerer Vorlaufzeit) oder Kandidaten, die bereits in Deutschland leben.',
+    planH: 'Früh planen lohnt sich',
+    planText: 'Das Kontingent ist begrenzt und Visumtermine brauchen Zeit. Fragen Sie idealerweise 3 bis 4 Monate vor Saisonbeginn an.',
+    procEyebrow: 'Ablauf', procH2: 'So kommen Ihre Saisonkräfte zu Ihnen',
+    steps: [
+      ['Bedarf & Zeitraum mitteilen', 'Branche, Tätigkeiten, Anzahl, Einsatzort und Saisonzeitraum.'],
+      ['Suche & Vorauswahl', 'Wir suchen passende Kräfte und prüfen Erfahrung und Unterlagen.'],
+      ['Vorstellungsgespräch', 'Sie lernen die Kandidaten kennen – auch per Video – und entscheiden selbst.'],
+      ['Antrag & Visum', 'Sie beantragen Arbeitserlaubnis bzw. Vorabzustimmung bei der Bundesagentur für Arbeit; wir unterstützen bei Unterlagen und Terminen.'],
+      ['Anreise & Saisonstart', 'Anreise, Unterkunft und Anmeldung – wir begleiten organisatorisch bis zum ersten Arbeitstag.'],
+    ] as [string, string][],
+    faqH2: 'Häufige Fragen zur Saisonarbeit',
+    faq: [
+      { q: 'Wie lange dürfen Saisonkräfte bei uns arbeiten?', a: 'Bis zu 8 Monate innerhalb von 12 Monaten. Bei Einsätzen bis 90 Tage innerhalb von 180 Tagen genügt für Staatsangehörige visumfreier Länder eine Arbeitserlaubnis der Bundesagentur für Arbeit. Für längere Einsätze oder visumpflichtige Länder sind eine Vorabzustimmung und ein Visum nötig.' },
+      { q: 'Brauchen die Kräfte eine Berufsausbildung?', a: 'Nein. Die kurzzeitige kontingentierte Beschäftigung ist unabhängig von der beruflichen Qualifikation möglich. Erfahrung in der Branche klären wir im Vorauswahlgespräch.' },
+      { q: 'Unser Betrieb ist nicht tarifgebunden – geht es trotzdem?', a: 'Für diesen Weg ist die Tarifbindung Voraussetzung. Sprechen Sie uns an: Wir prüfen gemeinsam, ob ein anderer Weg passt, zum Beispiel die Westbalkanregelung oder Kandidaten, die bereits in Deutschland leben.' },
+      { q: 'Wie viele Saisonkräfte können wir beschäftigen?', a: 'Über diesen Weg bis zu 10 Personen pro Betrieb innerhalb von 12 Monaten. Das jährliche Gesamtkontingent der Bundesagentur für Arbeit ist begrenzt – frühe Anfragen haben bessere Chancen.' },
+      { q: 'Wer trägt die Reisekosten?', a: 'Der Arbeitgeber übernimmt die notwendigen Reisekosten für Hin- und Rückreise. Das ist gesetzlich vorgegeben.' },
+      { q: 'Können die Kräfte über eine Zeitarbeitsfirma eingesetzt werden?', a: 'Nein. Arbeitnehmerüberlassung ist bei diesem Weg ausgeschlossen. Die Kräfte werden direkt bei Ihnen angestellt – wie bei allen unseren Vermittlungen.' },
+      { q: 'Wann sollten wir anfragen?', a: 'Möglichst früh – idealerweise 3 bis 4 Monate vor Saisonbeginn. So bleibt genug Zeit für Auswahl, Antrag und Visum.' },
+    ],
+    formH2: 'Saisonkräfte anfragen',
+    formText: 'Nennen Sie uns Branche, Anzahl, Einsatzort und Saisonzeitraum. Wir melden uns innerhalb von 1 Werktag.',
+    formCall: 'Lieber direkt sprechen?',
+  },
+  en: {
+    title: 'Seasonal Workers for Construction, Cleaning & Hotels | SION Consulting',
+    description: 'Seasonal workers from abroad for construction, building cleaning, hotels and restaurants – through short-term quota employment (Section 15d BeschV) for up to 8 months. SION Consulting handles the search, pre-selection and organisation.',
+    eyebrow: 'Seasonal work',
+    h1: 'Seasonal workers for construction, cleaning and hotels',
+    lead: 'For your peak season: we place workers from abroad for up to 8 months through short-term quota employment. You hire directly – we handle the search, pre-selection and organisational support.',
+    cta: 'Request seasonal workers', cta2: 'Free initial consultation',
+    chips: ['Up to 8 months', 'No formal qualification needed', 'Direct employment'],
+    sectorsH2: 'Sectors we recruit seasonal workers for',
+    sectors: [
+      { key: 'bau', photo: 'saison-bau', focus: '50% 28%', icon: 'build', alt: 'Construction worker with a hard hat at work', h: 'Construction', p: 'For building, civil engineering and finishing work – in the building season or at peak times.', roles: ['Construction helpers', 'Skilled workers depending on the candidate, e.g. masonry, concrete, drywall', 'Site support'] },
+      { key: 'reinigung', photo: 'reinigung', focus: '50% 60%', icon: 'sparkle', alt: 'Cleaner cleaning a desk', h: 'Cleaning', p: 'For building cleaning, deep and seasonal cleaning and holiday resorts.', roles: ['Maintenance cleaning', 'Deep cleaning and post-construction cleaning', 'Cleaning of holiday flats and hotels'] },
+      { key: 'hotel', photo: 'saison-hotel', focus: '50% 58%', icon: 'users', alt: 'Housekeeping cart in a hotel corridor', h: 'Hotels & restaurants', p: 'For the summer and winter season in hotels, restaurants and resorts.', roles: ['Housekeeping and room cleaning', 'Kitchen help and dishwashers', 'Service and breakfast'] },
+    ],
+    routeEyebrow: 'Legal framework',
+    routeH2: 'Short-term quota employment (Section 15d BeschV)',
+    routeText: [
+      'Companies can employ workers from non-EU countries for a limited period – regardless of their professional qualifications and in many sectors. The peak in demand does not have to be seasonal.',
+      'The Federal Employment Agency sets an annual quota for this. The employer submits the application – we assist with preparing the documents and appointments.',
+    ],
+    facts: [['Up to 8 months', 'within 12 months'], ['25,000 places', 'annual quota of the Federal Employment Agency'], ['Up to 10 workers', 'per company within 12 months'], ['Min. 30 hrs/week', 'employment subject to social insurance']],
+    note: 'We assist with administrative processes and the preparation of required documents. We do not provide legal advice; binding decisions are made by the Federal Employment Agency and the German embassy.',
+    reqH2: 'What your company needs',
+    req: ['Collective agreement: a collective wage agreement covering pay for the job applies to your company – pay follows the agreement', 'At least 30 hours per week, subject to social insurance', 'Covering travel costs there and back', 'Direct employment in your company – no temporary agency work', 'Accommodation for the season – if you do not provide it, we help with the search'],
+    reqNote: 'No collective agreement? Then we look at other routes together, for example the Western Balkans Regulation (with a longer lead time) or candidates already living in Germany.',
+    planH: 'Plan early',
+    planText: 'The quota is limited and visa appointments take time. Ideally, contact us 3 to 4 months before the season starts.',
+    procEyebrow: 'Process', procH2: 'How your seasonal workers get to you',
+    steps: [
+      ['Tell us your needs & period', 'Sector, tasks, number of workers, location and season dates.'],
+      ['Search & pre-selection', 'We search for suitable workers and check experience and documents.'],
+      ['Interview', 'You meet the candidates – also by video – and make the decision yourself.'],
+      ['Application & visa', 'You apply for the work permit or prior approval at the Federal Employment Agency; we assist with documents and appointments.'],
+      ['Arrival & season start', 'Travel, accommodation and registration – we provide organisational support up to the first working day.'],
+    ] as [string, string][],
+    faqH2: 'Frequently asked questions about seasonal work',
+    faq: [
+      { q: 'How long can seasonal workers work for us?', a: 'Up to 8 months within 12 months. For assignments of up to 90 days within 180 days, nationals of visa-exempt countries only need a work permit from the Federal Employment Agency. Longer assignments or visa-required countries need prior approval and a visa.' },
+      { q: 'Do the workers need vocational training?', a: 'No. Short-term quota employment is possible regardless of professional qualifications. We clarify industry experience in the pre-selection interview.' },
+      { q: 'Our company has no collective agreement – is it still possible?', a: 'A collective agreement is a requirement for this route. Talk to us: we will check together whether another route fits, for example the Western Balkans Regulation or candidates already living in Germany.' },
+      { q: 'How many seasonal workers can we employ?', a: 'Through this route, up to 10 people per company within 12 months. The Federal Employment Agency’s annual total quota is limited – early requests have better chances.' },
+      { q: 'Who pays the travel costs?', a: 'The employer covers the necessary travel costs there and back. This is required by law.' },
+      { q: 'Can the workers be deployed through a temporary staffing agency?', a: 'No. Temporary agency work is excluded for this route. The workers are employed directly by you – as with all our placements.' },
+      { q: 'When should we get in touch?', a: 'As early as possible – ideally 3 to 4 months before the season starts. That leaves enough time for selection, application and visa.' },
+    ],
+    formH2: 'Request seasonal workers',
+    formText: 'Tell us the sector, number of workers, location and season dates. We will reply within 1 working day.',
+    formCall: 'Prefer to talk directly?',
+  },
+}[lang];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base lang={lang} page="saison" title={c.title} description={c.description} schema={schema}>
+  <section class="page-hero">
+    <div class="container narrow-hero hero-copy">
+      <p class="eyebrow">{c.eyebrow}</p>
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.lead}</p>
+      <div class="btn-row">
+        <a class="btn btn-accent btn-lg" href="#anfrage">{c.cta}</a>
+        <a class="btn btn-ghost btn-lg" href={routes.kontakt[lang]}>{c.cta2}</a>
+      </div>
+      <ul class="chips">{c.chips.map((x) => <li><span class="chip">{x}</span></li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container">
+      <div class="section-head"><h2>{c.sectorsH2}</h2></div>
+      <div class="sector-grid">
+        {c.sectors.map((s) => (
+          <article class="sector">
+            {hasPhoto(s.photo)
+              ? <div class="media"><Photo name={s.photo} alt={s.alt} focus={s.focus} sizes="(max-width: 760px) 100vw, 33vw" /></div>
+              : <div class="sector-icon-head" aria-hidden="true"><Icon name={s.icon} size={64} /></div>}
+            <div class="sector-body">
+              <h3>{s.h}</h3>
+              <p>{s.p}</p>
+              <ul class="checklist">{s.roles.map((r) => <li>{r}</li>)}</ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container">
+      <div class="route-box">
+        <div class="stack-lg">
+          <p class="eyebrow">{c.routeEyebrow}</p>
+          <h2 class="h2-sm">{c.routeH2}</h2>
+          {c.routeText.map((p) => <p>{p}</p>)}
+          <p style="font-size: .95rem; opacity: .85">{c.note}</p>
+        </div>
+        <ul class="fact-list">{c.facts.map(([k, v]) => <li><strong>{k}</strong><span>{v}</span></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h2>{c.reqH2}</h2>
+        <ul class="checklist checklist-lg">{c.req.map((x) => <li>{x}</li>)}</ul>
+        <p class="note">{c.reqNote}</p>
+      </div>
+      <div class="card">
+        <Icon name="calendar" size={32} class="card-icon" />
+        <h3>{c.planH}</h3>
+        <p>{c.planText}</p>
+        <a class="btn btn-accent btn-lg" href="#anfrage">{c.cta}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-dark section">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
+      <Steps lang={lang} steps={c.steps} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="section-head"><h2>{c.faqH2}</h2></div>
+      <Faq items={c.faq} />
+    </div>
+  </section>
+
+  <section id="anfrage" class="section band-sand">
+    <div class="container form-layout">
+      <div class="stack-lg">
+        <h2>{c.formH2}</h2>
+        <p class="muted">{c.formText}</p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+      </div>
+      <EmployerForm lang={lang} variant="saison" />
+    </div>
+  </section>
+</Base>

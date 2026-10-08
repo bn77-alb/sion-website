@@ -107,10 +107,10 @@ const pages = {
 };
 const page = pages[service];
 const p = page[lang];
-const others = (['lkw', 'paket', 'lager', 'reinigung', 'backoffice'] as const).filter((k) => k !== service);
+const others = (['lkw', 'paket', 'lager', 'reinigung', 'saison', 'backoffice'] as const).filter((k) => k !== service);
 const otherLabels = {
-  de: { lkw: 'LKW-Fahrer', paket: 'Paketzusteller', lager: 'Lager & Logistik', reinigung: 'Reinigung', backoffice: 'Back Office' },
-  en: { lkw: 'Truck drivers', paket: 'Parcel delivery', lager: 'Warehouse & logistics', reinigung: 'Cleaning', backoffice: 'Back office' },
+  de: { lkw: 'LKW-Fahrer', paket: 'Paketzusteller', lager: 'Lager & Logistik', reinigung: 'Reinigung', saison: 'Saisonarbeit', backoffice: 'Back Office' },
+  en: { lkw: 'Truck drivers', paket: 'Parcel delivery', lager: 'Warehouse & logistics', reinigung: 'Cleaning', saison: 'Seasonal work', backoffice: 'Back office' },
 }[lang];
 ---
 <Base lang={lang} page={service} title={p.title} description={p.description}>

@@ -31,7 +31,7 @@ const c = {
     factsH2: 'Auf einen Blick',
     facts: [['Leistungen', 'Personalvermittlung & Back Office'], ['Kunden', 'Unternehmen in ganz Deutschland'], ['Kandidaten', 'Deutschland & international, Schwerpunkt Westbalkan'], ['Büro', `${site.city}, ${site.countryDe}`], ['Sprachen', 'Deutsch & Englisch']],
     contactH2: 'Ihr Ansprechpartner',
-    contactText: 'Sie erreichen uns direkt per Telefon, WhatsApp oder E-Mail – wir antworten innerhalb von 1 Werktag.',
+    contactText: 'Sie erreichen uns direkt per Telefon oder E-Mail – wir antworten innerhalb von 1 Werktag.',
     languages: 'Sprachen', langsV: 'Deutsch | Englisch',
   },
   en: {
@@ -56,7 +56,7 @@ const c = {
     factsH2: 'At a glance',
     facts: [['Services', 'Recruitment & back office'], ['Clients', 'Companies throughout Germany'], ['Candidates', 'Germany & international, focus on the Western Balkans'], ['Office', `${site.city}, ${site.countryEn}`], ['Languages', 'German & English']],
     contactH2: 'Your contact',
-    contactText: 'Reach us directly by phone, WhatsApp or email – we reply within 1 working day.',
+    contactText: 'Reach us directly by phone or email – we reply within 1 working day.',
     languages: 'Languages', langsV: 'German | English',
   },
 }[lang];
@@ -110,7 +110,6 @@ const c = {
             {m.phone && <a class="big-phone" href={`tel:${m.phoneHref ?? m.phone}`}>{m.phone}</a>}
             {m.email && <a href={`mailto:${m.email}`}>{m.email}</a>}
             {m.linkedin && <a href={m.linkedin} rel="noopener" target="_blank">LinkedIn</a>}
-            <a class="btn btn-whatsapp" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsappWrite}</a>
           </article>
         )) : (
           <article class="card person">
@@ -120,7 +119,6 @@ const c = {
             <p>{c.languages}: {c.langsV}</p>
             <a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a>
             <a href={`mailto:${site.email}`}>{site.email}</a>
-            <a class="btn btn-whatsapp" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsapp}</a>
           </article>
         )}
       </div>

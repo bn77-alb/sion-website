@@ -10,7 +10,7 @@ const t = {
   de: {
     claim: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung und Back-Office-Services.',
     services: 'Leistungen', company: 'Unternehmen', contact: 'Kontakt',
-    links: [['Personalvermittlung', r('personalvermittlung')], ['LKW-Fahrer', r('lkw')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Back Office', r('backoffice')]],
+    links: [['Personalvermittlung', r('personalvermittlung')], ['LKW-Fahrer', r('lkw')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
     company2: [['Für Unternehmen', r('unternehmen')], ['Für Bewerber', r('bewerber')], ['Über uns', r('ueberuns')], ['Kontakt', r('kontakt')]],
     office: 'Büro', country: site.countryDe, langs: 'Deutsch & Englisch',
     rights: 'Alle Rechte vorbehalten.',
@@ -19,7 +19,7 @@ const t = {
   en: {
     claim: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – through recruitment and back-office services.',
     services: 'Services', company: 'Company', contact: 'Contact',
-    links: [['Recruitment', r('personalvermittlung')], ['Truck drivers', r('lkw')], ['Parcel delivery drivers', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning staff', r('reinigung')], ['Back office', r('backoffice')]],
+    links: [['Recruitment', r('personalvermittlung')], ['Truck drivers', r('lkw')], ['Parcel delivery drivers', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning staff', r('reinigung')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
     company2: [['For employers', r('unternehmen')], ['For applicants', r('bewerber')], ['About us', r('ueberuns')], ['Contact', r('kontakt')]],
     office: 'Office', country: site.countryEn, langs: 'German & English',
     rights: 'All rights reserved.',
@@ -33,7 +33,7 @@ const t = {
       <p class="footer-brand">SION Consulting</p>
       <p>{t.claim}</p>
       <a class="footer-phone" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
-      <a class="btn btn-whatsapp footer-wa" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsapp}</a>
+      <a class="footer-mail" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {site.email}</a>
     </div>
     <div>
       <p class="footer-title">{t.services}</p>
