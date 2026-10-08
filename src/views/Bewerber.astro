@@ -31,7 +31,7 @@ const c = {
     offer: ['Passende Stelle bei einem Arbeitgeber in Deutschland', 'Unterstützung bei Unterlagen, Anträgen und Terminen', 'Hilfe bei Anreise, Unterkunftssuche und Anmeldung', 'Ansprechpartner auf Deutsch und Englisch'],
     stepsH2: 'In vier Schritten zum Job in Deutschland',
     steps: [
-      ['Bewerbung senden', 'Über das Formular, per E-Mail oder WhatsApp.'],
+      ['Bewerbung senden', 'Über das Formular oder per E-Mail.'],
       ['Gespräch', 'Wir lernen Sie kennen und prüfen Ihre Unterlagen.'],
       ['Vorstellung beim Arbeitgeber', 'Der Arbeitgeber lernt Sie kennen – oft per Video.'],
       ['Unterlagen & Start', 'Wir unterstützen bei den Formalitäten bis zum ersten Arbeitstag.'],
@@ -44,7 +44,7 @@ const c = {
     ],
     formH2: 'Ich suche Arbeit',
     formText: 'Füllen Sie das kurze Formular aus. Wir melden uns, sobald wir eine passende Stelle für Sie haben.',
-    whatsapp: 'Lieber per WhatsApp?',
+    mailAlt: 'Lieber per E-Mail?',
   },
   en: {
     title: 'Jobs in Germany for Truck Drivers, Delivery & Logistics | SION Consulting',
@@ -67,7 +67,7 @@ const c = {
     offer: ['A suitable job with an employer in Germany', 'Assistance with documents, applications and appointments', 'Help with travel, finding accommodation and registration', 'Contact person in German and English'],
     stepsH2: 'Four steps to your job in Germany',
     steps: [
-      ['Send your application', 'Via the form, by email or WhatsApp.'],
+      ['Send your application', 'Via the form or by email.'],
       ['Interview', 'We get to know you and check your documents.'],
       ['Meet the employer', 'The employer gets to know you – often by video.'],
       ['Documents & start', 'We assist with the formalities up to your first working day.'],
@@ -80,7 +80,7 @@ const c = {
     ],
     formH2: 'I am looking for work',
     formText: 'Fill in the short form. We will contact you as soon as we have a suitable job for you.',
-    whatsapp: 'Prefer WhatsApp?',
+    mailAlt: 'Prefer email?',
   },
 }[lang];
 ---
@@ -93,7 +93,6 @@ const c = {
         <p class="lead">{c.lead}</p>
         <div class="btn-row">
           <a class="btn btn-accent btn-lg" href="#bewerbung">{c.cta}</a>
-          <a class="btn btn-whatsapp btn-lg" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsappWrite}</a>
         </div>
       </div>
       <div class="media ratio-landscape hide-mobile-block">
@@ -143,7 +142,7 @@ const c = {
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
-        <p><strong>{c.whatsapp}</strong><br /><a class="big-phone" href={site.whatsapp} rel="noopener" target="_blank">{site.phone}</a></p>
+        <p><strong>{c.mailAlt}</strong><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
       <CandidateForm lang={lang} />
     </div>

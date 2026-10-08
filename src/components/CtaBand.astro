@@ -1,5 +1,5 @@
 ---
-// Closing call to action: phone | WhatsApp | inquiry form.
+// Closing call to action: phone | email | inquiry form.
 import Icon from './Icon.astro';
 import { ui, requestHref, type Lang } from '../i18n';
 import { site } from '../config';
@@ -21,7 +21,7 @@ const text = Astro.props.text ?? t.text;
       </div>
       <div class="cta-actions">
         <a class="btn btn-light btn-lg" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
-        <a class="btn btn-whatsapp btn-lg" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsapp}</a>
+        <a class="btn btn-outline-light btn-lg" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {ui[lang].emailWrite}</a>
         <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{t.form} <Icon name="arrow" size={20} /></a>
       </div>
     </div>

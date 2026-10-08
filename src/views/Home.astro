@@ -123,9 +123,9 @@ const schema = {
         <div class="btn-row hero-buttons">
           <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{ui[lang].request}</a>
           <a class="btn btn-ghost btn-lg hide-mobile" href="#leistungen">{c.services}</a>
-          <a class="btn btn-whatsapp btn-lg show-mobile" href={site.whatsapp} rel="noopener" target="_blank"><Icon name="whatsapp" size={20} /> {ui[lang].whatsappWrite}</a>
+          <a class="btn btn-dark btn-lg show-mobile" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {ui[lang].callNow}</a>
         </div>
-        <p class="hero-call"><Icon name="phone" size={18} /> {c.callNow} <a href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+        <p class="hero-call hide-mobile"><Icon name="phone" size={18} /> {c.callNow} <a href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
         <p class="hero-applicant">{c.heroApplicant} <a class="link-arrow" href={`${r('bewerber')}#bewerbung`}>{c.appCta}</a></p>
       </div>
       <div class="hero-visual hide-mobile-block">

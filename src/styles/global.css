@@ -197,7 +197,7 @@ html.menu-open { overflow: hidden; }
     background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(18, 33, 46, .08);
   }
   .mobile-bar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; font-size: .8125rem; font-weight: 600; color: var(--ink); border-right: 1px solid var(--line); }
-  .mobile-bar a:nth-child(2) { color: var(--wa); }
+
   .mobile-bar .mobile-bar-cta { background: var(--accent); color: #fff; border-right: 0; }
   .mobile-bar .mobile-bar-cta:hover { color: #fff; }
   html.menu-open .mobile-bar { display: none; }
@@ -443,3 +443,8 @@ html.menu-open .chatw { display: none; }
   .site-footer, .form-note, .form-hint, .consent { font-size: .95rem; }
 }
 h3, .h3 { hyphens: manual; }
+.btn-outline-light { background: transparent; border-color: rgba(255,255,255,.7); color: #fff; }
+.btn-outline-light:hover { background: #fff; color: var(--ink); }
+.band-dark .btn-outline-light, .cta-band .btn-outline-light { color: #fff; }
+.cta-band .btn-outline-light:hover { color: var(--ink); }
+.footer-mail { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: #fff !important; text-decoration: none; }

@@ -22,7 +22,6 @@ export const site = {
   email: 'info@sionconsulting.de',
   phone: '+49 152 09511259',
   phoneHref: '+4915209511259',
-  whatsapp: 'https://wa.me/4915209511259',
 
   // Forms: n8n workflow "SION – Website Forms" – stores each inquiry in the data table
   // "SION Website Anfragen" and emails it to info@sionconsulting.de.
