@@ -24,7 +24,7 @@ const isPh = (v: string) => v.startsWith('[');
           <h3>Vertreten durch</h3>
           <p><span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span></p>
           <h3>Kontakt</h3>
-          <p>Telefon: <a href={`tel:${site.phoneHref}`}>{site.phone}</a><br />E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p>E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a><br />Kontaktformular: <a href="/kontakt/#anfrage">sionconsulting.de/kontakt</a></p>
           <h3>Registereintrag</h3>
           <p>Eingetragen im albanischen Unternehmensregister (Qendra Kombëtare e Biznesit)<br />NIPT: <span class:list={[{ ph: isPh(site.registry) }]}>{site.registry}</span></p>
           {site.vatId && (<><h3>Umsatzsteuer-Identifikationsnummer</h3><p>{site.vatId}</p></>)}
@@ -50,7 +50,7 @@ const isPh = (v: string) => v.startsWith('[');
           <h3>Represented by</h3>
           <p><span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span></p>
           <h3>Contact</h3>
-          <p>Phone: <a href={`tel:${site.phoneHref}`}>{site.phone}</a><br />Email: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p>Email: <a href={`mailto:${site.email}`}>{site.email}</a><br />Contact form: <a href="/en/contact/#anfrage">sionconsulting.de/en/contact</a></p>
           <h3>Registration</h3>
           <p>Registered with the Albanian National Business Center (Qendra Kombëtare e Biznesit)<br />NIPT: <span class:list={[{ ph: isPh(site.registry) }]}>{site.registry}</span></p>
           {site.vatId && (<><h3>VAT ID</h3><p>{site.vatId}</p></>)}

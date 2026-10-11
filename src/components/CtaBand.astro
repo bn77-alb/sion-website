@@ -1,13 +1,13 @@
 ---
-// Closing call to action: phone | email | inquiry form.
+// Closing call to action: email | inquiry form.
 import Icon from './Icon.astro';
 import { ui, requestHref, type Lang } from '../i18n';
 import { site } from '../config';
 interface Props { lang: Lang; title?: string; text?: string }
 const { lang } = Astro.props;
 const t = {
-  de: { title: 'Sie benötigen Personal?', text: 'Sprechen Sie mit uns – unverbindlich, auf Deutsch oder Englisch. Wir antworten innerhalb von 1 Werktag.', form: 'Anfrageformular' },
-  en: { title: 'Do you need staff?', text: 'Talk to us – no obligation, in German or English. We reply within 1 working day.', form: 'Inquiry form' },
+  de: { title: 'Sie benötigen Personal?', text: 'Schreiben Sie uns – unverbindlich, auf Deutsch oder Englisch. Wir antworten innerhalb von 1 Werktag.', form: 'Anfrageformular' },
+  en: { title: 'Do you need staff?', text: 'Write to us – no obligation, in German or English. We reply within 1 working day.', form: 'Inquiry form' },
 }[lang];
 const title = Astro.props.title ?? t.title;
 const text = Astro.props.text ?? t.text;
@@ -20,7 +20,6 @@ const text = Astro.props.text ?? t.text;
         <p>{text}</p>
       </div>
       <div class="cta-actions">
-        <a class="btn btn-light btn-lg" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
         <a class="btn btn-outline-light btn-lg" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {ui[lang].emailWrite}</a>
         <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{t.form} <Icon name="arrow" size={20} /></a>
       </div>

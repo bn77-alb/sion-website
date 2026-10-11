@@ -63,7 +63,7 @@ const c = {
     ],
     formH2: 'LKW-Fahrer anfragen',
     formText: 'Beschreiben Sie kurz Ihren Bedarf – Touren, Fahrzeugtyp, Einsatzort. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
-    formCall: 'Lieber direkt sprechen?',
+    formCall: 'Lieber per E-Mail?',
   },
   en: {
     title: 'Truck Drivers from Abroad | Recruitment | SION Consulting',
@@ -117,7 +117,7 @@ const c = {
     ],
     formH2: 'Request truck drivers',
     formText: 'Briefly describe what you need – routes, vehicle type, location. We will get back to you within 1 working day with a proposal.',
-    formCall: 'Prefer to talk directly?',
+    formCall: 'Prefer email?',
   },
 }[lang];
 
@@ -201,7 +201,7 @@ const schema = {
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
-        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
       <EmployerForm lang={lang} variant="lkw" />
     </div>

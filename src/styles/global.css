@@ -196,6 +196,7 @@ html.menu-open { overflow: hidden; }
     height: var(--bar-h); padding-bottom: env(safe-area-inset-bottom);
     background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(18, 33, 46, .08);
   }
+  .mobile-bar a, .mobile-bar button { background: #fff; border: 0; border-right: 1px solid var(--line); font-family: var(--font-body); cursor: pointer; }
   .mobile-bar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-decoration: none; font-size: .8125rem; font-weight: 600; color: var(--ink); border-right: 1px solid var(--line); }
 
   .mobile-bar .mobile-bar-cta { background: var(--accent); color: #fff; border-right: 0; }
@@ -467,3 +468,5 @@ h3, .h3 { hyphens: manual; }
 .fact-list strong { font: 700 1.25rem var(--font-display); color: #fff; }
 .fact-list span { color: var(--on-dark); font-size: .95rem; }
 @media (max-width: 760px) { .route-box { border-radius: 20px; } }
+
+@media (max-width: 900px) { .mobile-bar button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: .8125rem; font-weight: 600; color: var(--ink); } }

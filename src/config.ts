@@ -20,8 +20,6 @@ export const site = {
 
   // Contact
   email: 'info@sionconsulting.de',
-  phone: '+49 152 09511259',
-  phoneHref: '+4915209511259',
 
   // Forms: n8n workflow "SION – Website Forms" – stores each inquiry in the data table
   // "SION Website Anfragen" and emails it to info@sionconsulting.de.
@@ -52,12 +50,12 @@ export const testimonials: { quote: Bi; author: Bi; result?: Bi }[] = [];
 
 // "Ihr Ansprechpartner" on the About page. photo: file in public/images/team/, e.g. '/images/team/name.jpg'
 // { name: 'Vorname Nachname', role: { de: 'Geschäftsführung', en: 'Managing Director' }, languages: { de: 'Deutsch | Englisch', en: 'German | English' },
-//   phone: '+49 152 09511259', phoneHref: '+4915209511259', email: 'info@sionconsulting.de', linkedin: '', photo: '' },
+//   email: 'info@sionconsulting.de', linkedin: '', photo: '' },
 export const team: { name: string; role: Bi; languages: Bi; phone?: string; phoneHref?: string; email?: string; linkedin?: string; photo?: string }[] = [
   {
     name: 'Egla Nela',
     role: { de: 'Geschäftsführerin', en: 'Managing Director' },
     languages: { de: 'Deutsch | Englisch', en: 'German | English' },
-    phone: site.phone, phoneHref: site.phoneHref, email: site.email,
+    email: site.email,
   },
 ];

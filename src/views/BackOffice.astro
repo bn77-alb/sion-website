@@ -41,7 +41,7 @@ const c = {
     dpText: 'Wir behandeln Ihre Unterlagen vertraulich. Für die Verarbeitung personenbezogener Daten in Ihrem Auftrag schließen wir mit Ihnen einen Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.',
     formH2: 'Back-Office-Unterstützung anfragen',
     formText: 'Beschreiben Sie kurz, welche Aufgaben Sie abgeben möchten. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
-    formCall: 'Lieber direkt sprechen?',
+    formCall: 'Lieber per E-Mail?',
   },
   en: {
     title: 'Back-Office Services for SMEs in Germany | SION Consulting',
@@ -75,7 +75,7 @@ const c = {
     dpText: 'We treat your documents confidentially. For processing personal data on your behalf, we conclude a data processing agreement with you under Art. 28 GDPR.',
     formH2: 'Request back-office support',
     formText: 'Briefly describe which tasks you would like to hand over. We will get back to you within 1 working day with a proposal.',
-    formCall: 'Prefer to talk directly?',
+    formCall: 'Prefer email?',
   },
 }[lang];
 ---
@@ -133,7 +133,7 @@ const c = {
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
-        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
       <BackOfficeForm lang={lang} />
     </div>

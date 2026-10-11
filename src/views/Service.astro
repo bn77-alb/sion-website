@@ -25,7 +25,7 @@ const common = {
     reqH2: 'Was die Kandidaten mitbringen',
     procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
     formH2: 'Personal anfragen', formText: 'Beschreiben Sie kurz Ihren Bedarf. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
-    formCall: 'Lieber direkt sprechen?', other: 'Weitere Bereiche',
+    formCall: 'Lieber per E-Mail?', other: 'Weitere Bereiche',
   },
   en: {
     cta: 'Request staff', cta2: 'Free initial consultation',
@@ -39,7 +39,7 @@ const common = {
     reqH2: 'What the candidates bring',
     procEyebrow: 'Process', procH2: 'How we work together',
     formH2: 'Request staff', formText: 'Briefly describe what you need. We will get back to you within 1 working day with a proposal.',
-    formCall: 'Prefer to talk directly?', other: 'Other areas',
+    formCall: 'Prefer email?', other: 'Other areas',
   },
 }[lang];
 
@@ -176,7 +176,7 @@ const otherLabels = {
       <div class="stack-lg">
         <h2>{common.formH2}</h2>
         <p class="muted">{common.formText}</p>
-        <p><strong>{common.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+        <p><strong>{common.formCall}</strong><br /><a class="big-phone" href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
       <EmployerForm lang={lang} position={service} />
     </div>
