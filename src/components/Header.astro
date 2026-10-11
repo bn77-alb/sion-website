@@ -12,7 +12,6 @@ const items = nav(lang);
   <div class="container topbar-inner">
     <span class="topbar-claim">{t.topbar}</span>
     <div class="topbar-links">
-      <a href={`tel:${site.phoneHref}`} class="topbar-phone"><Icon name="phone" size={16} /> {site.phone}</a>
       <a href={`mailto:${site.email}`}><Icon name="mail" size={16} /> {site.email}</a>
       <div class="lang-switch lang-switch-sm" role="group" aria-label={t.language}>
         <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
@@ -36,8 +35,8 @@ const items = nav(lang);
     </nav>
     <div class="header-actions">
       <a class="btn btn-accent header-cta" href={requestHref(lang)}>{t.request}</a>
-      <a class="icon-btn header-call" href={`tel:${site.phoneHref}`} aria-label={`${t.callLabel}: ${site.phone}`}>
-        <Icon name="phone" size={22} />
+      <a class="icon-btn header-call" href={`mailto:${site.email}`} aria-label={`${t.mailLabel}: ${site.email}`}>
+        <Icon name="mail" size={22} />
       </a>
       <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-label-open={t.menu} data-label-close={t.close}>
         <span class="icon-open"><Icon name="menu" size={24} /></span>
@@ -54,7 +53,6 @@ const items = nav(lang);
         ))}
       </ul>
       <div class="mobile-nav-contact">
-        <a class="btn btn-dark btn-block" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
         <a class="btn btn-ghost btn-block" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {t.emailWrite}</a>
         <a class="btn btn-accent btn-block" href={requestHref(lang)}>{t.request}</a>
         {site.chatEndpoint && <button type="button" class="btn btn-ghost btn-block" data-chat-open data-close-menu><Icon name="chat" size={20} /> {t.chat}</button>}

@@ -1,5 +1,5 @@
 ---
-// "Sprechen Sie direkt mit uns" – phone, email, languages.
+// "Schreiben Sie uns" – email, languages.
 import Icon from './Icon.astro';
 import { ui, type Lang } from '../i18n';
 import { site } from '../config';
@@ -7,17 +7,13 @@ interface Props { lang: Lang; headingLevel?: 'h1' | 'h2' }
 const { lang, headingLevel = 'h2' } = Astro.props;
 const H = headingLevel;
 const t = {
-  de: { title: 'Sprechen Sie direkt mit uns', phone: 'Telefon', email: 'E-Mail', langs: 'Sprachen', langsV: 'Deutsch & Englisch', request: 'Personal anfragen' },
-  en: { title: 'Talk to us directly', phone: 'Phone', email: 'Email', langs: 'Languages', langsV: 'German & English', request: 'Request staff' },
+  de: { title: 'Schreiben Sie uns', phone: 'Telefon', email: 'E-Mail', langs: 'Sprachen', langsV: 'Deutsch & Englisch', request: 'Personal anfragen' },
+  en: { title: 'Get in touch', phone: 'Phone', email: 'Email', langs: 'Languages', langsV: 'German & English', request: 'Request staff' },
 }[lang];
 ---
 <div class="direct">
   <H class="direct-title">{t.title}</H>
   <ul class="direct-list">
-    <li>
-      <Icon name="phone" size={24} />
-      <div><span class="direct-label">{t.phone}</span><a class="direct-value" href={`tel:${site.phoneHref}`}>{site.phone}</a></div>
-    </li>
     <li>
       <Icon name="mail" size={24} />
       <div><span class="direct-label">{t.email}</span><a class="direct-value" href={`mailto:${site.email}`}>{site.email}</a></div>
@@ -28,8 +24,7 @@ const t = {
     </li>
   </ul>
   <div class="direct-buttons">
-    <a class="btn btn-dark btn-lg" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {ui[lang].callNow}</a>
-    <a class="btn btn-ghost btn-lg" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {ui[lang].emailWrite}</a>
+    <a class="btn btn-dark btn-lg" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {ui[lang].emailWrite}</a>
     <a class="btn btn-accent btn-lg" href="#anfrage">{t.request}</a>
   </div>
 </div>

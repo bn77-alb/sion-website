@@ -49,7 +49,7 @@ const c = {
       { q: 'In welchen Regionen sind Sie tätig?', a: 'Bundesweit. Wir vermitteln Personal an Unternehmen in ganz Deutschland.' },
     ],
     formH2: 'Personal anfragen', formText: 'Schildern Sie uns kurz Ihren Bedarf – wir melden uns innerhalb von 1 Werktag.',
-    formCall: 'Lieber direkt sprechen?',
+    formCall: 'Lieber per E-Mail?',
   },
   en: {
     title: 'For Employers: Staff & Back Office from One Source | SION Consulting',
@@ -89,7 +89,7 @@ const c = {
       { q: 'Which regions do you cover?', a: 'Nationwide. We place staff with companies throughout Germany.' },
     ],
     formH2: 'Request staff', formText: 'Briefly tell us what you need – we will reply within 1 working day.',
-    formCall: 'Prefer to talk directly?',
+    formCall: 'Prefer email?',
   },
 }[lang];
 
@@ -107,7 +107,7 @@ const schema = {
       <p class="lead">{c.lead}</p>
       <div class="btn-row">
         <a class="btn btn-accent btn-lg" href="#anfrage">{ui[lang].request}</a>
-        <a class="btn btn-ghost btn-lg" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {ui[lang].callNow}</a>
+        <a class="btn btn-ghost btn-lg" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {ui[lang].emailWrite}</a>
       </div>
     </div>
   </section>
@@ -162,7 +162,7 @@ const schema = {
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
-        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
       <EmployerForm lang={lang} />
     </div>

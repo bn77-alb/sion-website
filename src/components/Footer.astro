@@ -32,7 +32,6 @@ const t = {
     <div class="footer-about">
       <p class="footer-brand">SION Consulting</p>
       <p>{t.claim}</p>
-      <a class="footer-phone" href={`tel:${site.phoneHref}`}><Icon name="phone" size={20} /> {site.phone}</a>
       <a class="footer-mail" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {site.email}</a>
     </div>
     <div>
@@ -46,7 +45,6 @@ const t = {
     <div>
       <p class="footer-title">{t.contact}</p>
       <ul class="footer-list">
-        <li><a href={`tel:${site.phoneHref}`}>{site.phone}</a></li>
         <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
         <li>{t.langs}</li>
         <li><span class="footer-sub">{t.office}</span><br />{site.street}<br />{site.zip} {site.city}, {t.country}</li>

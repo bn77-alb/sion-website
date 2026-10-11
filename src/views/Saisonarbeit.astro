@@ -61,7 +61,7 @@ const c = {
     ],
     formH2: 'Saisonkräfte anfragen',
     formText: 'Nennen Sie uns Branche, Anzahl, Einsatzort und Saisonzeitraum. Wir melden uns innerhalb von 1 Werktag.',
-    formCall: 'Lieber direkt sprechen?',
+    formCall: 'Lieber per E-Mail?',
   },
   en: {
     title: 'Seasonal Workers for Construction, Cleaning & Hotels | SION Consulting',
@@ -110,7 +110,7 @@ const c = {
     ],
     formH2: 'Request seasonal workers',
     formText: 'Tell us the sector, number of workers, location and season dates. We will reply within 1 working day.',
-    formCall: 'Prefer to talk directly?',
+    formCall: 'Prefer email?',
   },
 }[lang];
 
@@ -203,7 +203,7 @@ const schema = {
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
-        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`tel:${site.phoneHref}`}>{site.phone}</a></p>
+        <p><strong>{c.formCall}</strong><br /><a class="big-phone" href={`mailto:${site.email}`}>{site.email}</a></p>
       </div>
       <EmployerForm lang={lang} variant="saison" />
     </div>
