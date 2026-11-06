@@ -20,7 +20,7 @@ const servicesEn = 'n8n GmbH, Novalisstraße 10, 10115 Berlin, Germany (n8n Clou
 
           <h2>Verantwortlicher</h2>
           <address>
-            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.name}<br />
             {site.street}, {site.zip} {site.city}, {site.countryDe}<br />
             Vertreten durch: <span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span><br />
             E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -81,7 +81,7 @@ const servicesEn = 'n8n GmbH, Novalisstraße 10, 10115 Berlin, Germany (n8n Clou
 
           <h2>Controller</h2>
           <address>
-            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.name}<br />
             {site.street}, {site.zip} {site.city}, {site.countryEn}<br />
             Represented by: <span class:list={[{ ph: isPh(site.representative) }]}>{site.representative}</span><br />
             Email: <a href={`mailto:${site.email}`}>{site.email}</a>
