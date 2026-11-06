@@ -3,16 +3,20 @@ import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { routes, nav, ui, requestHref, type Lang, type PageKey } from '../i18n';
 import { site } from '../config';
-interface Props { lang: Lang; page: PageKey }
-const { lang, page } = Astro.props;
+interface Props { lang: Lang; page: PageKey; audience?: 'employer' | 'candidate' }
+const { lang, page, audience = 'employer' } = Astro.props;
+const candidate = audience === 'candidate';
 const t = ui[lang];
 const items = nav(lang);
 ---
 <div class="topbar">
   <div class="container topbar-inner">
-    <span class="topbar-claim">{t.topbar}</span>
+    <nav class="topbar-candidates" aria-label={t.candidateLinks}>
+      <a class="topbar-eu" href={routes.eufahrer[lang]} aria-current={page === 'eufahrer' ? 'page' : undefined}><Icon name="truck" size={16} /> {t.euDrivers}</a>
+      <a href={routes.bewerber[lang]} aria-current={page === 'bewerber' ? 'page' : undefined}>{t.applicants}</a>
+    </nav>
     <div class="topbar-links">
-      <a href={`mailto:${site.email}`}><Icon name="mail" size={16} /> {site.email}</a>
+      {!candidate && <a class="topbar-mail" href={`mailto:${site.email}`}><Icon name="mail" size={16} /> {site.email}</a>}
       <div class="lang-switch lang-switch-sm" role="group" aria-label={t.language}>
         <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
         <a href={routes[page].en} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
@@ -35,9 +39,11 @@ const items = nav(lang);
     </nav>
     <div class="header-actions">
       <a class="btn btn-accent header-cta" href={requestHref(lang)}>{t.request}</a>
-      <a class="icon-btn header-call" href={`mailto:${site.email}`} aria-label={`${t.mailLabel}: ${site.email}`}>
-        <Icon name="mail" size={22} />
-      </a>
+      {!candidate && (
+        <a class="icon-btn header-call" href={`mailto:${site.email}`} aria-label={`${t.mailLabel}: ${site.email}`}>
+          <Icon name="mail" size={22} />
+        </a>
+      )}
       <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" data-label-open={t.menu} data-label-close={t.close}>
         <span class="icon-open"><Icon name="menu" size={24} /></span>
         <span class="icon-close"><Icon name="close" size={24} /></span>
@@ -48,12 +54,14 @@ const items = nav(lang);
   <nav id="mobile-nav" class="mobile-nav" aria-label={t.mainNav} hidden>
     <div class="container">
       <ul>
+        <li><a class="mobile-nav-eu" href={routes.eufahrer[lang]} aria-current={page === 'eufahrer' ? 'page' : undefined}>{t.euDrivers}<Icon name="arrow" size={18} /></a></li>
+        <li><a href={routes.bewerber[lang]} aria-current={page === 'bewerber' ? 'page' : undefined}>{t.applicants}<Icon name="arrow" size={18} /></a></li>
         {items.map((item) => (
           <li><a href={item.href} aria-current={item.key === page ? 'page' : undefined}>{item.label}<Icon name="arrow" size={18} /></a></li>
         ))}
       </ul>
       <div class="mobile-nav-contact">
-        <a class="btn btn-ghost btn-block" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {t.emailWrite}</a>
+        {!candidate && <a class="btn btn-ghost btn-block" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {t.emailWrite}</a>}
         <a class="btn btn-accent btn-block" href={requestHref(lang)}>{t.request}</a>
         {site.chatEndpoint && <button type="button" class="btn btn-ghost btn-block" data-chat-open data-close-menu><Icon name="chat" size={20} /> {t.chat}</button>}
       </div>

@@ -2,6 +2,7 @@
 // "Back-Office-Unterstützung anfragen" – inquiry form for outsourcing administrative work.
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
+import CallbackFields from './CallbackFields.astro';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 
@@ -50,16 +51,11 @@ const id = (n: string) => `bo-${n}`;
       <input id={id('name')} name="name" data-label={t.contact} type="text" required autocomplete="name" />
     </label>
   </div>
-  <div class="form-row">
-    <label class="field" for={id('phone')}>
-      <span>{t.phone} <span class="req" aria-hidden="true">*</span></span>
-      <input id={id('phone')} name="phone" data-label={t.phone} type="tel" required autocomplete="tel" inputmode="tel" />
-    </label>
-    <label class="field" for={id('email')}>
+  <label class="field" for={id('email')}>
       <span>{t.email} <span class="req" aria-hidden="true">*</span></span>
       <input id={id('email')} name="email" data-label={t.email} type="email" required autocomplete="email" />
     </label>
-  </div>
+  <CallbackFields lang={lang} prefix="bo-cb" />
   <label class="field" for={id('industry')}>
     <span>{t.industry}</span>
     <input id={id('industry')} name="industry" data-label={t.industry} type="text" placeholder={t.industryPh} />

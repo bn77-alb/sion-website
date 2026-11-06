@@ -6,6 +6,7 @@ import ServiceCards from '../components/ServiceCards.astro';
 import Steps from '../components/Steps.astro';
 import Trust from '../components/Trust.astro';
 import CtaBand from '../components/CtaBand.astro';
+import PricingBox from '../components/PricingBox.astro';
 import { routes, ui, requestHref, type Lang } from '../i18n';
 import { site } from '../config';
 interface Props { lang: Lang }
@@ -15,10 +16,10 @@ const r = (k: keyof typeof routes) => routes[k][lang];
 const c = {
   de: {
     title: 'Personalvermittlung Deutschland | LKW-Fahrer & Logistikpersonal | SION Consulting',
-    description: 'SION Consulting vermittelt LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal an Unternehmen in Deutschland und bietet Back-Office-Unterstützung.',
+    description: 'SION Consulting vermittelt LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal an Unternehmen in Deutschland und bietet Back-Office-Unterstützung. Keine Anzahlung, Zahlung erst nach 30 Tagen.',
     h1: 'Personalvermittlung & Back-Office-Lösungen für deutsche Unternehmen',
     lead: 'Zuverlässige Mitarbeiter und operative Unterstützung für Unternehmen in Deutschland.',
-    lead2: 'Wir lösen Personal- und Fahrermangel – mit vorgeprüften Kandidaten aus Deutschland und dem Ausland – und entlasten Ihre Verwaltung.',
+    lead2: 'Wir lösen Personal- und Fahrermangel – mit vorgeprüften Kandidaten aus der EU, dem Westbalkan und Deutschland – und entlasten Ihre Verwaltung.',
     chips: [['LKW-Fahrer', r('lkw')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
     chipsLabel: 'Unsere Bereiche',
     services: 'Unsere Leistungen',
@@ -28,11 +29,11 @@ const c = {
     cardList: ['Vorgeprüfte Kandidaten', 'Direkte Anstellung in Ihrem Unternehmen', 'Ein deutschsprachiger Ansprechpartner'],
     svcEyebrow: 'Personalvermittlung',
     svcH2: 'Personal für Transport, Logistik und Dienstleistung',
-    svcLead: 'Personalmangel, offene Fahrerstellen, erfolglose Stellenanzeigen? Wir finden passende Mitarbeiter – in Deutschland und international – und begleiten den Prozess bis zum ersten Arbeitstag.',
+    svcLead: 'Personalmangel, offene Fahrerstellen, erfolglose Stellenanzeigen? Wir finden passende Mitarbeiter aus der EU, dem Westbalkan und Deutschland und begleiten den Prozess bis zum ersten Arbeitstag.',
     svcAll: 'Alle Leistungen der Personalvermittlung',
     lkwEyebrow: 'Schwerpunkt',
-    lkwH2: 'LKW-Fahrer aus dem Ausland – für Ihr Transportunternehmen',
-    lkwText: 'Der Fahrermangel bremst Speditionen in ganz Deutschland. Wir rekrutieren erfahrene CE-Fahrer international, prüfen sie vorab und unterstützen bei allen administrativen Schritten – bis der Fahrer bei Ihnen im Einsatz ist.',
+    lkwH2: 'LKW-Fahrer aus der EU, dem Westbalkan und Deutschland – für Ihr Transportunternehmen',
+    lkwText: 'Der Fahrermangel bremst Speditionen in ganz Deutschland. Wir rekrutieren erfahrene CE-Fahrer – vor allem Fahrer, die bereits mit EU-Führerschein und Code 95 in der EU fahren –, prüfen sie vorab und unterstützen bei allen administrativen Schritten – bis der Fahrer bei Ihnen im Einsatz ist.',
     lkwList: ['CE-Fahrer mit Berufserfahrung', 'Vorauswahl und Vorstellungsgespräch mit Ihnen', 'Unterstützung bei Führerscheinumschreibung und Code 95', 'Direkte Anstellung bei Ihnen – keine Arbeitnehmerüberlassung'],
     lkwCta: 'LKW-Fahrer anfragen', lkwCta2: 'Kostenloses Erstgespräch',
     lkwAlt: 'Weißer LKW auf der Landstraße bei Sonnenuntergang',
@@ -44,7 +45,7 @@ const c = {
     procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
     whyEyebrow: 'Warum SION Consulting', whyH2: 'Darauf können Sie sich verlassen',
     why: [
-      ['globe', 'Internationale Rekrutierung', 'Zugang zu Fachkräften im In- und Ausland, Schwerpunkt Westbalkan.'],
+      ['globe', 'Kandidaten aus der EU, dem Westbalkan und Deutschland', 'Fahrer mit Aufenthalt in der EU, Fachkräfte aus dem Westbalkan und Bewerber, die bereits in Deutschland leben.'],
       ['check', 'Vorgeprüfte Kandidaten', 'Erfahrung, Qualifikation und Unterlagen werden vor der Vorstellung geprüft.'],
       ['chat', 'Deutschsprachiger Ansprechpartner', 'Ein fester Kontakt für Sie – auf Deutsch oder Englisch.'],
       ['doc', 'Administrative Unterstützung', 'Hilfe bei Anträgen, Unterlagen und Organisation bis zum Arbeitsbeginn.'],
@@ -52,15 +53,18 @@ const c = {
     ],
     appEyebrow: 'Für Bewerberinnen und Bewerber',
     appH2: 'Sie suchen einen Job in Deutschland?',
-    appText: 'Ob als LKW-Fahrer, Paketzusteller, im Lager oder in der Reinigung: Bewerben Sie sich bei uns. Wir begleiten Sie von der Bewerbung bis zum ersten Arbeitstag.',
+    appLinks: [['Für LKW-Fahrer in der EU', r('eufahrer')], ['Westbalkanregelung für LKW-Fahrer', r('westbalkan')]],
+    appText: 'Wir vermitteln Fahrer und Arbeitskräfte, die in der EU leben oder aus dem Westbalkan kommen – kostenlos, direkt beim Arbeitgeber, ohne Zeitarbeit.',
     appCta: 'Jetzt bewerben', appCta2: 'Infos für Bewerber', heroApplicant: 'Sie suchen Arbeit?',
+    bandH: 'Sie fahren schon in der EU?', bandSub: 'LKW-Fahrer mit Aufenthalt in der EU, C/CE und Code 95', bandGo: 'Jobs in Deutschland',
+    trust: ['Direkte Anstellung', 'Keine Zeitarbeit', 'Kostenlos für Fahrer', 'Antwort in 1 Werktag'],
   },
   en: {
     title: 'Recruitment Agency Germany | Truck Drivers & Logistics Staff | SION Consulting',
-    description: 'SION Consulting places truck drivers, parcel delivery drivers, warehouse and cleaning staff with companies in Germany and provides back-office support.',
+    description: 'SION Consulting places truck drivers, parcel delivery drivers, warehouse and cleaning staff with companies in Germany and provides back-office support. No deposit, payment only after 30 days.',
     h1: 'Recruitment & Back-Office Solutions for German Companies',
     lead: 'Reliable employees and operational support for companies in Germany.',
-    lead2: 'We solve staff and driver shortages – with pre-screened candidates from Germany and abroad – and take work off your administration.',
+    lead2: 'We solve staff and driver shortages – with pre-screened candidates from the EU, the Western Balkans and Germany – and take work off your administration.',
     chips: [['Truck drivers', r('lkw')], ['Parcel delivery', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning', r('reinigung')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
     chipsLabel: 'Our areas',
     services: 'Our services',
@@ -70,11 +74,11 @@ const c = {
     cardList: ['Pre-screened candidates', 'Direct employment in your company', 'One German-speaking contact person'],
     svcEyebrow: 'Recruitment',
     svcH2: 'Staff for transport, logistics and services',
-    svcLead: 'Staff shortages, vacant driver positions, job ads without response? We find suitable employees – in Germany and internationally – and support the process up to the first working day.',
+    svcLead: 'Staff shortages, vacant driver positions, job ads without response? We find suitable employees from the EU, the Western Balkans and Germany and support the process up to the first working day.',
     svcAll: 'All recruitment services',
     lkwEyebrow: 'Our focus',
-    lkwH2: 'Truck drivers from abroad – for your transport company',
-    lkwText: 'The driver shortage is slowing down hauliers across Germany. We recruit experienced CE drivers internationally, screen them in advance and assist with all administrative steps – until the driver is on the road for you.',
+    lkwH2: 'Truck drivers from the EU, the Western Balkans and Germany – for your transport company',
+    lkwText: 'The driver shortage is slowing down hauliers across Germany. We recruit experienced CE drivers – above all drivers who already drive in the EU with an EU licence and Code 95 –, screen them in advance and assist with all administrative steps – until the driver is on the road for you.',
     lkwList: ['CE drivers with professional experience', 'Pre-selection and an interview with you', 'Assistance with licence conversion and Code 95', 'Direct employment with you – no temporary agency work'],
     lkwCta: 'Request truck drivers', lkwCta2: 'Free initial consultation',
     lkwAlt: 'White truck on a country road at sunset',
@@ -86,7 +90,7 @@ const c = {
     procEyebrow: 'Process', procH2: 'How we work together',
     whyEyebrow: 'Why SION Consulting', whyH2: 'What you can rely on',
     why: [
-      ['globe', 'International recruitment', 'Access to workers in Germany and abroad, with a focus on the Western Balkans.'],
+      ['globe', 'Candidates from the EU, the Western Balkans and Germany', 'Drivers living in the EU, workers from the Western Balkans and applicants already living in Germany.'],
       ['check', 'Pre-screened candidates', 'Experience, qualifications and documents are checked before we present anyone.'],
       ['chat', 'German-speaking contact', 'One fixed contact person for you – in German or English.'],
       ['doc', 'Administrative support', 'Help with applications, documents and organisation up to the first day.'],
@@ -94,8 +98,11 @@ const c = {
     ],
     appEyebrow: 'For applicants',
     appH2: 'Looking for a job in Germany?',
-    appText: 'Whether as a truck driver, parcel delivery driver, in a warehouse or in cleaning: apply with us. We support you from your application to your first working day.',
+    appLinks: [['For truck drivers in the EU', r('eufahrer')], ['Western Balkans regulation for truck drivers', r('westbalkan')]],
+    appText: 'We place drivers and workers who live in the EU or come from the Western Balkans – free of charge, directly with the employer, no temporary agency.',
     appCta: 'Apply now', appCta2: 'Information for applicants', heroApplicant: 'Looking for work?',
+    bandH: 'Already driving in the EU?', bandSub: 'Truck drivers living in the EU with C/CE and Code 95', bandGo: 'Jobs in Germany',
+    trust: ['Direct employment', 'No temporary agency', 'Free for drivers', 'Reply in 1 working day'],
   },
 }[lang];
 
@@ -110,7 +117,7 @@ const schema = {
   knowsLanguage: ['de', 'en'],
 };
 ---
-<Base lang={lang} page="home" title={c.title} description={c.description} schema={schema}>
+<Base lang={lang} page="home" title={c.title} description={c.description} schema={schema} stickyCta={requestHref(lang)}>
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
@@ -123,7 +130,7 @@ const schema = {
           <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{ui[lang].request}</a>
           <a class="btn btn-ghost btn-lg" href="#leistungen">{c.services}</a>
         </div>
-        <p class="hero-applicant">{c.heroApplicant} <a class="link-arrow" href={`${r('bewerber')}#bewerbung`}>{c.appCta}</a></p>
+        <p class="hero-applicant">{c.heroApplicant} <a class="link-arrow" href={r('bewerber')}>{c.appCta2}</a></p>
       </div>
       <div class="hero-visual hide-mobile-block">
         <div class="media ratio-portrait">
@@ -137,7 +144,17 @@ const schema = {
     </div>
   </section>
 
-  <section id="leistungen" class="section section-first">
+  <div class="container driver-band-wrap driver-band-top">
+    <a class="driver-band" href={r('eufahrer')}>
+      <span><strong>{c.bandH}</strong><span class="sub">{c.bandSub}</span></span>
+      <span class="go">{c.bandGo} <Icon name="arrow" size={20} /></span>
+    </a>
+  </div>
+  <div class="trust-strip trust-strip-home" role="note">
+    <ul class="container">{c.trust.map((x) => <li><Icon name="check" size={18} />{x}</li>)}</ul>
+  </div>
+
+  <section id="leistungen" class="section">
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">{c.svcEyebrow}</p>
@@ -186,6 +203,10 @@ const schema = {
     </div>
   </section>
 
+  <section class="section" style="padding-top: 0">
+    <div class="container"><PricingBox lang={lang} /></div>
+  </section>
+
   <section id="ablauf" class="band-dark section">
     <div class="container">
       <div class="section-head">
@@ -219,8 +240,9 @@ const schema = {
         <p class="muted">{c.appText}</p>
       </div>
       <div class="btn-row">
-        <a class="btn btn-ghost btn-lg" href={`${r('bewerber')}#bewerbung`}>{c.appCta}</a>
+        <a class="btn btn-accent btn-lg" href={r('eufahrer')}>{c.bandH} {c.bandGo}</a>
         <a class="link-arrow" href={r('bewerber')}>{c.appCta2}</a>
+        {c.appLinks.map(([l, h]) => <a class="link-arrow" href={h}>{l}</a>)}
       </div>
     </div>
   </section>

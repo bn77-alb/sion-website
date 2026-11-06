@@ -1,14 +1,25 @@
 ---
 // Sticky contact bar at the bottom of the screen on phones and small tablets.
 import Icon from './Icon.astro';
-import { ui, requestHref, type Lang } from '../i18n';
+import { ui, routes, requestHref, type Lang } from '../i18n';
 import { site } from '../config';
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+interface Props { lang: Lang; audience?: 'employer' | 'candidate' }
+const { lang, audience = 'employer' } = Astro.props;
 const t = ui[lang];
+const candidate = audience === 'candidate';
 ---
 <nav class="mobile-bar" aria-label={t.contactBar}>
-  <a href={`mailto:${site.email}`}><Icon name="mail" size={20} /><span>{t.emailShort}</span></a>
-  {site.chatEndpoint && <button type="button" data-chat-open><Icon name="chat" size={20} /><span>{t.chatShort}</span></button>}
-  <a href={requestHref(lang)} class="mobile-bar-cta"><Icon name="users" size={20} /><span>{t.request}</span></a>
+  {candidate ? (
+    <>
+      <a href={routes.eufahrer[lang]}><Icon name="truck" size={20} /><span>{t.euShort}</span></a>
+      {site.chatEndpoint && <button type="button" data-chat-open><Icon name="chat" size={20} /><span>{t.chatShort}</span></button>}
+      <a href="#bewerbung" class="mobile-bar-cta"><Icon name="doc" size={20} /><span>{t.apply}</span></a>
+    </>
+  ) : (
+    <>
+      <a href={`mailto:${site.email}`}><Icon name="mail" size={20} /><span>{t.emailShort}</span></a>
+      {site.chatEndpoint && <button type="button" data-chat-open><Icon name="chat" size={20} /><span>{t.chatShort}</span></button>}
+      <a href={requestHref(lang)} class="mobile-bar-cta"><Icon name="users" size={20} /><span>{t.request}</span></a>
+    </>
+  )}
 </nav>

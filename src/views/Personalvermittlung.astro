@@ -11,14 +11,14 @@ const { lang } = Astro.props;
 const c = {
   de: {
     title: 'Personalvermittlung für Unternehmen in Deutschland | SION Consulting',
-    description: 'Internationale Personalvermittlung für Transport, Logistik und Dienstleistung: LKW-Fahrer, Paketzusteller, Lagerpersonal und Reinigungskräfte – direkt bei Ihnen angestellt.',
+    description: 'Personalvermittlung für Transport, Logistik und Dienstleistung: LKW-Fahrer, Paketzusteller, Lagerpersonal und Reinigungskräfte – direkt bei Ihnen angestellt. Keine Anzahlung, Zahlung erst nach 30 Tagen.',
     eyebrow: 'Personalvermittlung', h1: 'Personalvermittlung für Unternehmen in Deutschland',
-    lead: 'Wir finden zuverlässige Mitarbeiter für Transport, Logistik und Dienstleistung – in Deutschland und international – und begleiten den Prozess bis zum ersten Arbeitstag.',
+    lead: 'Wir finden zuverlässige Mitarbeiter für Transport, Logistik und Dienstleistung aus der EU, dem Westbalkan und Deutschland – und begleiten den Prozess bis zum ersten Arbeitstag.',
     cta2: 'Bereiche ansehen',
     areasH2: 'Für diese Bereiche vermitteln wir',
     sourceH2: 'Woher unsere Kandidaten kommen',
     sources: [
-      ['globe', 'Internationale Rekrutierung', 'Schwerpunkt Westbalkan – Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro, Bosnien und Herzegowina – sowie weitere Länder. Wir unterstützen bei den administrativen Schritten für Zustimmung, Visum und Einreise.'],
+      ['globe', 'Aus der EU, dem Westbalkan und Deutschland', 'Fahrer mit Aufenthalt in einem EU-Land, Staatsangehörige aus Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro, Bosnien und Herzegowina sowie Bewerber, die bereits in Deutschland leben. Wir unterstützen bei den administrativen Schritten.'],
       ['pin', 'Kandidaten in Deutschland', 'Arbeitskräfte, die bereits in Deutschland leben und eine neue Stelle suchen – oft kurzfristig verfügbar.'],
       ['handshake', 'Direkte Anstellung', 'Alle Mitarbeiter werden direkt bei Ihnen angestellt. Es handelt sich nicht um Arbeitnehmerüberlassung.'],
     ],
@@ -26,14 +26,14 @@ const c = {
   },
   en: {
     title: 'Recruitment for Companies in Germany | SION Consulting',
-    description: 'International recruitment for transport, logistics and services: truck drivers, parcel delivery drivers, warehouse staff and cleaning staff – employed directly by you.',
+    description: 'Recruitment for transport, logistics and services: truck drivers, parcel delivery drivers, warehouse staff and cleaning staff – employed directly by you. No deposit, payment only after 30 days.',
     eyebrow: 'Recruitment', h1: 'Recruitment for companies in Germany',
-    lead: 'We find reliable employees for transport, logistics and services – in Germany and internationally – and support the process up to the first working day.',
+    lead: 'We find reliable employees for transport, logistics and services from the EU, the Western Balkans and Germany – and support the process up to the first working day.',
     cta2: 'See our areas',
     areasH2: 'Areas we recruit for',
     sourceH2: 'Where our candidates come from',
     sources: [
-      ['globe', 'International recruitment', 'Focus on the Western Balkans – Albania, Kosovo, North Macedonia, Serbia, Montenegro, Bosnia and Herzegovina – and other countries. We assist with the administrative steps for approval, visa and arrival.'],
+      ['globe', 'From the EU, the Western Balkans and Germany', 'Drivers living in an EU country, citizens of Albania, Kosovo, North Macedonia, Serbia, Montenegro, Bosnia and Herzegovina and applicants already living in Germany. We assist with the administrative steps.'],
       ['pin', 'Candidates in Germany', 'Workers who already live in Germany and are looking for a new job – often available at short notice.'],
       ['handshake', 'Direct employment', 'All employees are employed directly by you. This is not temporary agency work.'],
     ],
@@ -41,7 +41,7 @@ const c = {
   },
 }[lang];
 ---
-<Base lang={lang} page="personalvermittlung" title={c.title} description={c.description}>
+<Base lang={lang} page="personalvermittlung" title={c.title} description={c.description} stickyCta={requestHref(lang)}>
   <section class="page-hero">
     <div class="container narrow-hero hero-copy">
       <p class="eyebrow">{c.eyebrow}</p>

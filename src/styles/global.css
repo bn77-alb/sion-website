@@ -174,12 +174,11 @@ html.menu-open { overflow: hidden; }
 @media (max-width: 1240px) {
   .desktop-nav, .header-cta { display: none; }
   .icon-btn { display: inline-flex; }
-  .topbar-claim { display: none; }
-  .topbar-inner { justify-content: flex-end; }
 }
 @media (max-width: 760px) {
   :root { --header-h: 60px; }
-  .topbar { display: none; }
+  .topbar-links { display: none; }
+  .topbar-inner { justify-content: center; min-height: 38px; }
   .brand { font-size: 1.05rem; gap: 8px; }
   .brand svg { width: 28px; height: 28px; }
 }
@@ -470,3 +469,115 @@ h3, .h3 { hyphens: manual; }
 @media (max-width: 760px) { .route-box { border-radius: 20px; } }
 
 @media (max-width: 900px) { .mobile-bar button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: .8125rem; font-weight: 600; color: var(--ink); } }
+
+
+/* ------------------------------------------------------------------ */
+/* Candidate links in the topbar                                        */
+.topbar-candidates { display: flex; align-items: center; gap: 18px; }
+.topbar .topbar-eu { color: #fff; font-weight: 600; background: var(--accent); padding: 4px 12px; border-radius: 999px; }
+.topbar .topbar-eu:hover { background: var(--accent-dark); color: #fff; }
+.topbar-candidates a[aria-current="page"]:not(.topbar-eu) { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.mobile-nav ul a.mobile-nav-eu { color: var(--accent-dark); }
+
+/* Sticky "Personal anfragen" on employer pages (desktop; phones have the mobile bar) */
+.sticky-cta { position: fixed; right: 20px; bottom: 92px; z-index: 44; border-radius: 999px; box-shadow: 0 10px 28px rgba(18, 33, 46, .25); min-height: 48px; }
+@media (max-width: 900px) { .sticky-cta { display: none; } }
+
+/* Trust strip + driver band (home) */
+.trust-strip { background: var(--ink); color: #fff; }
+.trust-strip ul { list-style: none; margin: 0; padding: 14px 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; font-weight: 600; font-size: .95rem; }
+.trust-strip li { display: inline-flex; align-items: center; gap: 8px; }
+.trust-strip svg { color: var(--peach); }
+.driver-band { display: flex; align-items: center; justify-content: space-between; gap: 16px 28px; flex-wrap: wrap; background: var(--accent); color: #fff; border-radius: 20px; padding: 22px clamp(20px, 4vw, 36px); text-decoration: none; }
+.driver-band:hover { background: var(--accent-dark); color: #fff; }
+.driver-band strong { font: 700 clamp(1.2rem, 2.6vw, 1.6rem) var(--font-display); display: block; }
+.driver-band span.sub { opacity: .92; }
+.driver-band .go { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; background: #fff; color: var(--ink); border-radius: 999px; padding: 12px 20px; white-space: nowrap; }
+.driver-band-wrap { padding-top: 24px; }
+
+/* Pricing card */
+.pricing-card { display: grid; grid-template-columns: auto 1fr; gap: 18px 22px; align-items: start; background: #fff; border: 2px solid var(--ink); border-radius: var(--radius); padding: clamp(22px, 4vw, 36px); }
+.pricing-card .pricing-icon { width: 52px; height: 52px; border-radius: 14px; background: #E3F1E8; color: #1E5B38; display: grid; place-items: center; }
+.pricing-card h2, .pricing-card h3 { margin: 0 0 10px; }
+.pricing-card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.pricing-card li { display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: .95rem; }
+.pricing-card li svg { color: #1E5B38; flex: none; }
+.pricing-card .pricing-foot { grid-column: 2; color: var(--muted); font-size: .95rem; }
+@media (max-width: 560px) { .pricing-card { grid-template-columns: 1fr; } .pricing-card .pricing-foot { grid-column: 1; } }
+
+/* Eligibility block (candidate pages) */
+.eligibility { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; align-items: stretch; }
+@media (max-width: 860px) { .eligibility { grid-template-columns: 1fr; } }
+.elig-card { border-radius: var(--radius); padding: clamp(20px, 3vw, 30px); display: flex; flex-direction: column; gap: 14px; }
+.elig-yes { background: #EAF5EE; border: 2px solid #2F7D4F; }
+.elig-no { background: #EEEEEC; border: 1px solid #C9C9C4; color: #3A3F44; }
+.elig-card h2 { font-size: clamp(1.25rem, 2.4vw, 1.5rem); display: flex; align-items: center; gap: 10px; margin: 0; }
+.elig-mark { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; flex: none; }
+.elig-yes .elig-mark { background: #2F7D4F; color: #fff; }
+.elig-no .elig-mark { background: #8A8F94; color: #fff; }
+.elig-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; counter-reset: grp; }
+.elig-list li { counter-increment: grp; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; background: #fff; border-radius: 12px; padding: 12px 14px; }
+.elig-list li::before { content: counter(grp); width: 26px; height: 26px; border-radius: 50%; background: #2F7D4F; color: #fff; font-weight: 700; display: grid; place-items: center; font-size: .9rem; }
+.elig-list li.main { border: 2px solid #2F7D4F; }
+.elig-list li.main strong { color: #1E5B38; }
+.elig-list .elig-tag { display: inline-block; margin-left: 6px; font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: #2F7D4F; color: #fff; border-radius: 999px; padding: 2px 8px; vertical-align: middle; }
+.elig-list a { font-weight: 600; }
+
+/* Entry buttons above the form */
+.entry-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; margin-bottom: 20px; }
+.entry-buttons button { font: 600 1rem var(--font-body); min-height: 56px; padding: 12px 18px; border-radius: 14px; border: 2px solid var(--ink); background: #fff; color: var(--ink); cursor: pointer; display: flex; align-items: center; gap: 10px; text-align: left; }
+.entry-buttons button:hover, .entry-buttons button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.entry-buttons button svg { flex: none; }
+
+/* Info boxes */
+.free-box { display: flex; gap: 14px; align-items: flex-start; background: #EAF5EE; border: 1px solid #B7D9C3; border-radius: 16px; padding: 18px 20px; }
+.free-box svg { color: #1E5B38; flex: none; }
+.free-box strong { display: block; font-family: var(--font-display); font-size: 1.1rem; }
+.free-note { font-size: .92rem; font-weight: 600; color: #1E5B38; }
+
+/* 2-step application form */
+.apply-form .step { border: 0; padding: 0; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+.apply-form .step[hidden] { display: none; }
+.step-title { font: 700 1.3rem var(--font-display); padding: 0; margin-bottom: -6px; }
+.form-progress { display: flex; align-items: center; gap: 14px; font-size: .85rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--accent-dark); }
+.form-progress[hidden] { display: none; }
+.progress-track { flex: 1; height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.progress-fill { display: block; height: 100%; width: 50%; background: var(--accent); border-radius: 999px; transition: width .3s; }
+.apply-form.on-step-2 .progress-fill { width: 100%; }
+.permit-box { display: flex; flex-direction: column; gap: 14px; background: var(--bg); border-radius: 14px; padding: 16px; }
+.permit-box[hidden], .permit-until[hidden], .driver-fields[hidden] { display: none; }
+.driver-fields { display: flex; flex-direction: column; gap: 18px; border-left: 3px solid var(--accent); padding-left: 16px; }
+.field-short { max-width: 320px; }
+.not-eligible { display: flex; gap: 14px; align-items: flex-start; background: #EEEEEC; border: 1px solid #C9C9C4; color: #33383D; border-radius: 14px; padding: 18px 20px; font-weight: 500; }
+.not-eligible[hidden] { display: none; }
+.not-eligible svg { color: #6B7177; flex: none; margin-top: 2px; }
+.not-eligible div { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.linklike { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
+
+/* EU drivers page */
+.flag-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; }
+.flag-row .flags { display: flex; flex-wrap: wrap; gap: 8px; }
+.flag { width: 36px; height: 27px; border-radius: 4px; overflow: hidden; box-shadow: 0 0 0 1px rgba(18, 33, 46, .15); display: inline-block; flex: none; }
+.flag svg { width: 100%; height: 100%; display: block; }
+.flag-lg { width: 56px; height: 42px; border-radius: 6px; }
+.flag-row .flag-arrow { color: var(--accent-dark); flex: none; }
+.who-box { background: #fff; border: 2px solid #2F7D4F; border-radius: var(--radius); padding: clamp(18px, 3vw, 26px); display: flex; flex-direction: column; gap: 14px; }
+.who-box .who-title { font: 700 1.15rem var(--font-display); color: #1E5B38; display: flex; gap: 8px; align-items: center; }
+.checklist-green li::before { background-color: #2F7D4F !important; }
+.steps-5 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+.job-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
+.job-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+.job-card h3 { font-size: 1.15rem; margin: 0; }
+.job-meta { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.job-meta li { font-size: .82rem; font-weight: 600; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+.job-meta li.housing { background: #EAF5EE; border-color: #B7D9C3; color: #1E5B38; }
+.job-pay { font-weight: 700; color: var(--ink); }
+.job-card p { color: var(--muted); }
+.job-card .link-arrow { margin-top: auto; }
+.callback { display: flex; flex-direction: column; gap: 14px; background: var(--bg); border-radius: 14px; padding: 14px 16px; }
+.callback-fields[hidden] { display: none; }
+.callback-toggle { color: var(--ink); }
+.driver-band-top { padding-top: 0; margin-top: -12px; margin-bottom: 28px; }
+.trust-strip-home ul { justify-content: space-around; }
+.band-dark .steps li h3 { color: var(--ink); }
+.band-dark .steps li p { color: var(--muted); }
