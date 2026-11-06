@@ -15,11 +15,11 @@ const { lang } = Astro.props;
 
 const c = {
   de: {
-    title: 'Saisonarbeitskräfte für Bau, Reinigung & Hotel | SION Consulting',
-    description: 'Saisonkräfte aus dem Ausland für Bau, Gebäudereinigung sowie Hotel und Gastronomie – über die kurzzeitige kontingentierte Beschäftigung (§ 15d BeschV) für bis zu 8 Monate. SION Consulting übernimmt Suche, Vorauswahl und Organisation.',
+    title: 'Saisonkräfte Bau, Reinigung & Hotel aus dem Westbalkan | SION Consulting',
+    description: 'Saisonkräfte Bau, Gebäudereinigung sowie Hotel und Gastronomie aus dem Westbalkan und weiteren Partnerländern – über § 15d BeschV für bis zu 8 Monate. Keine Anzahlung, Zahlung erst nach 30 Tagen.',
     eyebrow: 'Saisonarbeit',
     h1: 'Saisonkräfte für Bau, Reinigung und Hotel',
-    lead: 'Für Ihre Hochsaison: Wir vermitteln Arbeitskräfte aus dem Ausland für bis zu 8 Monate – über die kurzzeitige kontingentierte Beschäftigung. Sie stellen direkt ein, wir übernehmen Suche, Vorauswahl und die organisatorische Begleitung.',
+    lead: 'Für Ihre Hochsaison: Wir vermitteln Arbeitskräfte aus dem Westbalkan und weiteren Partnerländern für bis zu 8 Monate – über die kurzzeitige kontingentierte Beschäftigung. Sie stellen direkt ein, wir übernehmen Suche, Vorauswahl und die organisatorische Begleitung.',
     cta: 'Saisonkräfte anfragen', cta2: 'Kostenloses Erstgespräch',
     chips: ['Bis zu 8 Monate', 'Ohne Qualifikationsnachweis', 'Direkte Anstellung'],
     sectorsH2: 'Für diese Branchen vermitteln wir Saisonkräfte',
@@ -64,11 +64,11 @@ const c = {
     formCall: 'Lieber per E-Mail?',
   },
   en: {
-    title: 'Seasonal Workers for Construction, Cleaning & Hotels | SION Consulting',
-    description: 'Seasonal workers from abroad for construction, building cleaning, hotels and restaurants – through short-term quota employment (Section 15d BeschV) for up to 8 months. SION Consulting handles the search, pre-selection and organisation.',
+    title: 'Seasonal Workers for Construction, Cleaning & Hotels from the Western Balkans | SION Consulting',
+    description: 'Seasonal workers for construction, building cleaning, hotels and restaurants from the Western Balkans and other partner countries – under Section 15d BeschV for up to 8 months. No deposit, payment only after 30 days.',
     eyebrow: 'Seasonal work',
     h1: 'Seasonal workers for construction, cleaning and hotels',
-    lead: 'For your peak season: we place workers from abroad for up to 8 months through short-term quota employment. You hire directly – we handle the search, pre-selection and organisational support.',
+    lead: 'For your peak season: we place workers from the Western Balkans and other partner countries for up to 8 months through short-term quota employment. You hire directly – we handle the search, pre-selection and organisational support.',
     cta: 'Request seasonal workers', cta2: 'Free initial consultation',
     chips: ['Up to 8 months', 'No formal qualification needed', 'Direct employment'],
     sectorsH2: 'Sectors we recruit seasonal workers for',
@@ -120,7 +120,7 @@ const schema = {
   mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
 };
 ---
-<Base lang={lang} page="saison" title={c.title} description={c.description} schema={schema}>
+<Base lang={lang} page="saison" title={c.title} description={c.description} schema={schema} stickyCta="#anfrage">
   <section class="page-hero">
     <div class="container narrow-hero hero-copy">
       <p class="eyebrow">{c.eyebrow}</p>

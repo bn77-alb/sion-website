@@ -1,118 +1,165 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import Photo from '../components/Photo.astro';
 import Faq from '../components/Faq.astro';
 import CandidateForm from '../components/CandidateForm.astro';
-import { ui, type Lang } from '../i18n';
-import { site } from '../config';
+import { routes, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+const r = (k: keyof typeof routes) => routes[k][lang];
 
 const c = {
   de: {
-    title: 'Jobs in Deutschland für LKW-Fahrer, Zusteller & Logistik | SION Consulting',
-    description: 'Sie suchen einen Job in Deutschland als LKW-Fahrer, Paketzusteller, im Lager oder in der Reinigung? Bewerben Sie sich bei SION Consulting – wir begleiten Sie bis zum ersten Arbeitstag.',
+    title: 'LKW-Fahrer Job in Deutschland – für Fahrer in der EU & aus dem Westbalkan | SION Consulting',
+    description: 'LKW-Fahrer Job und weitere Jobs in Deutschland: kostenlos für Fahrer · direkte Anstellung · keine Zeitarbeit · für Fahrer mit Aufenthalt in der EU und aus dem Westbalkan.',
     eyebrow: 'Für Bewerberinnen und Bewerber',
-    h1: 'Ihr Job in Deutschland – sicher und begleitet',
-    lead: 'Wir vermitteln Sie an Unternehmen in Deutschland und begleiten Sie durch alle Schritte: Bewerbung, Vorstellungsgespräch, Unterlagen und Ankunft.',
-    cta: 'Jetzt bewerben',
-    alt: 'Mitarbeitende in einem Logistiklager',
-    jobsH2: 'Für diese Tätigkeiten suchen wir',
+    h1: 'Jobs in Deutschland für Fahrer in der EU und aus dem Westbalkan',
+    lead: 'Wir vermitteln LKW-Fahrer und Arbeitskräfte für Lager, Bau, Reinigung und Saisonarbeit direkt an Arbeitgeber in Deutschland. Bitte prüfen Sie zuerst, ob wir Sie vermitteln können.',
+    yesH: 'Wen wir vermitteln',
+    groups: [
+      { h: 'LKW-Fahrer aus Drittstaaten, die bereits in einem EU-Land leben und arbeiten', p: 'mit Aufenthaltstitel dort – idealerweise mit EU-Führerschein C/CE und Code 95.', main: true, link: true },
+      { h: 'Staatsangehörige aus dem Westbalkan', p: 'Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro, Bosnien und Herzegowina.' },
+      { h: 'EU- und EWR-Bürgerinnen und -Bürger', p: '' },
+      { h: 'Menschen, die bereits in Deutschland leben und arbeiten dürfen', p: 'auch Fahrer, die den Arbeitgeber wechseln möchten.' },
+    ],
+    mainTag: 'Schwerpunkt', mainLink: 'Infos für Fahrer in der EU',
+    noH: 'Derzeit nicht möglich',
+    noP: 'Bewerber aus Nicht-EU-Ländern, die nicht in der EU leben (kein Aufenthaltstitel in einem EU-Land). Bitte senden Sie uns in diesem Fall keine Bewerbung.',
+    cta: 'Zur Bewerbung',
+    jobsH2: 'Für diese Jobs suchen wir',
     jobs: [
-      { icon: 'truck', h: 'LKW-Fahrer C/CE', p: 'Fern-, Nah- und Verteilerverkehr für Speditionen und Logistikunternehmen.' },
-      { icon: 'package', h: 'Paketzusteller', p: 'Zustellung von Paketen mit dem Transporter, Führerschein Klasse B.' },
+      { icon: 'truck', h: 'LKW-Fahrer C/CE', p: 'Nahverkehr, Fernverkehr, Silo, Kipper, Tank, Kühl, Autotransporter.' },
       { icon: 'warehouse', h: 'Lager & Logistik', p: 'Kommissionierung, Verladung, Wareneingang und Versand.' },
+      { icon: 'build', h: 'Bau', p: 'Helfer und Fachkräfte auf Baustellen.' },
       { icon: 'sparkle', h: 'Reinigung', p: 'Reinigung von Büros, Objekten und Gewerbeflächen.' },
       { icon: 'calendar', h: 'Saisonarbeit', p: 'Befristete Jobs auf dem Bau, in der Reinigung sowie in Hotels und Gastronomie.' },
     ],
     needH: 'Was Sie mitbringen',
-    need: ['Gültiger Reisepass', 'Führerschein – je nach Stelle Klasse B, C oder CE', 'Berufserfahrung im gewünschten Bereich', 'Zuverlässigkeit und Motivation'],
+    need: ['Aufenthaltstitel in einem EU-Land oder Staatsangehörigkeit aus den oben genannten Gruppen', 'Führerschein passend zum Job (LKW: C/CE und Code 95)', 'Mindestens 1 Jahr Berufserfahrung', 'Sauberes Führungszeugnis'],
     offerH: 'Was wir für Sie tun',
-    offer: ['Passende Stelle bei einem Arbeitgeber in Deutschland', 'Unterstützung bei Unterlagen, Anträgen und Terminen', 'Hilfe bei Anreise, Unterkunftssuche und Anmeldung', 'Ansprechpartner auf Deutsch und Englisch'],
-    stepsH2: 'In vier Schritten zum Job in Deutschland',
+    offer: ['Passende Stelle bei einem Arbeitgeber in Deutschland – direkte Anstellung, keine Zeitarbeit', 'Unterstützung bei Unterlagen und Terminen', 'Hilfe bei der Suche nach Wohnung oder WG', 'Ansprechpartner auf Deutsch und Englisch'],
+    freeH: 'Kostenlos für Bewerber',
+    freeP: 'Wir verlangen niemals Geld von Bewerberinnen und Bewerbern.',
+    deH2: 'Sie leben schon in Deutschland?',
+    deP: 'Sie möchten den Arbeitgeber wechseln? Wir vermitteln direkt – keine Zeitarbeit, oft Start innerhalb von 2–4 Wochen.',
+    deCta: 'Ich lebe in Deutschland – jetzt bewerben',
+    stepsH2: 'So läuft Ihre Bewerbung',
     steps: [
-      ['Bewerbung senden', 'Über das Formular oder per E-Mail.'],
+      ['Formular ausfüllen', 'Zuerst prüfen Sie, ob wir Sie vermitteln können. Dann Ihre Daten.'],
       ['Gespräch', 'Wir lernen Sie kennen und prüfen Ihre Unterlagen.'],
       ['Vorstellung beim Arbeitgeber', 'Der Arbeitgeber lernt Sie kennen – oft per Video.'],
       ['Unterlagen & Start', 'Wir unterstützen bei den Formalitäten bis zum ersten Arbeitstag.'],
     ],
+    note: 'Wir prüfen Ihren Fall individuell; die Entscheidung treffen die Behörden. Wir unterstützen bei administrativen Schritten; eine Rechtsberatung bieten wir nicht an.',
     faqH2: 'Fragen von Bewerbern',
     faq: [
-      { q: 'Muss ich Deutsch sprechen?', a: 'Das hängt von der Stelle und dem Arbeitgeber ab. Deutschkenntnisse sind immer ein Vorteil – sprechen Sie uns an.' },
-      { q: 'Kann ich mich auch bewerben, wenn ich schon in Deutschland lebe?', a: 'Ja. Wir helfen auch beim Wechsel zu einem neuen Arbeitgeber in Deutschland.' },
-      { q: 'Welche Unterlagen brauche ich?', a: 'Zunächst reichen Ihre Kontaktdaten, Ihr Beruf und Ihre Führerscheinklassen. Lebenslauf, Pass und Führerschein fragen wir im nächsten Schritt an.' },
+      { q: 'Aus welchen Ländern kann ich mich bewerben?', a: 'Wir vermitteln: 1. LKW-Fahrer aus Drittstaaten, die bereits mit Aufenthaltstitel in einem EU-Land leben und arbeiten; 2. Staatsangehörige aus Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro sowie Bosnien und Herzegowina; 3. EU- und EWR-Bürger; 4. Menschen, die bereits in Deutschland leben und arbeiten dürfen. Wer nicht in der EU lebt und keinen Aufenthaltstitel in einem EU-Land hat, kann sich derzeit leider nicht bewerben.' },
+      { q: 'Muss ich Deutsch sprechen?', a: 'Das hängt von der Stelle und dem Arbeitgeber ab. Nicht für jeden Job nötig – Deutschkenntnisse sind aber immer ein Vorteil.' },
+      { q: 'Muss ich für die Vermittlung bezahlen?', a: 'Nein. Wir verlangen niemals Geld von Bewerberinnen und Bewerbern. Die Arbeitgeber bezahlen unsere Vermittlung.' },
+      { q: 'Welche Unterlagen brauche ich?', a: 'Für die Bewerbung reichen die Angaben im Formular. Lebenslauf, Führerschein und Aufenthaltstitel fragen wir im nächsten Schritt an.' },
     ],
-    formH2: 'Ich suche Arbeit',
-    formText: 'Füllen Sie das kurze Formular aus. Wir melden uns, sobald wir eine passende Stelle für Sie haben.',
-    mailAlt: 'Lieber per E-Mail?',
+    formH2: 'Jetzt bewerben',
+    formText: 'Wählen Sie, wo Sie leben. Das Formular hat zwei kurze Schritte.',
+    entry: [['eu', 'Ich lebe in einem EU-Land'], ['de', 'Ich lebe in Deutschland'], ['wb', 'Ich lebe im Westbalkan']],
+    entryLabel: 'Wo leben Sie?',
   },
   en: {
-    title: 'Jobs in Germany for Truck Drivers, Delivery & Logistics | SION Consulting',
-    description: 'Looking for a job in Germany as a truck driver, parcel delivery driver, in a warehouse or in cleaning? Apply with SION Consulting – we support you up to your first working day.',
+    title: 'Truck Driver Jobs Germany – for Drivers in the EU & Western Balkans | SION Consulting',
+    description: 'Truck driver jobs in Germany and more: free for drivers · direct employment · no temporary agency · for drivers living in the EU and from the Western Balkans.',
     eyebrow: 'For applicants',
-    h1: 'Your job in Germany – safe and supported',
-    lead: 'We place you with companies in Germany and support you through every step: application, interview, documents and arrival.',
-    cta: 'Apply now',
-    alt: 'Workers in a logistics warehouse',
+    h1: 'Jobs in Germany for drivers living in the EU and from the Western Balkans',
+    lead: 'We place truck drivers and workers for warehouses, construction, cleaning and seasonal work directly with employers in Germany. Please check first if we can place you.',
+    yesH: 'Who we can place',
+    groups: [
+      { h: 'Truck drivers from non-EU countries who already live and work in an EU country', p: 'with a residence permit there – ideally with an EU licence C/CE and Code 95.', main: true, link: true },
+      { h: 'Citizens of the Western Balkans', p: 'Albania, Kosovo, North Macedonia, Serbia, Montenegro, Bosnia and Herzegovina.' },
+      { h: 'EU and EEA citizens', p: '' },
+      { h: 'People who already live in Germany and are allowed to work here', p: 'also drivers who want to change employer.' },
+    ],
+    mainTag: 'Main focus', mainLink: 'Information for drivers in the EU',
+    noH: 'Currently not possible',
+    noP: 'Applicants from non-EU countries who do not live in the EU (no residence permit in an EU country). Please do not send us an application in this case.',
+    cta: 'Go to the application',
     jobsH2: 'Jobs we recruit for',
     jobs: [
-      { icon: 'truck', h: 'Truck driver C/CE', p: 'Long-haul, regional and distribution transport for hauliers and logistics companies.' },
-      { icon: 'package', h: 'Parcel delivery driver', p: 'Delivering parcels by van, class B licence.' },
+      { icon: 'truck', h: 'Truck driver C/CE', p: 'Regional, long-haul, silo, tipper, tanker, refrigerated, car transporter.' },
       { icon: 'warehouse', h: 'Warehouse & logistics', p: 'Order picking, loading, goods receipt and dispatch.' },
+      { icon: 'build', h: 'Construction', p: 'Helpers and skilled workers on building sites.' },
       { icon: 'sparkle', h: 'Cleaning', p: 'Cleaning offices, buildings and commercial spaces.' },
       { icon: 'calendar', h: 'Seasonal work', p: 'Temporary jobs in construction, cleaning, hotels and restaurants.' },
     ],
     needH: 'What you need',
-    need: ['A valid passport', 'Driving licence – class B, C or CE depending on the job', 'Work experience in the field you want', 'Reliability and motivation'],
+    need: ['A residence permit in an EU country or citizenship from the groups above', 'A licence for the job (truck: C/CE and Code 95)', 'At least 1 year of work experience', 'A clean criminal record'],
     offerH: 'What we do for you',
-    offer: ['A suitable job with an employer in Germany', 'Assistance with documents, applications and appointments', 'Help with travel, finding accommodation and registration', 'Contact person in German and English'],
-    stepsH2: 'Four steps to your job in Germany',
+    offer: ['A suitable job with an employer in Germany – direct employment, no temporary agency', 'Help with documents and appointments', 'Help to find an apartment or a shared flat', 'Contact person in German and English'],
+    freeH: 'Free for applicants',
+    freeP: 'We never ask applicants for money.',
+    deH2: 'Already living in Germany?',
+    deP: 'Do you want to change employer? We place you directly – no temporary agency, often a start within 2–4 weeks.',
+    deCta: 'I live in Germany – apply now',
+    stepsH2: 'How your application works',
     steps: [
-      ['Send your application', 'Via the form or by email.'],
+      ['Fill in the form', 'First you check if we can place you. Then you add your details.'],
       ['Interview', 'We get to know you and check your documents.'],
       ['Meet the employer', 'The employer gets to know you – often by video.'],
-      ['Documents & start', 'We assist with the formalities up to your first working day.'],
+      ['Documents & start', 'We help with the paperwork up to your first working day.'],
     ],
+    note: 'We check your case individually; the decision is made by the German authorities. We help with administrative steps. We do not give legal advice.',
     faqH2: 'Questions from applicants',
     faq: [
-      { q: 'Do I need to speak German?', a: 'That depends on the job and the employer. German skills are always an advantage – just ask us.' },
-      { q: 'Can I apply if I already live in Germany?', a: 'Yes. We also help with changing to a new employer in Germany.' },
-      { q: 'Which documents do I need?', a: 'To start, your contact details, your job and your licence classes are enough. We will ask for your CV, passport and licence in the next step.' },
+      { q: 'From which countries can I apply?', a: 'We place: 1. truck drivers from non-EU countries who already live and work in an EU country with a residence permit; 2. citizens of Albania, Kosovo, North Macedonia, Serbia, Montenegro and Bosnia and Herzegovina; 3. EU and EEA citizens; 4. people who already live in Germany and are allowed to work here. If you do not live in the EU and have no residence permit in an EU country, you cannot apply at the moment.' },
+      { q: 'Do I need to speak German?', a: 'It depends on the job and the employer. It is not needed for every job, but German always helps.' },
+      { q: 'Do I have to pay?', a: 'No. We never ask applicants for money. The employers pay for our service.' },
+      { q: 'Which documents do I need?', a: 'For the application, the details in the form are enough. We ask for your CV, licence and residence permit in the next step.' },
     ],
-    formH2: 'I am looking for work',
-    formText: 'Fill in the short form. We will contact you as soon as we have a suitable job for you.',
-    mailAlt: 'Prefer email?',
+    formH2: 'Apply now',
+    formText: 'Choose where you live. The form has two short steps.',
+    entry: [['eu', 'I live in an EU country'], ['de', 'I live in Germany'], ['wb', 'I live in the Western Balkans']],
+    entryLabel: 'Where do you live?',
   },
 }[lang];
+
+const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
-<Base lang={lang} page="bewerber" title={c.title} description={c.description}>
-  <section class="page-hero">
-    <div class="container grid-2">
-      <div class="hero-copy">
-        <p class="eyebrow">{c.eyebrow}</p>
-        <h1>{c.h1}</h1>
-        <p class="lead">{c.lead}</p>
-        <div class="btn-row">
-          <a class="btn btn-accent btn-lg" href="#bewerbung">{c.cta}</a>
-        </div>
+<Base lang={lang} page="bewerber" title={c.title} description={c.description} schema={schema} audience="candidate">
+  <section class="page-hero narrow-hero">
+    <div class="container stack-lg">
+      <p class="eyebrow">{c.eyebrow}</p>
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.lead}</p>
+    </div>
+  </section>
+
+  <section class="section section-first" style="padding-top: 0">
+    <div class="container eligibility">
+      <div class="elig-card elig-yes">
+        <h2><span class="elig-mark" aria-hidden="true">✓</span> {c.yesH}</h2>
+        <ol class="elig-list">
+          {c.groups.map((g) => (
+            <li class:list={{ main: g.main }}>
+              <div>
+                <strong>{g.h}</strong>{g.main && <span class="elig-tag">{c.mainTag}</span>}
+                {g.p && <span> {g.p}</span>}
+                {g.link && <><br /><a class="link-arrow" href={r('eufahrer')}>{c.mainLink}</a></>}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="btn-row"><a class="btn btn-accent btn-lg" href="#bewerbung">{c.cta}</a></div>
       </div>
-      <div class="media ratio-landscape hide-mobile-block">
-        <Photo name="lager" alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
+      <div class="elig-card elig-no">
+        <h2><span class="elig-mark" aria-hidden="true">✕</span> {c.noH}</h2>
+        <p>{c.noP}</p>
       </div>
     </div>
   </section>
 
-  <section class="section section-first">
+  <section class="section" style="padding-top: 0">
     <div class="container">
       <div class="section-head"><h2>{c.jobsH2}</h2></div>
-      <div class="grid-4">
+      <div class="grid-3">
         {c.jobs.map((j) => (
-          <article class="card">
-            <Icon name={j.icon} class="card-icon" />
-            <h3>{j.h}</h3>
-            <p>{j.p}</p>
-          </article>
+          <article class="card"><Icon name={j.icon} class="card-icon" /><h3>{j.h}</h3><p>{j.p}</p></article>
         ))}
       </div>
     </div>
@@ -123,12 +170,27 @@ const c = {
       <div class="card"><h3>{c.needH}</h3><ul class="checklist">{c.need.map((x) => <li>{x}</li>)}</ul></div>
       <div class="card"><h3>{c.offerH}</h3><ul class="checklist">{c.offer.map((x) => <li>{x}</li>)}</ul></div>
     </div>
+    <div class="container" style="margin-top: 20px">
+      <div class="free-box"><Icon name="shield" size={30} /><div><strong>{c.freeH}</strong><p>{c.freeP}</p></div></div>
+    </div>
   </section>
 
   <section class="section">
     <div class="container">
+      <div class="feature-box feature-dark stack-lg">
+        <Icon name="swap" size={36} class="card-icon" />
+        <h2 class="h2-sm">{c.deH2}</h2>
+        <p>{c.deP}</p>
+        <div class="btn-row"><a class="btn btn-accent btn-lg" href="#bewerbung" data-entry="de">{c.deCta}</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container">
       <div class="section-head"><h2>{c.stepsH2}</h2></div>
       <ol class="steps">{c.steps.map(([h, p]) => <li><h3>{h}</h3><p>{p}</p></li>)}</ol>
+      <p class="note" style="margin-top: 24px">{c.note}</p>
     </div>
   </section>
 
@@ -144,9 +206,14 @@ const c = {
       <div class="stack-lg">
         <h2>{c.formH2}</h2>
         <p class="muted">{c.formText}</p>
-        <p><strong>{c.mailAlt}</strong><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <div class="free-box"><Icon name="shield" size={26} /><div><strong>{c.freeH}</strong><p>{c.freeP}</p></div></div>
       </div>
-      <CandidateForm lang={lang} />
+      <div>
+        <div class="entry-buttons" role="group" aria-label={c.entryLabel}>
+          {c.entry.map(([v, l]) => <button type="button" data-entry={v} aria-pressed="false"><Icon name={v === 'de' ? 'pin' : v === 'eu' ? 'globe' : 'pin'} size={22} /> {l}</button>)}
+        </div>
+        <CandidateForm lang={lang} />
+      </div>
     </div>
   </section>
 </Base>

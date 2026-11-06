@@ -11,6 +11,7 @@ import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import ChatWidget from '../components/ChatWidget.astro';
 import MobileBar from '../components/MobileBar.astro';
+import Icon from '../components/Icon.astro';
 import { routes, ui, type Lang, type PageKey } from '../i18n';
 import { site } from '../config';
 
@@ -22,8 +23,12 @@ interface Props {
   noindex?: boolean;
   schema?: unknown;
   image?: string;
+  // 'candidate': page for job seekers – no info@ (employer) address anywhere, apply button in the mobile bar
+  audience?: 'employer' | 'candidate';
+  // Employer pages: sticky "Personal anfragen" button (desktop) that jumps to this anchor/URL
+  stickyCta?: string;
 }
-const { lang, page, title, description, noindex = false, schema, image = '/images/og-image.jpg' } = Astro.props;
+const { lang, page, title, description, noindex = false, schema, image = '/images/og-image.jpg', audience = 'employer', stickyCta } = Astro.props;
 const abs = (path: string) => new URL(path, site.url).href;
 const canonical = abs(routes[page][lang]);
 ---
@@ -50,15 +55,25 @@ const canonical = abs(routes[page][lang]);
     <meta name="theme-color" content="#12212E" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    {schema && (Array.isArray(schema)
+      ? schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)
+      : <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+    <script is:inline>
+      try {
+        var q = new URLSearchParams(location.search), u = {}, has = false;
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (k) { var v = q.get(k); if (v) { u[k] = v.slice(0, 120); has = true; } });
+        if (has) sessionStorage.setItem('sion-utm', JSON.stringify(u));
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">{ui[lang].skip}</a>
-    <Header lang={lang} page={page} />
+    <Header lang={lang} page={page} audience={audience} />
     <main id="main"><slot /></main>
-    <Footer lang={lang} />
-    <MobileBar lang={lang} />
-    <ChatWidget lang={lang} />
+    <Footer lang={lang} audience={audience} />
+    <MobileBar lang={lang} audience={audience} />
+    {stickyCta && <a class="sticky-cta btn btn-accent" href={stickyCta}><Icon name="users" size={20} /> {ui[lang].request}</a>}
+    <ChatWidget lang={lang} audience={audience} />
     <CookieBanner lang={lang} />
   </body>
 </html>

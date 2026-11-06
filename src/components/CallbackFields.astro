@@ -1,0 +1,43 @@
+---
+// "Bitte rufen Sie mich zurück" – reveals the employer's phone field and the best time to call.
+import type { Lang } from '../i18n';
+interface Props { lang: Lang; prefix: string }
+const { lang, prefix } = Astro.props;
+const t = {
+  de: { cb: 'Bitte rufen Sie mich zurück', phone: 'Ihre Telefonnummer', time: 'Beste Uhrzeit', am: 'Vormittag', pm: 'Nachmittag' },
+  en: { cb: 'Please call me back', phone: 'Your phone number', time: 'Best time', am: 'Morning', pm: 'Afternoon' },
+}[lang];
+const id = (n: string) => `${prefix}-${n}`;
+---
+<div class="callback" data-callback>
+  <label class="consent callback-toggle">
+    <input type="checkbox" name="callback" value={t.cb} data-label={t.cb} />
+    <span><strong>{t.cb}</strong></span>
+  </label>
+  <div class="form-row callback-fields" data-callback-fields hidden>
+    <label class="field" for={id('phone')}>
+      <span>{t.phone} <span class="req" aria-hidden="true">*</span></span>
+      <input id={id('phone')} name="phone" data-label={t.phone} type="tel" autocomplete="tel" inputmode="tel" disabled />
+    </label>
+    <fieldset class="choice">
+      <legend>{t.time}</legend>
+      <label><input type="radio" name="callTime" data-label={t.time} value={t.am} disabled checked /> {t.am}</label>
+      <label><input type="radio" name="callTime" data-label={t.time} value={t.pm} disabled /> {t.pm}</label>
+    </fieldset>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-callback]').forEach((box) => {
+    const cb = box.querySelector<HTMLInputElement>('input[name="callback"]')!;
+    const fields = box.querySelector<HTMLElement>('[data-callback-fields]')!;
+    const sync = () => {
+      fields.hidden = !cb.checked;
+      fields.querySelectorAll<HTMLInputElement>('input').forEach((i) => { i.disabled = !cb.checked; });
+      const phone = fields.querySelector<HTMLInputElement>('input[name="phone"]');
+      if (phone) phone.required = cb.checked;
+    };
+    cb.addEventListener('change', sync);
+    box.closest('form')?.addEventListener('reset', () => setTimeout(sync));
+    sync();
+  });
+</script>

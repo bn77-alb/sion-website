@@ -1,112 +1,251 @@
 ---
-// "Ich suche einen Job" – application form for candidates (separate from company inquiries).
+// Application form for candidates – 2 steps.
+// Step 1 checks where the person lives and their citizenship. Only people we can place see step 2;
+// everyone else gets a calm info box and nothing is sent.
+// Eligible: Westbalkan citizen, EU/EEA citizen, living in an EU/EEA country with a valid residence permit,
+// or living in Germany. The same rule is checked again in the n8n workflow.
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
-interface Props { lang: Lang }
-const { lang } = Astro.props;
+import { citizenshipGroups, residenceGroups, germanNames, EU_EEA, WB } from '../lib/countries';
+interface Props { lang: Lang; preset?: 'eu' | 'de' | 'wb'; job?: string; idPrefix?: string }
+const { lang, preset, job = '', idPrefix = 'cand' } = Astro.props;
 
 const t = {
   de: {
+    step: (n: number) => `Schritt ${n} von 2`,
+    s1Title: 'Wo leben Sie?',
+    s1Text: 'Zwei kurze Fragen – dann sehen Sie sofort, ob wir Sie vermitteln können.',
+    citizenship: 'Staatsangehörigkeit', residence: 'Land, in dem Sie aktuell leben', choose: 'Bitte wählen',
+    permit: 'Haben Sie einen gültigen Aufenthaltstitel in diesem Land?', yes: 'Ja', no: 'Nein',
+    until: 'Gültig bis', month: 'Monat', year: 'Jahr',
+    next: 'Weiter', back: 'Zurück',
+    notEligible: 'Leider können wir aktuell nur Bewerber vermitteln, die in der EU leben oder aus dem Westbalkan kommen. Vielen Dank für Ihr Interesse.',
+    expired: 'Ihr Aufenthaltstitel ist laut Ihrer Angabe nicht mehr gültig.',
+    change: 'Angaben ändern',
+    s2Title: 'Ihre Bewerbung',
     name: 'Vor- und Nachname', phone: 'Telefon', email: 'E-Mail',
-    either: 'Bitte geben Sie eine Telefonnummer oder eine E-Mail-Adresse an.',
-    profession: 'Gewünschter Beruf', choose: 'Bitte wählen',
-    professions: ['LKW-Fahrer (C/CE)', 'Paketzusteller', 'Lager & Logistik', 'Reinigung', 'Saisonarbeit – Bau', 'Saisonarbeit – Reinigung', 'Saisonarbeit – Hotel & Gastronomie', 'Büro / Back Office', 'Andere'],
-    licence: 'Führerschein', licences: ['B', 'C', 'CE', 'C1 / C1E', 'Code 95', 'Keinen'],
-    experience: 'Berufserfahrung', experiences: ['Weniger als 1 Jahr', '1–3 Jahre', '3–5 Jahre', 'Mehr als 5 Jahre'],
-    residence: 'Aktuelles Land', residencePh: 'In welchem Land leben Sie derzeit?',
-    message: 'Nachricht (optional)', messagePh: 'z. B. Deutschkenntnisse, bisherige Arbeitgeber, ab wann Sie verfügbar sind',
-    cvLater: 'Lebenslauf? Gern später per E-Mail – wir fragen ihn im nächsten Schritt an.',
+    either: 'Bitte geben Sie eine E-Mail-Adresse oder eine Telefonnummer an.',
+    job: 'Gewünschter Job',
+    jobs: [['LKW', 'LKW-Fahrer (C/CE)'], ['Paketzusteller', 'Paketzusteller'], ['Lager', 'Lager & Logistik'], ['Reinigung', 'Reinigung'], ['Bau', 'Bau'], ['Saison Bau', 'Saisonarbeit – Bau'], ['Saison Reinigung', 'Saisonarbeit – Reinigung'], ['Saison Hotel', 'Saisonarbeit – Hotel & Gastronomie'], ['Andere', 'Andere']],
+    licences: 'Führerscheinklassen',
+    issued: 'Führerschein ausgestellt in', issuedEu: 'einem EU-Land', issuedOther: 'einem anderen Land',
+    code95: 'Code 95 im Führerschein?',
+    years: 'Jahre Erfahrung als LKW-Fahrer',
+    vehicles: 'Fahrzeugtypen', vehicleList: [['Sattelzug', 'Sattelzug'], ['Silo', 'Silo'], ['Kipper', 'Kipper'], ['Tank', 'Tank'], ['Kühl', 'Kühlfahrzeug'], ['Autotransporter', 'Autotransporter']],
+    german: 'Deutschkenntnisse', germanList: [['keine', 'keine'], ['A1–A2', 'A1–A2'], ['B1+', 'B1 oder besser']],
+    english: 'Englischkenntnisse', englishList: [['keine', 'keine'], ['Grundkenntnisse', 'Grundkenntnisse'], ['gut', 'gut']],
+    start: 'Frühester Start', starts: [['sofort', 'Sofort'], ['in 1 Monat', 'In 1 Monat'], ['in 2–3 Monaten', 'In 2–3 Monaten'], ['später', 'Später']],
+    message: 'Nachricht (optional)', messagePh: 'z. B. bisherige Arbeitgeber, Touren, Wunschregion',
     consentA: 'Ich habe die', privacy: 'Datenschutzerklärung', consentB: 'gelesen und bin einverstanden, dass SION Consulting meine Angaben zur Vermittlung einer Arbeitsstelle verarbeitet.',
-    required: 'Pflichtfelder', submit: 'Jetzt bewerben',
+    free: 'Kostenlos für Bewerber – wir verlangen niemals Geld.',
+    required: 'Pflichtfelder', submit: 'Bewerbung senden',
     sending: 'Wird gesendet …',
-    ok: 'Vielen Dank! Ihre Bewerbung ist eingegangen. Wir melden uns, sobald wir eine passende Stelle haben.',
-    err: `Das Senden hat leider nicht geklappt. Bitte schreiben Sie uns an ${site.email}.`,
-    mail: 'Ihr E-Mail-Programm wird geöffnet. Bitte senden Sie die vorbereitete Nachricht ab.',
-    file: 'Die Datei ist größer als 5 MB. Bitte wählen Sie eine kleinere Datei oder senden Sie sie per E-Mail.',
-    subject: 'Bewerbung über sionconsulting.de',
+    ok: 'Vielen Dank! Ihre Bewerbung ist eingegangen. Wir prüfen Ihre Angaben und melden uns, wenn wir eine passende Stelle haben.',
+    err: `Das Senden hat leider nicht geklappt. Bitte versuchen Sie es später erneut oder schreiben Sie an ${site.applicationEmail}.`,
+    months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
   },
   en: {
+    step: (n: number) => `Step ${n} of 2`,
+    s1Title: 'Where do you live?',
+    s1Text: 'Two short questions. Then you see at once if we can place you.',
+    citizenship: 'Citizenship', residence: 'Country you live in now', choose: 'Please choose',
+    permit: 'Do you have a valid residence permit in this country?', yes: 'Yes', no: 'No',
+    until: 'Valid until', month: 'Month', year: 'Year',
+    next: 'Next', back: 'Back',
+    notEligible: 'Unfortunately, we can currently only place applicants who live in the EU or come from the Western Balkans. Thank you for your interest.',
+    expired: 'You said your residence permit is no longer valid.',
+    change: 'Change my answers',
+    s2Title: 'Your application',
     name: 'Full name', phone: 'Phone', email: 'Email',
-    either: 'Please enter a phone number or an email address.',
-    profession: 'Job you are looking for', choose: 'Please choose',
-    professions: ['Truck driver (C/CE)', 'Parcel delivery driver', 'Warehouse & logistics', 'Cleaning', 'Seasonal work – construction', 'Seasonal work – cleaning', 'Seasonal work – hotel & restaurant', 'Office / back office', 'Other'],
-    licence: 'Driving licence', licences: ['B', 'C', 'CE', 'C1 / C1E', 'Code 95', 'None'],
-    experience: 'Work experience', experiences: ['Less than 1 year', '1–3 years', '3–5 years', 'More than 5 years'],
-    residence: 'Current country', residencePh: 'Which country do you live in now?',
-    message: 'Message (optional)', messagePh: 'e.g. German level, previous employers, when you can start',
-    cvLater: 'CV? You can send it later by email – we will ask for it in the next step.',
-    consentA: 'I have read the', privacy: 'privacy policy', consentB: 'and agree that SION Consulting processes my details to find me a job.',
-    required: 'required fields', submit: 'Apply now',
+    either: 'Please enter an email address or a phone number.',
+    job: 'Job you want',
+    jobs: [['LKW', 'Truck driver (C/CE)'], ['Paketzusteller', 'Parcel delivery driver'], ['Lager', 'Warehouse & logistics'], ['Reinigung', 'Cleaning'], ['Bau', 'Construction'], ['Saison Bau', 'Seasonal work – construction'], ['Saison Reinigung', 'Seasonal work – cleaning'], ['Saison Hotel', 'Seasonal work – hotel & restaurant'], ['Andere', 'Other']],
+    licences: 'Licence classes',
+    issued: 'Licence issued in', issuedEu: 'an EU country', issuedOther: 'another country',
+    code95: 'Code 95 on your licence?',
+    years: 'Years of experience as a truck driver',
+    vehicles: 'Vehicle types', vehicleList: [['Sattelzug', 'Semi-trailer'], ['Silo', 'Silo'], ['Kipper', 'Tipper'], ['Tank', 'Tanker'], ['Kühl', 'Refrigerated'], ['Autotransporter', 'Car transporter']],
+    german: 'German', germanList: [['keine', 'none'], ['A1–A2', 'A1–A2'], ['B1+', 'B1 or better']],
+    english: 'English', englishList: [['keine', 'none'], ['Grundkenntnisse', 'basic'], ['gut', 'good']],
+    start: 'Earliest start', starts: [['sofort', 'Now'], ['in 1 Monat', 'In 1 month'], ['in 2–3 Monaten', 'In 2–3 months'], ['später', 'Later']],
+    message: 'Message (optional)', messagePh: 'e.g. past employers, routes, region you prefer',
+    consentA: 'I have read the', privacy: 'privacy policy', consentB: 'and I agree that SION Consulting uses my details to find me a job.',
+    free: 'Free for applicants – we never ask you for money.',
+    required: 'required', submit: 'Send application',
     sending: 'Sending …',
-    ok: 'Thank you! We have received your application and will contact you as soon as we have a suitable job.',
-    err: `Sending failed. Please email us at ${site.email}.`,
-    mail: 'Your email program will open. Please send the prepared message.',
-    file: 'The file is larger than 5 MB. Please choose a smaller file or send it by email.',
-    subject: 'Application via sionconsulting.de',
+    ok: 'Thank you! We have your application. We will check your details and contact you when we have a suitable job.',
+    err: `Sending did not work. Please try again later or write to ${site.applicationEmail}.`,
+    months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
   },
 }[lang];
-const id = (n: string) => `cand-${n}`;
+
+const id = (n: string) => `${idPrefix}-${n}`;
+const thisYear = new Date().getFullYear();
+const years = Array.from({ length: 11 }, (_, i) => thisYear + i);
+const lic = ['CE', 'C', 'C1/C1E', 'B'];
+const config = { eu: EU_EEA, wb: WB, names: germanNames() };
 ---
-<form class="form" data-sion-form data-form-type="candidate" data-require-contact="either"
-  data-endpoint={site.formEndpoint} data-email={site.email} data-lang={lang}
-  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-msg-mail={t.mail}
-  data-msg-either={t.either} data-msg-file={t.file} data-subject={t.subject}>
-  <label class="field" for={id('name')}>
-    <span>{t.name} <span class="req" aria-hidden="true">*</span></span>
-    <input id={id('name')} name="name" data-label={t.name} type="text" required autocomplete="name" />
-  </label>
-  <div class="form-row">
-    <label class="field" for={id('phone')}>
-      <span>{t.phone}</span>
-      <input id={id('phone')} name="phone" data-label={t.phone} type="tel" autocomplete="tel" inputmode="tel" />
-    </label>
-    <label class="field" for={id('email')}>
-      <span>{t.email}</span>
-      <input id={id('email')} name="email" data-label={t.email} type="email" autocomplete="email" />
-    </label>
+<form class="form apply-form" data-apply-form data-lang={lang} data-endpoint={site.formEndpoint} data-preset={preset}
+  data-label-one={t.step(1)} data-label-two={t.step(2)}
+  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-msg-either={t.either} data-msg-expired={t.expired} novalidate>
+  <div class="form-progress" aria-hidden="true">
+    <span data-step-label>{t.step(1)}</span>
+    <span class="progress-track"><span class="progress-fill"></span></span>
   </div>
-  <p class="form-hint">{t.either}</p>
-  <div class="form-row">
-    <label class="field" for={id('profession')}>
-      <span>{t.profession} <span class="req" aria-hidden="true">*</span></span>
-      <select id={id('profession')} name="profession" data-label={t.profession} required>
-        <option value="">{t.choose}</option>
-        {t.professions.map((p) => <option value={p}>{p}</option>)}
-      </select>
-    </label>
-    <label class="field" for={id('experience')}>
-      <span>{t.experience}</span>
-      <select id={id('experience')} name="experience" data-label={t.experience}>
-        <option value="">{t.choose}</option>
-        {t.experiences.map((p) => <option value={p}>{p}</option>)}
-      </select>
-    </label>
-  </div>
-  <fieldset class="choice">
-    <legend>{t.licence}</legend>
-    {t.licences.map((l) => <label><input type="checkbox" name="licence" data-label={t.licence} value={l} /> {l}</label>)}
+
+  <fieldset class="step" data-step="1">
+    <legend class="step-title">{t.s1Title}</legend>
+    <p class="form-hint">{t.s1Text}</p>
+    <div class="form-row">
+      <label class="field" for={id('citizenship')}>
+        <span>{t.citizenship} <span class="req" aria-hidden="true">*</span></span>
+        <select id={id('citizenship')} name="citizenshipCode" required autocomplete="off">
+          <option value="">{t.choose}</option>
+          {citizenshipGroups(lang).map((g) => <optgroup label={g.label}>{g.items.map((c) => <option value={c.code}>{c.name}</option>)}</optgroup>)}
+        </select>
+      </label>
+      <label class="field" for={id('residence')}>
+        <span>{t.residence} <span class="req" aria-hidden="true">*</span></span>
+        <select id={id('residence')} name="residenceCode" required autocomplete="country">
+          <option value="">{t.choose}</option>
+          {residenceGroups(lang).map((g) => <optgroup label={g.label}>{g.items.map((c) => <option value={c.code}>{c.name}</option>)}</optgroup>)}
+        </select>
+      </label>
+    </div>
+    <div class="permit-box" data-permit hidden>
+      <fieldset class="choice">
+        <legend>{t.permit} <span class="req" aria-hidden="true">*</span></legend>
+        <label><input type="radio" name="permit" value="ja" checked={preset === 'eu'} /> {t.yes}</label>
+        <label><input type="radio" name="permit" value="nein" /> {t.no}</label>
+      </fieldset>
+      <div class="form-row permit-until" data-permit-until hidden>
+        <label class="field" for={id('pmonth')}>
+          <span>{t.until} – {t.month} <span class="req" aria-hidden="true">*</span></span>
+          <select id={id('pmonth')} name="permitMonth">
+            <option value="">{t.month}</option>
+            {t.months.map((m) => <option value={m}>{m}</option>)}
+          </select>
+        </label>
+        <label class="field" for={id('pyear')}>
+          <span>{t.until} – {t.year} <span class="req" aria-hidden="true">*</span></span>
+          <select id={id('pyear')} name="permitYear">
+            <option value="">{t.year}</option>
+            {years.map((y) => <option value={y}>{y}</option>)}
+          </select>
+        </label>
+      </div>
+    </div>
+    <p class="form-status err" data-step1-error role="alert" hidden></p>
+    <div class="form-submit">
+      <button type="button" class="btn btn-accent btn-lg" data-next>{t.next}</button>
+    </div>
   </fieldset>
-  <label class="field" for={id('residence')}>
-    <span>{t.residence}</span>
-    <input id={id('residence')} name="residence" data-label={t.residence} type="text" placeholder={t.residencePh} autocomplete="country-name" />
-  </label>
-  <label class="field" for={id('message')}>
-    <span>{t.message}</span>
-    <textarea id={id('message')} name="message" data-label={t.message} rows="3" placeholder={t.messagePh}></textarea>
-  </label>
-  <p class="form-hint">{t.cvLater}</p>
-  <div class="hp" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
-  <label class="consent">
-    <input type="checkbox" name="consent" value="yes" required />
-    <span>{t.consentA} <a href={routes.datenschutz[lang]}>{t.privacy}</a> {t.consentB} <span class="req" aria-hidden="true">*</span></span>
-  </label>
-  <div class="form-submit">
-    <button type="submit" class="btn btn-accent btn-lg">{t.submit}</button>
-    <p class="form-note"><span class="req">*</span> {t.required}</p>
+
+  <div class="not-eligible" data-not-eligible role="status" aria-live="polite" hidden>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+    <div>
+      <p data-not-eligible-extra hidden></p>
+      <p>{t.notEligible}</p>
+      <button type="button" class="linklike" data-change>{t.change}</button>
+    </div>
   </div>
+
+  <fieldset class="step" data-step="2" hidden disabled>
+    <legend class="step-title">{t.s2Title}</legend>
+    <label class="field" for={id('name')}>
+      <span>{t.name} <span class="req" aria-hidden="true">*</span></span>
+      <input id={id('name')} name="name" type="text" required autocomplete="name" />
+    </label>
+    <div class="form-row">
+      <label class="field" for={id('email')}>
+        <span>{t.email}</span>
+        <input id={id('email')} name="email" type="email" autocomplete="email" />
+      </label>
+      <label class="field" for={id('phone')}>
+        <span>{t.phone}</span>
+        <input id={id('phone')} name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+      </label>
+    </div>
+    <p class="form-hint">{t.either}</p>
+    <label class="field" for={id('job')}>
+      <span>{t.job} <span class="req" aria-hidden="true">*</span></span>
+      <select id={id('job')} name="job" required>
+        <option value="">{t.choose}</option>
+        {t.jobs.map(([v, l]) => <option value={v} selected={v === job}>{l}</option>)}
+      </select>
+    </label>
+
+    <div class="driver-fields" data-driver hidden>
+      <fieldset class="choice">
+        <legend>{t.licences}</legend>
+        {lic.map((l) => <label><input type="checkbox" name="licences" value={l} /> {l}</label>)}
+      </fieldset>
+      <fieldset class="choice">
+        <legend>{t.issued}</legend>
+        <label><input type="radio" name="licenceIssued" value="EU" /> {t.issuedEu}</label>
+        <label><input type="radio" name="licenceIssued" value="anderes Land" /> {t.issuedOther}</label>
+      </fieldset>
+      <fieldset class="choice">
+        <legend>{t.code95}</legend>
+        <label><input type="radio" name="code95" value="ja" /> {t.yes}</label>
+        <label><input type="radio" name="code95" value="nein" /> {t.no}</label>
+      </fieldset>
+      <label class="field field-short" for={id('years')}>
+        <span>{t.years}</span>
+        <input id={id('years')} name="years" type="number" min="0" max="50" inputmode="numeric" />
+      </label>
+      <fieldset class="choice">
+        <legend>{t.vehicles}</legend>
+        {t.vehicleList.map(([v, l]) => <label><input type="checkbox" name="vehicles" value={v} /> {l}</label>)}
+      </fieldset>
+    </div>
+
+    <div class="form-row">
+      <label class="field" for={id('german')}>
+        <span>{t.german}</span>
+        <select id={id('german')} name="german">
+          <option value="">{t.choose}</option>
+          {t.germanList.map(([v, l]) => <option value={v}>{l}</option>)}
+        </select>
+      </label>
+      <label class="field" for={id('english')}>
+        <span>{t.english}</span>
+        <select id={id('english')} name="english">
+          <option value="">{t.choose}</option>
+          {t.englishList.map(([v, l]) => <option value={v}>{l}</option>)}
+        </select>
+      </label>
+    </div>
+    <label class="field field-short" for={id('start')}>
+      <span>{t.start}</span>
+      <select id={id('start')} name="start">
+        <option value="">{t.choose}</option>
+        {t.starts.map(([v, l]) => <option value={v}>{l}</option>)}
+      </select>
+    </label>
+    <label class="field" for={id('message')}>
+      <span>{t.message}</span>
+      <textarea id={id('message')} name="message" rows="3" placeholder={t.messagePh}></textarea>
+    </label>
+    <div class="hp" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+    <label class="consent">
+      <input type="checkbox" name="consent" value="yes" required />
+      <span>{t.consentA} <a href={routes.datenschutz[lang]}>{t.privacy}</a> {t.consentB} <span class="req" aria-hidden="true">*</span></span>
+    </label>
+    <p class="free-note">{t.free}</p>
+    <div class="form-submit">
+      <button type="submit" class="btn btn-accent btn-lg">{t.submit}</button>
+      <button type="button" class="btn btn-ghost" data-back>{t.back}</button>
+      <p class="form-note"><span class="req">*</span> {t.required}</p>
+    </div>
+  </fieldset>
+
+  <input type="hidden" name="source" value="website-form" />
+  <input type="hidden" name="entry" value={preset || ''} />
   <p class="form-status" role="status" aria-live="polite" hidden></p>
+  <script is:inline type="application/json" data-apply-config set:html={JSON.stringify(config)} />
 </form>
 
 <script>
-  import '../scripts/forms';
+  import '../scripts/apply-form';
 </script>

@@ -1,0 +1,28 @@
+---
+// Pricing terms for employers. No prices – terms only.
+import Icon from './Icon.astro';
+import type { Lang } from '../i18n';
+interface Props { lang: Lang; heading?: 'h2' | 'h3' }
+const { lang, heading = 'h2' } = Astro.props;
+const H = heading;
+const t = {
+  de: {
+    h: 'Faire Konditionen: Sie zahlen erst, wenn es passt',
+    items: ['Einmalige Vermittlungsprämie je Mitarbeiter', 'Keine Anzahlung', 'Rechnung erst nach 30 Arbeitstagen', 'Scheidet der Mitarbeiter vorher aus, zahlen Sie nichts', 'Direkte Anstellung, keine Zeitarbeit'],
+    foot: 'Die Höhe der Prämie hängt von Position und Anzahl ab – Sie erhalten vorab ein individuelles Angebot.',
+  },
+  en: {
+    h: 'Fair terms: you only pay when it works',
+    items: ['One-off placement fee per employee', 'No deposit', 'Invoice only after 30 working days', 'If the employee leaves before then, you pay nothing', 'Direct employment, no temporary agency work'],
+    foot: 'The fee depends on the position and the number of employees – you receive an individual offer in advance.',
+  },
+}[lang];
+---
+<div class="pricing-card">
+  <span class="pricing-icon"><Icon name="check" size={28} /></span>
+  <div>
+    <H>{t.h}</H>
+    <ul>{t.items.map((x) => <li><Icon name="check" size={18} />{x}</li>)}</ul>
+  </div>
+  <p class="pricing-foot">{t.foot}</p>
+</div>

@@ -1,0 +1,171 @@
+---
+// Employer page: truck drivers from the Western Balkans (Westbalkanregelung, § 26 Abs. 2 BeschV).
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+import EmployerForm from '../components/EmployerForm.astro';
+import PricingBox from '../components/PricingBox.astro';
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const r = (k: keyof typeof routes) => routes[k][lang];
+
+const c = {
+  de: {
+    title: 'Westbalkanregelung LKW-Fahrer: Fahrer aus dem Westbalkan einstellen | SION Consulting',
+    description: 'Westbalkanregelung für LKW-Fahrer einfach erklärt: Ablauf, Zeitrahmen und Führerscheinumschreibung ohne Prüfung. Direkte Anstellung, keine Zeitarbeit – Zahlung erst nach 30 Tagen.',
+    eyebrow: 'Für Transport- und Logistikunternehmen',
+    h1: 'Westbalkanregelung: LKW-Fahrer aus dem Westbalkan',
+    lead: 'Fahrer aus Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro sowie Bosnien und Herzegowina können über die Westbalkanregelung in Deutschland arbeiten. Wir finden passende CE-Fahrer und begleiten die administrativen Schritte – bis zum ersten Arbeitstag.',
+    cta: 'Fahrer anfragen', cta2: 'Ablauf ansehen',
+    alt: 'Westbalkanregelung LKW-Fahrer: Fahrer vor seinem Sattelzug',
+    whatEyebrow: 'Einfach erklärt', whatH2: 'Was ist die Westbalkanregelung?',
+    what: [
+      'Die Westbalkanregelung (§ 26 Abs. 2 Beschäftigungsverordnung) erlaubt Staatsangehörigen aus Albanien, Bosnien und Herzegowina, Kosovo, Montenegro, Nordmazedonien und Serbien eine Beschäftigung in Deutschland – auch ohne anerkannte Berufsausbildung.',
+      'Voraussetzung ist ein konkretes Arbeitsplatzangebot. Die Bundesagentur für Arbeit muss zustimmen und prüft dabei unter anderem die Arbeitsbedingungen. Zeitarbeit ist ausgeschlossen – der Fahrer wird direkt bei Ihnen angestellt.',
+      'Die Zahl der Zustimmungen ist pro Jahr begrenzt (derzeit bis zu 50.000). Eine Absenkung ist politisch angekündigt. Wir informieren Sie über den aktuellen Stand.',
+    ],
+    licEyebrow: 'Führerschein', licH2: 'Umschreibung ohne Prüfung',
+    lic: [
+      'Führerscheine aus Albanien, Kosovo, Nordmazedonien, Serbien und Montenegro – auch Klasse C und CE – können in Deutschland ohne theoretische und praktische Prüfung umgeschrieben werden (Anlage 11 FeV).',
+      'Für Führerscheine aus Bosnien und Herzegowina gilt das nicht für die Klassen C und CE.',
+      'Zusätzlich braucht der Fahrer die Berufskraftfahrer-Qualifikation (Code 95 bzw. Fahrerqualifizierungsnachweis). Welche Schritte im Einzelfall nötig sind, klären wir vor der Einstellung.',
+    ],
+    procEyebrow: 'Ablauf', procH2: 'So läuft die Einstellung über die Westbalkanregelung',
+    steps: [
+      ['Bedarf & Auswahl', 'Sie nennen Touren, Fahrzeuge und Anzahl. Wir schlagen vorgeprüfte Fahrer vor, Sie führen die Gespräche.'],
+      ['Arbeitsvertrag', 'Sie erstellen das Arbeitsplatzangebot zu in Deutschland üblichen Bedingungen.'],
+      ['Zustimmung der BA', 'Die Bundesagentur für Arbeit prüft und stimmt zu – wir unterstützen bei Formularen und Unterlagen.'],
+      ['Visum', 'Der Fahrer beantragt das Visum bei der deutschen Auslandsvertretung in seinem Land.'],
+      ['Einreise & Start', 'Anmeldung, Führerscheinumschreibung und Qualifikation – wir begleiten organisatorisch.'],
+    ] as [string, string][],
+    timing: 'Zeitrahmen: Die Dauer hängt vom Kontingent, den Terminen der Auslandsvertretung und dem Einzelfall ab – oft mehrere Monate. Schneller geht es mit Fahrern, die bereits in der EU leben.',
+    timingLink: 'Fahrer mit EU-Führerschein und Code 95',
+    note: 'Wir unterstützen bei administrativen Schritten; eine Rechtsberatung bieten wir nicht an. Verbindlich entscheiden die zuständigen Behörden.',
+    faqH2: 'Häufige Fragen zur Westbalkanregelung',
+    faq: [
+      { q: 'Für welche Länder gilt die Westbalkanregelung?', a: 'Für Staatsangehörige aus Albanien, Bosnien und Herzegowina, Kosovo, Montenegro, Nordmazedonien und Serbien.' },
+      { q: 'Braucht der Fahrer eine anerkannte Ausbildung?', a: 'Nein. Die Westbalkanregelung setzt keine anerkannte Berufsausbildung voraus. Für das Fahren braucht er aber Führerschein C/CE und die Berufskraftfahrer-Qualifikation.' },
+      { q: 'Kann der Fahrer über Zeitarbeit beschäftigt werden?', a: 'Nein. Zeitarbeit ist ausgeschlossen. Der Fahrer wird direkt bei Ihnen angestellt.' },
+      { q: 'Wie lange dauert es?', a: 'Das hängt vom Kontingent, den Visumterminen und dem Einzelfall ab – oft mehrere Monate. Wir prüfen jeden Fall individuell; die Entscheidung treffen die Behörden.' },
+    ],
+    formH2: 'Fahrer aus dem Westbalkan anfragen',
+    formText: 'Beschreiben Sie kurz Ihren Bedarf – Touren, Fahrzeugtyp, Einsatzort. Wir melden uns innerhalb von 1 Werktag.',
+    formMail: 'Lieber per E-Mail?',
+  },
+  en: {
+    title: 'Western Balkans Regulation for Truck Drivers: Hiring Drivers | SION Consulting',
+    description: 'The Western Balkans regulation for truck drivers explained: process, timeframe and licence conversion without a test. Direct employment, no temporary agency work – payment only after 30 days.',
+    eyebrow: 'For transport and logistics companies',
+    h1: 'Western Balkans regulation: truck drivers from the Western Balkans',
+    lead: 'Drivers from Albania, Kosovo, North Macedonia, Serbia, Montenegro and Bosnia and Herzegovina can work in Germany under the Western Balkans regulation. We find suitable CE drivers and support the administrative steps – up to the first working day.',
+    cta: 'Request drivers', cta2: 'See the process',
+    alt: 'Western Balkans regulation truck drivers: driver in front of his semi-trailer truck',
+    whatEyebrow: 'Explained simply', whatH2: 'What is the Western Balkans regulation?',
+    what: [
+      'The Western Balkans regulation (Section 26(2) of the German Employment Ordinance) allows citizens of Albania, Bosnia and Herzegovina, Kosovo, Montenegro, North Macedonia and Serbia to work in Germany – even without a recognised vocational qualification.',
+      'A concrete job offer is required. The Federal Employment Agency must approve it and checks, among other things, the working conditions. Temporary agency work is excluded – the driver is employed directly by you.',
+      'The number of approvals per year is limited (currently up to 50,000). A reduction has been announced. We keep you informed about the current situation.',
+    ],
+    licEyebrow: 'Driving licence', licH2: 'Conversion without a test',
+    lic: [
+      'Licences from Albania, Kosovo, North Macedonia, Serbia and Montenegro – including classes C and CE – can be converted in Germany without a theory or practical test (Annex 11 of the German Driving Licence Regulation).',
+      'For licences from Bosnia and Herzegovina, this does not apply to classes C and CE.',
+      'The driver also needs the professional driver qualification (Code 95 or driver qualification card). We clarify the steps needed in each case before hiring.',
+    ],
+    procEyebrow: 'Process', procH2: 'How hiring under the Western Balkans regulation works',
+    steps: [
+      ['Needs & selection', 'You tell us routes, vehicles and numbers. We propose pre-screened drivers, you hold the interviews.'],
+      ['Employment contract', 'You issue the job offer on terms customary in Germany.'],
+      ['Approval by the BA', 'The Federal Employment Agency checks and approves – we help with forms and documents.'],
+      ['Visa', 'The driver applies for the visa at the German mission in his country.'],
+      ['Arrival & start', 'Registration, licence conversion and qualification – we provide organisational support.'],
+    ] as [string, string][],
+    timing: 'Timeframe: the duration depends on the quota, appointments at the German mission and the individual case – often several months. It is faster with drivers who already live in the EU.',
+    timingLink: 'Drivers with an EU licence and Code 95',
+    note: 'We assist with administrative steps; we do not provide legal advice. The competent authorities make the binding decision.',
+    faqH2: 'Frequently asked questions about the Western Balkans regulation',
+    faq: [
+      { q: 'Which countries does the Western Balkans regulation cover?', a: 'Citizens of Albania, Bosnia and Herzegovina, Kosovo, Montenegro, North Macedonia and Serbia.' },
+      { q: 'Does the driver need a recognised qualification?', a: 'No. The Western Balkans regulation does not require a recognised vocational qualification. To drive, however, he needs a C/CE licence and the professional driver qualification.' },
+      { q: 'Can the driver be employed through a temporary agency?', a: 'No. Temporary agency work is excluded. The driver is employed directly by you.' },
+      { q: 'How long does it take?', a: 'It depends on the quota, visa appointments and the individual case – often several months. We check each case individually; the decision is made by the authorities.' },
+    ],
+    formH2: 'Request drivers from the Western Balkans',
+    formText: 'Briefly describe what you need – routes, vehicle type, location. We will get back to you within 1 working day.',
+    formMail: 'Prefer email?',
+  },
+}[lang];
+
+const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base lang={lang} page="westbalkan" title={c.title} description={c.description} schema={schema} stickyCta="#anfrage">
+  <section class="page-hero">
+    <div class="container grid-2">
+      <div class="hero-copy">
+        <p class="eyebrow">{c.eyebrow}</p>
+        <h1>{c.h1}</h1>
+        <p class="lead">{c.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn-accent btn-lg" href="#anfrage">{c.cta}</a>
+          <a class="btn btn-ghost btn-lg" href="#ablauf">{c.cta2}</a>
+        </div>
+      </div>
+      <div class="media ratio-landscape hide-mobile-block">
+        <Photo name="hero-lkw" alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container grid-2" style="align-items: stretch">
+      <div class="feature-box stack-lg">
+        <p class="eyebrow">{c.whatEyebrow}</p>
+        <h2 class="h2-sm">{c.whatH2}</h2>
+        {c.what.map((p) => <p class="muted">{p}</p>)}
+      </div>
+      <div class="feature-box feature-dark stack-lg">
+        <Icon name="idcard" size={36} class="card-icon" />
+        <p class="eyebrow">{c.licEyebrow}</p>
+        <h2 class="h2-sm">{c.licH2}</h2>
+        {c.lic.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section id="ablauf" class="band-dark section">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
+      <Steps lang={lang} steps={c.steps} />
+      <p class="timing">{c.timing} <a href={`${r('lkw')}#eu-fahrer`}>{c.timingLink}</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack-lg">
+      <PricingBox lang={lang} />
+      <p class="note">{c.note}</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container narrow">
+      <div class="section-head"><h2>{c.faqH2}</h2></div>
+      <Faq items={c.faq} />
+    </div>
+  </section>
+
+  <section id="anfrage" class="section band-sand">
+    <div class="container form-layout">
+      <div class="stack-lg">
+        <h2>{c.formH2}</h2>
+        <p class="muted">{c.formText}</p>
+        <p><strong>{c.formMail}</strong><br /><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+      <EmployerForm lang={lang} variant="lkw" />
+    </div>
+  </section>
+</Base>

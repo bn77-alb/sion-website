@@ -2,6 +2,7 @@
 // "Personal anfragen" – inquiry form for companies.
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
+import CallbackFields from './CallbackFields.astro';
 // variant 'lkw': fixed position (truck drivers), asks for the number of drivers instead of a position.
 interface Props { lang: Lang; position?: string; variant?: 'general' | 'lkw' | 'saison' }
 const { lang, position = '', variant = 'general' } = Astro.props;
@@ -54,16 +55,11 @@ const id = (n: string) => `emp-${n}`;
       <input id={id('name')} name="name" data-label={t.contact} type="text" required autocomplete="name" />
     </label>
   </div>
-  <div class="form-row">
-    <label class="field" for={id('phone')}>
-      <span>{t.phone} <span class="req" aria-hidden="true">*</span></span>
-      <input id={id('phone')} name="phone" data-label={t.phone} type="tel" required autocomplete="tel" inputmode="tel" />
-    </label>
-    <label class="field" for={id('email')}>
+  <label class="field" for={id('email')}>
       <span>{t.email} <span class="req" aria-hidden="true">*</span></span>
       <input id={id('email')} name="email" data-label={t.email} type="email" required autocomplete="email" />
     </label>
-  </div>
+  <CallbackFields lang={lang} prefix="emp-cb" />
   {isLkw ? (
     <input type="hidden" name="position" data-label={t.position} value={t.lkwValue} />
   ) : null}
