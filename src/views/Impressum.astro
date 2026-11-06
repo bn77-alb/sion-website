@@ -16,7 +16,7 @@ const isPh = (v: string) => v.startsWith('[');
           <h1>Impressum</h1>
           <h2>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</h2>
           <address>
-            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.name}<br />
             {site.street}<br />
             {site.zip} {site.city}<br />
             {site.countryDe}
@@ -42,7 +42,7 @@ const isPh = (v: string) => v.startsWith('[');
           <h1>Legal notice</h1>
           <p>Information pursuant to Section 5 of the German Digital Services Act (DDG).</p>
           <address>
-            {site.name} <span class:list={[{ ph: isPh(site.legalForm) }]}>{site.legalForm}</span><br />
+            {site.name}<br />
             {site.street}<br />
             {site.zip} {site.city}<br />
             {site.countryEn}

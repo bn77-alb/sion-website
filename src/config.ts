@@ -5,7 +5,7 @@ export const site = {
   url: 'https://www.sionconsulting.de',
 
   // Legal details (Impressum) – do not change without approval
-  legalForm: '(Einzelunternehmen / Person fizik)',
+  legalForm: '', // not shown on the site
   representative: 'Egla Nela',
   registry: 'M32405002D',
   vatId: '', // leave empty if none
