@@ -7,7 +7,7 @@ import Faq from '../components/Faq.astro';
 import Flags from '../components/Flags.astro';
 import CandidateForm from '../components/CandidateForm.astro';
 import { routes, type Lang } from '../i18n';
-import { site, sampleJobs } from '../config';
+import { site, sampleJobs, showSampleJobs } from '../config';
 import { jobPostingSchema } from '../lib/jobs';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -21,7 +21,7 @@ const c = {
     h1: 'Sie fahren schon in der EU? Wechseln Sie zu einem LKW-Job in Deutschland.',
     whoTitle: 'Das ist für Sie, wenn Sie …',
     who: [
-      'legal in einem EU-Land leben und arbeiten (z. B. Polen, Litauen, Niederlande, Tschechien) – mit Aufenthaltstitel',
+      'legal in einem EU-Land leben und arbeiten (z. B. Polen, Litauen, Niederlande, Tschechien) – mit Aufenthaltstitel, egal welche Staatsangehörigkeit',
       'einen Führerschein C/CE und Code 95 haben',
       'mehr verdienen, feste Touren fahren und in Deutschland leben möchten',
     ],
@@ -81,7 +81,7 @@ const c = {
     h1: 'Already driving in the EU? Move to a truck job in Germany.',
     whoTitle: 'This is for you if you …',
     who: [
-      'live and work legally in an EU country (e.g. Poland, Lithuania, Netherlands, Czech Republic) with a residence permit',
+      'live and work legally in an EU country (e.g. Poland, Lithuania, Netherlands, Czech Republic) with a residence permit – any nationality',
       'have a driving licence C/CE and Code 95',
       'want better pay, fixed routes and to live in Germany',
     ],
@@ -136,11 +136,12 @@ const c = {
   },
 }[lang];
 
+const jobs = showSampleJobs ? sampleJobs : [];
 const pageUrl = new URL(r('eufahrer'), site.url).href;
 const fmt = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
 const schema = [
   { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
-  ...sampleJobs.map((j) => jobPostingSchema(j, lang, pageUrl)),
+  ...jobs.map((j) => jobPostingSchema(j, lang, pageUrl)),
 ];
 ---
 <Base lang={lang} page="eufahrer" title={c.title} description={c.description} schema={schema} audience="candidate">
@@ -155,7 +156,7 @@ const schema = [
         </div>
         <div class="btn-row">
           <a class="btn btn-accent btn-lg" href="#bewerbung">{c.cta}</a>
-          <a class="btn btn-ghost btn-lg" href="#jobs">{c.cta2}</a>
+          {jobs.length > 0 && <a class="btn btn-ghost btn-lg" href="#jobs">{c.cta2}</a>}
         </div>
         <p class="free-note">{c.free}</p>
       </div>
@@ -203,11 +204,11 @@ const schema = [
     </div>
   </section>
 
-  <section id="jobs" class="section band-soft">
+  {jobs.length > 0 && <section id="jobs" class="section band-soft">
     <div class="container">
       <div class="section-head"><p class="eyebrow">{c.jobsEyebrow}</p><h2>{c.jobsH2}</h2><p class="muted">{c.jobsText}</p></div>
       <div class="job-grid">
-        {sampleJobs.map((j) => (
+        {jobs.map((j) => (
           <article class="job-card" id={`job-${j.id}`}>
             <h3>{j.title[lang]}</h3>
             <ul class="job-meta">
@@ -222,7 +223,7 @@ const schema = [
         ))}
       </div>
     </div>
-  </section>
+  </section>}
 
   <section class="section">
     <div class="container narrow">

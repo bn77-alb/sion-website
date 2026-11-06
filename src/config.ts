@@ -82,6 +82,9 @@ export type SampleJob = {
   validThrough: string; // YYYY-MM-DD – remove or update the job after this date
 };
 
+// Sample jobs are hidden for now. Set to true once the real texts and pay ranges are filled in.
+export const showSampleJobs = false;
+
 export const sampleJobs: SampleJob[] = [
   {
     id: 'silo-bayern',
