@@ -581,3 +581,74 @@ h3, .h3 { hyphens: manual; }
 .trust-strip-home ul { justify-content: space-around; }
 .band-dark .steps li h3 { color: var(--ink); }
 .band-dark .steps li p { color: var(--muted); }
+
+/* ================================================================== */
+/* Modernization layer (Nov 2026) – refines the existing design,       */
+/* keeps layout, colours and fonts.                                    */
+/* ================================================================== */
+:root {
+  --shadow-sm: 0 1px 2px rgba(18, 33, 46, .05), 0 4px 14px rgba(18, 33, 46, .04);
+  --shadow-md: 0 2px 6px rgba(18, 33, 46, .06), 0 16px 36px rgba(18, 33, 46, .09);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+p, li { line-height: 1.65; }
+.lead { line-height: 1.55; }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 22px; height: 2px; border-radius: 2px; background: currentColor; opacity: .7; }
+.hero-copy .eyebrow::before, .narrow-hero .eyebrow::before { display: none; }
+
+/* Buttons: depth, smoother motion, clear focus ring */
+.btn { transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease); }
+.btn-accent { box-shadow: 0 1px 0 rgba(255, 255, 255, .15) inset, 0 6px 16px rgba(200, 70, 30, .22); }
+.btn-accent:hover { box-shadow: 0 1px 0 rgba(255, 255, 255, .15) inset, 0 10px 24px rgba(200, 70, 30, .3); }
+.btn-dark:hover, .btn-ghost:hover { box-shadow: var(--shadow-sm); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 12px; }
+.btn-ghost { border-width: 1.5px; }
+.chip { transition: border-color .2s var(--ease), background .2s var(--ease), transform .2s var(--ease); }
+.chip:hover { border-color: var(--ink); transform: translateY(-1px); }
+.link-arrow::after { transition: transform .2s var(--ease); }
+.link-arrow:hover::after { transform: translateX(4px); }
+
+/* Cards: soft depth, consistent hover on clickable cards */
+.card, .steps li, .job-card, .elig-card, .pricing-card { box-shadow: var(--shadow-sm); }
+.band-dark .steps li { box-shadow: none; }
+.service-card { box-shadow: var(--shadow-sm); transition: border-color .25s var(--ease), transform .25s var(--ease), box-shadow .25s var(--ease); }
+.service-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.card:has(.link-arrow:only-of-type) { transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.card:has(.link-arrow:only-of-type):hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card-icon, .service-icon { transition: transform .25s var(--ease); }
+.service-card:hover .service-icon { transform: scale(1.06); }
+.media img { transition: transform .8s var(--ease); }
+.media:hover img { transform: scale(1.02); }
+
+/* Header: subtle shadow once the page is scrolled */
+.site-header { transition: box-shadow .25s var(--ease), background .25s var(--ease); }
+.site-header.is-scrolled { box-shadow: 0 6px 24px rgba(18, 33, 46, .08); }
+
+/* Forms: clearer hover / focus / error states */
+.field input, .field select, .field textarea { transition: border-color .15s var(--ease), box-shadow .15s var(--ease); }
+.field input:hover, .field select:hover, .field textarea:hover { border-color: var(--ink-3); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 4px rgba(18, 33, 46, .12); }
+.field input:user-invalid, .field select:user-invalid, .field textarea:user-invalid { border-color: #B3261E; box-shadow: 0 0 0 3px rgba(179, 38, 30, .12); }
+.form { box-shadow: var(--shadow-md); }
+.choice label, .consent { cursor: pointer; }
+
+/* Gentle entrance for sections below the fold (disabled for reduced motion by the rule at the top) */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+/* Cookie banner slides in instead of popping */
+.cookie:not([hidden]) .cookie-inner { animation: cookie-in .35s var(--ease); }
+@keyframes cookie-in { from { opacity: 0; transform: translateY(14px); } }
+
+/* Driver band: readable sub line */
+.driver-band { background: var(--accent-dark); box-shadow: 0 10px 28px rgba(178, 58, 21, .25); }
+.driver-band:hover { background: #9C3212; }
+.driver-band span.sub { opacity: 1; }
+.flag { object-fit: cover; }
+/* Sticky request button appears once the visitor has scrolled past the first screen */
+.sticky-cta { transition: opacity .25s var(--ease), transform .25s var(--ease); }
+.sticky-cta:not(.is-visible) { opacity: 0; transform: translateY(12px); pointer-events: none; }

@@ -3,34 +3,11 @@
 // Step 2: details. Sent to the n8n workflow "SION – Website Forms" as formType "candidate".
 // The workflow checks eligibility again, builds the structured subject and emails bewerbung@sionconsulting.de.
 
+import { getAttribution } from './attribution';
+import { track } from './track';
+import { isEligible } from '../lib/eligibility';
+
 type Config = { eu: string[]; wb: string[]; names: Record<string, string> };
-
-const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-
-function readUtm(): Record<string, string> {
-  const out: Record<string, string> = {};
-  try {
-    const stored = JSON.parse(sessionStorage.getItem('sion-utm') || '{}');
-    Object.assign(out, stored);
-  } catch { /* storage blocked */ }
-  const q = new URLSearchParams(location.search);
-  UTM_KEYS.forEach((k) => { const v = q.get(k); if (v) out[k] = v.slice(0, 120); });
-  return out;
-}
-
-export function isEligible(cfg: Config, citizen: string, residence: string, permit: string, until: string): 'yes' | 'no' | 'expired' {
-  if (cfg.wb.includes(citizen) || cfg.eu.includes(citizen)) return 'yes';
-  if (residence === 'DE') return 'yes';
-  if (cfg.eu.includes(residence) && permit === 'ja') {
-    if (until) {
-      const now = new Date();
-      const current = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-      if (until < current) return 'expired';
-    }
-    return 'yes';
-  }
-  return 'no';
-}
 
 document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) => {
   const cfg: Config = JSON.parse(form.querySelector('[data-apply-config]')?.textContent || '{}');
@@ -98,7 +75,7 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
       }
       if (permitValue() === 'ja' && !untilValue()) { (month.value ? year : month).focus(); err1.textContent = untilBox.querySelector('span')?.textContent?.replace('*', '').trim() || ''; err1.hidden = false; return; }
     }
-    const result = isEligible(cfg, citizen.value, residence.value, needsPermit() ? permitValue() : '', needsPermit() ? untilValue() : '');
+    const result = isEligible(cfg.eu, cfg.wb, citizen.value, residence.value, needsPermit() ? permitValue() : '', needsPermit() ? untilValue() : '');
     if (result !== 'yes') {
       notExtra.hidden = result !== 'expired';
       notExtra.textContent = result === 'expired' ? d.msgExpired || '' : '';
@@ -170,7 +147,6 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
       entry: get('entry'),
       page: location.pathname,
       pageUrl: location.href.split('#')[0].slice(0, 300),
-      ...readUtm(),
     };
     Object.keys(fields).forEach((k) => { if (!fields[k]) delete fields[k]; });
 
@@ -180,7 +156,8 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
       page: location.pathname,
       sentAt: new Date().toISOString(),
       website: String(fd.get('website') || ''),
-      payload: JSON.stringify({ fields }),
+      payload: JSON.stringify({ fields, attribution: getAttribution() }),
+      env: import.meta.env.PUBLIC_STAGING ? 'staging' : 'production',
     });
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     if (button) button.disabled = true;
@@ -195,6 +172,7 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
       step1.hidden = true;
       label.parentElement!.hidden = true;
       show(d.msgOk || '', 'ok');
+      track('application_submit', { job: fields.job || '', channel: fields.channel || '', page: location.pathname });
     } catch {
       show(d.msgErr || '', 'err');
     } finally {

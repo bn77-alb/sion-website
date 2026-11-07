@@ -17,9 +17,11 @@ const c = {
   de: {
     title: 'Personalvermittlung Deutschland | LKW-Fahrer & Logistikpersonal | SION Consulting',
     description: 'SION Consulting vermittelt LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal an Unternehmen in Deutschland und bietet Back-Office-Unterstützung. Keine Anzahlung, Zahlung erst nach 30 Tagen.',
-    h1: 'Personalvermittlung & Back-Office-Lösungen für deutsche Unternehmen',
-    lead: 'Zuverlässige Mitarbeiter und operative Unterstützung für Unternehmen in Deutschland.',
-    lead2: 'Wir lösen Personal- und Fahrermangel – mit vorgeprüften Kandidaten aus der EU, dem Westbalkan und Deutschland – und entlasten Ihre Verwaltung.',
+    h1: 'Qualifizierte LKW-Fahrer und Logistikmitarbeiter für Ihr Unternehmen',
+    lead: 'Wir vermitteln vorgeprüfte Arbeitskräfte aus Deutschland, der EU und dem Westbalkan – mit direkter Anstellung und persönlicher Betreuung bis zum Arbeitsbeginn.',
+    lead2: 'Zusätzlich entlasten wir Ihre Verwaltung mit Back-Office-Services.',
+    heroCta: 'Jetzt Personal anfragen', heroCta2: 'Ich suche einen Job',
+    procSteps: [['Personalbedarf mitteilen', 'Sie nennen Position, Anzahl, Einsatzort und Starttermin – per Formular oder im Gespräch.'], ['Kandidaten suchen und vorprüfen', 'Wir suchen passende Bewerber und prüfen Erfahrung, Führerschein und Unterlagen.'], ['Bewerber kennenlernen und auswählen', 'Sie führen die Gespräche – vor Ort oder per Video – und entscheiden selbst.'], ['Einstellung und Arbeitsbeginn', 'Wir unterstützen bei Unterlagen und Organisation bis zum ersten Arbeitstag.']] as [string, string][],
     chips: [['LKW-Fahrer', r('lkw')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
     chipsLabel: 'Unsere Bereiche',
     services: 'Unsere Leistungen',
@@ -62,9 +64,11 @@ const c = {
   en: {
     title: 'Recruitment Agency Germany | Truck Drivers & Logistics Staff | SION Consulting',
     description: 'SION Consulting places truck drivers, parcel delivery drivers, warehouse and cleaning staff with companies in Germany and provides back-office support. No deposit, payment only after 30 days.',
-    h1: 'Recruitment & Back-Office Solutions for German Companies',
-    lead: 'Reliable employees and operational support for companies in Germany.',
-    lead2: 'We solve staff and driver shortages – with pre-screened candidates from the EU, the Western Balkans and Germany – and take work off your administration.',
+    h1: 'Qualified truck drivers and logistics staff for your company',
+    lead: 'We place pre-screened workers from Germany, the EU and the Western Balkans – with direct employment and personal support until the first working day.',
+    lead2: 'We also take work off your administration with back-office services.',
+    heroCta: 'Request staff now', heroCta2: 'I am looking for a job',
+    procSteps: [['Tell us what you need', 'Position, number, location and start date – via the form or in a call.'], ['We search and pre-screen', 'We look for suitable applicants and check experience, licence and documents.'], ['Meet and choose', 'You hold the interviews – on site or by video – and decide yourself.'], ['Hiring and first day', 'We assist with paperwork and organisation until the first working day.']] as [string, string][],
     chips: [['Truck drivers', r('lkw')], ['Parcel delivery', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning', r('reinigung')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
     chipsLabel: 'Our areas',
     services: 'Our services',
@@ -127,10 +131,9 @@ const schema = {
           {c.chips.map(([label, href], i) => <li><a class:list={['chip', { 'chip-accent': i === 0 }]} href={href}>{label}</a></li>)}
         </ul>
         <div class="btn-row hero-buttons">
-          <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{ui[lang].request}</a>
-          <a class="btn btn-ghost btn-lg" href="#leistungen">{c.services}</a>
+          <a class="btn btn-accent btn-lg" href={requestHref(lang)}>{c.heroCta}</a>
+          <a class="btn btn-ghost btn-lg" href={r('bewerber')}>{c.heroCta2}</a>
         </div>
-        <p class="hero-applicant">{c.heroApplicant} <a class="link-arrow" href={r('bewerber')}>{c.appCta2}</a></p>
       </div>
       <div class="hero-visual hide-mobile-block">
         <div class="media ratio-portrait">
@@ -213,7 +216,7 @@ const schema = {
         <p class="eyebrow">{c.procEyebrow}</p>
         <h2>{c.procH2}</h2>
       </div>
-      <Steps lang={lang} />
+      <Steps lang={lang} steps={c.procSteps} />
       <div class="btn-row" style="margin-top: 36px"><a class="btn btn-accent btn-lg" href={requestHref(lang)}>{ui[lang].request}</a></div>
     </div>
   </section>

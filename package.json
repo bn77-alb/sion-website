@@ -9,7 +9,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node --test tests/unit/*.test.ts",
+    "test:e2e": "node --test tests/e2e/*.test.mjs",
+    "build:staging": "bash scripts/build-staging.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

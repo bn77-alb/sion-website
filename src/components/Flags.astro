@@ -3,17 +3,28 @@
 // SVG flags from the flag-icons package (MIT) – emoji flags don't show on Windows.
 import Icon from './Icon.astro';
 import { countryName } from '../lib/countries';
+import plFlag from 'flag-icons/flags/4x3/pl.svg?url';
+import ltFlag from 'flag-icons/flags/4x3/lt.svg?url';
+import lvFlag from 'flag-icons/flags/4x3/lv.svg?url';
+import nlFlag from 'flag-icons/flags/4x3/nl.svg?url';
+import czFlag from 'flag-icons/flags/4x3/cz.svg?url';
+import skFlag from 'flag-icons/flags/4x3/sk.svg?url';
+import huFlag from 'flag-icons/flags/4x3/hu.svg?url';
+import roFlag from 'flag-icons/flags/4x3/ro.svg?url';
+import hrFlag from 'flag-icons/flags/4x3/hr.svg?url';
+import siFlag from 'flag-icons/flags/4x3/si.svg?url';
+import deFlag from 'flag-icons/flags/4x3/de.svg?url';
 import type { Lang } from '../i18n';
 interface Props { lang: Lang; label: string }
 const { lang, label } = Astro.props;
-const svgs = import.meta.glob('/node_modules/flag-icons/flags/4x3/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
-const flag = (code: string) => svgs[`/node_modules/flag-icons/flags/4x3/${code.toLowerCase()}.svg`] || '';
+const svgs: Record<string, string> = { PL: plFlag, LT: ltFlag, LV: lvFlag, NL: nlFlag, CZ: czFlag, SK: skFlag, HU: huFlag, RO: roFlag, HR: hrFlag, SI: siFlag, DE: deFlag };
+const flag = (code: string) => svgs[code] || '';
 const from = ['PL', 'LT', 'LV', 'NL', 'CZ', 'SK', 'HU', 'RO', 'HR', 'SI'];
 ---
 <div class="flag-row" role="img" aria-label={label}>
   <span class="flags">
-    {from.map((c) => <span class="flag" title={countryName(c, lang)} set:html={flag(c)} />)}
+    {from.map((c) => <img class="flag" src={flag(c)} alt="" title={countryName(c, lang)} width="36" height="27" loading="lazy" decoding="async" />)}
   </span>
   <Icon name="arrow" size={30} class="flag-arrow" />
-  <span class="flag flag-lg" title={countryName('DE', lang)} set:html={flag('DE')} />
+  <img class="flag flag-lg" src={flag('DE')} alt="" title={countryName('DE', lang)} width="56" height="42" loading="lazy" decoding="async" />
 </div>

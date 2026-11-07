@@ -21,11 +21,15 @@ export const site = {
   // Contact
   email: 'info@sionconsulting.de', // employers only
   applicationEmail: 'bewerbung@sionconsulting.de', // candidates only
+  // Web analytics – off until a tool is chosen. provider: 'ga4' (id: 'G-XXXXXXX') or 'plausible' (id: 'sionconsulting.de').
+  // Only loads after the visitor allows statistics in the cookie banner. Update the privacy and cookie pages before switching on.
+  analytics: { provider: '' as '' | 'ga4' | 'plausible', id: '' },
 
   // Forms: n8n workflow "SION – Website Forms" – stores each inquiry in the data table
   // "SION Website Anfragen" and emails it to info@sionconsulting.de.
   // Set to '' to fall back to opening the visitor's email program.
-  formEndpoint: 'https://norvia2.app.n8n.cloud/webhook/sion-website-forms',
+  // Staging builds send to a separate n8n workflow (PUBLIC_FORM_ENDPOINT, see scripts/build-staging.sh)
+  formEndpoint: import.meta.env.PUBLIC_FORM_ENDPOINT || 'https://norvia2.app.n8n.cloud/webhook/sion-website-forms',
 
   // AI chat (n8n workflow "Sion Consulting – Website Chatbot"). Set to '' to hide the chat.
   chatEndpoint: 'https://norvia2.app.n8n.cloud/webhook/e6f64d6c-e631-4942-91c7-5e1441898071/chat',
