@@ -1,4 +1,17 @@
+# All public pages may be crawled – including AI search crawlers.
 User-agent: *
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bingbot
 Allow: /
 
 Sitemap: https://www.sionconsulting.de/sitemap-index.xml

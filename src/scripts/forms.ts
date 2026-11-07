@@ -5,6 +5,9 @@
 // The data goes as application/x-www-form-urlencoded (a "simple" request – no CORS preflight needed):
 //   formType, lang, page, sentAt, website (spam trap), payload = JSON { fields, summary }
 
+import { getAttribution } from './attribution';
+import { track } from './track';
+
 document.querySelectorAll<HTMLFormElement>('[data-sion-form]').forEach((form) => {
   const status = form.querySelector<HTMLElement>('.form-status');
   const d = form.dataset;
@@ -53,7 +56,8 @@ document.querySelectorAll<HTMLFormElement>('[data-sion-form]').forEach((form) =>
       page: location.pathname,
       sentAt: new Date().toISOString(),
       website: trap,
-      payload: JSON.stringify({ fields, summary }),
+      payload: JSON.stringify({ fields, summary, attribution: { ...getAttribution(), pageUrl: location.href.split('#')[0].slice(0, 300) } }),
+      env: import.meta.env.PUBLIC_STAGING ? 'staging' : 'production',
     });
 
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -64,6 +68,7 @@ document.querySelectorAll<HTMLFormElement>('[data-sion-form]').forEach((form) =>
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
       show(d.msgOk || '', 'ok');
+      track('generate_lead', { form: d.formType || 'employer', page: location.pathname });
     } catch {
       show(d.msgErr || '', 'err');
     } finally {

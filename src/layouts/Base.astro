@@ -1,4 +1,6 @@
 ---
+import headingFont from '@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2?url';
+import bodyFont from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
 import '@fontsource/space-grotesk/500.css';
 import '@fontsource/space-grotesk/600.css';
 import '@fontsource/space-grotesk/700.css';
@@ -31,6 +33,24 @@ interface Props {
 const { lang, page, title, description, noindex = false, schema, image = '/images/og-image.jpg', audience = 'employer', stickyCta } = Astro.props;
 const abs = (path: string) => new URL(path, site.url).href;
 const canonical = abs(routes[page][lang]);
+// Structured data added on every page: breadcrumb (sub pages), WebSite + Organization (home), ContactPage (contact)
+const pageName = title.split(' | ')[0].split(' – ')[0].split(': ')[0];
+const extraSchema: Record<string, unknown>[] = [];
+if (page === 'home') {
+  extraSchema.push({ '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: abs(routes.home[lang]), inLanguage: lang });
+} else {
+  extraSchema.push({
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: site.name, item: abs(routes.home[lang]) },
+      { '@type': 'ListItem', position: 2, name: pageName, item: canonical },
+    ],
+  });
+}
+if (page === 'kontakt') {
+  extraSchema.push({ '@context': 'https://schema.org', '@type': 'ContactPage', name: pageName, url: canonical, inLanguage: lang, about: { '@type': 'EmploymentAgency', name: site.name, url: site.url, email: site.email } });
+}
+const allSchema = [...(schema ? (Array.isArray(schema) ? schema : [schema]) : []), ...extraSchema];
 ---
 <!doctype html>
 <html lang={lang}>
@@ -38,12 +58,14 @@ const canonical = abs(routes[page][lang]);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <link rel="preload" href={headingFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="de" href={abs(routes[page].de)} />
     <link rel="alternate" hreflang="en" href={abs(routes[page].en)} />
     <link rel="alternate" hreflang="x-default" href={abs(routes[page].de)} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {import.meta.env.PUBLIC_STAGING ? <meta name="robots" content="noindex, nofollow" /> : noindex && <meta name="robots" content="noindex, follow" />}
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SION Consulting" />
     <meta property="og:title" content={title} />
@@ -55,15 +77,20 @@ const canonical = abs(routes[page][lang]);
     <meta name="theme-color" content="#12212E" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    {schema && (Array.isArray(schema)
-      ? schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)
-      : <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
-    <script is:inline>
+    {allSchema.map((sc) => <script type="application/ld+json" set:html={JSON.stringify(sc)} />)}
+    <script>
+      // First page of the visit: remember channel, referrer and UTM parameters for the forms
+      import { classify } from '../scripts/attribution';
       try {
-        var q = new URLSearchParams(location.search), u = {}, has = false;
-        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function (k) { var v = q.get(k); if (v) { u[k] = v.slice(0, 120); has = true; } });
-        if (has) sessionStorage.setItem('sion-utm', JSON.stringify(u));
-      } catch (e) {}
+        if (!sessionStorage.getItem('sion-attr')) {
+          const q = new URLSearchParams(location.search);
+          const utm: Record<string, string> = {};
+          ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((k) => { const v = q.get(k); if (v) utm[k] = v.slice(0, 120); });
+          let ref = '';
+          try { const r = new URL(document.referrer); if (r.host !== location.host) ref = r.origin; } catch { /* none */ }
+          sessionStorage.setItem('sion-attr', JSON.stringify({ ...utm, referrer: ref, landingPage: location.pathname, channel: classify(ref, utm) }));
+        }
+      } catch { /* storage blocked */ }
     </script>
   </head>
   <body>
@@ -75,5 +102,8 @@ const canonical = abs(routes[page][lang]);
     {stickyCta && <a class="sticky-cta btn btn-accent" href={stickyCta}><Icon name="users" size={20} /> {ui[lang].request}</a>}
     <ChatWidget lang={lang} audience={audience} />
     <CookieBanner lang={lang} />
+    <script>
+      import '../scripts/ui';
+    </script>
   </body>
 </html>

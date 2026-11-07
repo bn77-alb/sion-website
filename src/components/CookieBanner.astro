@@ -57,7 +57,11 @@ const t = {
   };
 
   if (banner) {
-    if (!read()) banner.hidden = false;
+    // Show after the fonts are ready, so the banner doesn't change size (layout shift) while it is visible
+    if (!read()) {
+      const show = () => { banner.hidden = false; };
+      (document.fonts?.ready ?? Promise.resolve()).then(show, show);
+    }
     banner.addEventListener('click', (e) => {
       const btn = (e.target as HTMLElement).closest('[data-consent]') as HTMLElement | null;
       if (!btn) return;
