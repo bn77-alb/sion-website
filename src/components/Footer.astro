@@ -12,7 +12,8 @@ const t = {
     claim: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung und Back-Office-Services.',
     services: 'Leistungen', company: 'Unternehmen', contact: 'Kontakt',
     links: [['Personalvermittlung', r('personalvermittlung')], ['LKW-Fahrer', r('lkw')], ['LKW-Fahrer aus dem Westbalkan', r('westbalkan')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
-    company2: [['Für Unternehmen', r('unternehmen')], ['Für Fahrer in der EU', r('eufahrer')], ['Für Bewerber', r('bewerber')], ['Über uns', r('ueberuns')], ['Kontakt', r('kontakt')]],
+    company2: [['Für Unternehmen', r('unternehmen')], ['Für Fahrer in der EU', r('eufahrer')], ['Kontakt für Fahrer', r('kontaktFahrer')], ['Für Bewerber', r('bewerber')], ['Über uns', r('ueberuns')], ['Kontakt', r('kontakt')]],
+    forCompanies: 'Unternehmen', forDrivers: 'Fahrer',
     office: 'Büro', country: site.countryDe, langs: 'Deutsch & Englisch',
     rights: 'Alle Rechte vorbehalten.',
     impressum: 'Impressum', privacy: 'Datenschutz', cookieSettings: 'Cookie-Einstellungen', contactLink: 'Kontakt', legal: 'Rechtliche Hinweise',
@@ -21,7 +22,8 @@ const t = {
     claim: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – through recruitment and back-office services.',
     services: 'Services', company: 'Company', contact: 'Contact',
     links: [['Recruitment', r('personalvermittlung')], ['Truck drivers', r('lkw')], ['Drivers from the Western Balkans', r('westbalkan')], ['Parcel delivery drivers', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning staff', r('reinigung')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
-    company2: [['For employers', r('unternehmen')], ['For drivers in the EU', r('eufahrer')], ['For applicants', r('bewerber')], ['About us', r('ueberuns')], ['Contact', r('kontakt')]],
+    company2: [['For employers', r('unternehmen')], ['For drivers in the EU', r('eufahrer')], ['Contact for drivers', r('kontaktFahrer')], ['For applicants', r('bewerber')], ['About us', r('ueberuns')], ['Contact', r('kontakt')]],
+    forCompanies: 'Companies', forDrivers: 'Drivers',
     office: 'Office', country: site.countryEn, langs: 'German & English',
     rights: 'All rights reserved.',
     impressum: 'Legal notice', privacy: 'Privacy', cookieSettings: 'Cookie settings', contactLink: 'Contact', legal: 'Legal information',
@@ -33,7 +35,6 @@ const t = {
     <div class="footer-about">
       <p class="footer-brand">SION Consulting</p>
       <p>{t.claim}</p>
-      {!candidate && <a class="footer-mail" href={`mailto:${site.email}`}><Icon name="mail" size={20} /> {site.email}</a>}
     </div>
     <div>
       <p class="footer-title">{t.services}</p>
@@ -46,9 +47,8 @@ const t = {
     <div>
       <p class="footer-title">{t.contact}</p>
       <ul class="footer-list">
-        {candidate
-          ? <li>{ui[lang].docsLater}<br /><a href={`mailto:${site.applicationEmail}`}>{site.applicationEmail}</a></li>
-          : <li><a href={`mailto:${site.email}`}>{site.email}</a></li>}
+        <li><span class="footer-sub">{t.forCompanies}</span><br /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><span class="footer-sub">{t.forDrivers}</span><br /><a href={`mailto:${site.applicationEmail}`}>{site.applicationEmail}</a></li>
         <li>{t.langs}</li>
         <li><span class="footer-sub">{t.office}</span><br />{site.street}<br />{site.zip} {site.city}, {t.country}</li>
       </ul>

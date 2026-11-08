@@ -44,3 +44,14 @@ export function residenceGroups(lang: Lang) {
 /** German names for every code – the email subject is always in German. */
 export const germanNames = (): Record<string, string> =>
   Object.fromEntries(ALL.map((c) => [c, countryName(c, 'de')]));
+
+// Driver pages: the most common nationalities first, EU/EEA last (brief 8 Nov 2026, task 7)
+export const FREQUENT = ['UA', 'BY', 'UZ', 'KZ', 'GE', 'MD', 'IN', 'PH', 'TR', 'KG'];
+export function driverCitizenshipGroups(lang: Lang) {
+  const rest = ALL.filter((c) => !FREQUENT.includes(c) && !EU_EEA.includes(c));
+  return [
+    { label: lang === 'de' ? 'Häufig' : 'Common', items: FREQUENT.map((c) => ({ code: c, name: countryName(c, lang) })) },
+    { label: lang === 'de' ? 'Andere Länder' : 'Other countries', items: sortByName(rest, lang) },
+    { label: lang === 'de' ? 'EU / EWR / Schweiz' : 'EU / EEA / Switzerland', items: sortByName(EU_EEA, lang) },
+  ];
+}
