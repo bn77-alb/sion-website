@@ -1,0 +1,19 @@
+name: Download photo candidates (temporary)
+on:
+  push:
+    branches: [photo-candidates]
+permissions:
+  contents: write
+jobs:
+  dl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p candidates
+          for id in CtFk1YWtbyw N5EPfCrEuy8 pAV_Y7DBOSg Vef2nQBfVww; do
+            curl -fsSL "https://unsplash.com/photos/$id/download?force=true&w=1600" -o "candidates/$id.jpg" || echo "fail $id"
+          done
+          ls -la candidates
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git add candidates; git commit -m "Photo candidates" || true; git push
