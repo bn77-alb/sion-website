@@ -1,4 +1,5 @@
 ---
+import { analyticsActive } from '../config';
 import Base from '../layouts/Base.astro';
 import { routes, type Lang } from '../i18n';
 interface Props { lang: Lang }
@@ -26,7 +27,9 @@ const { lang } = Astro.props;
             <li><strong>Empfänger:</strong> keine – die Information verlässt Ihr Gerät nicht</li>
           </ul>
           <h2>Statistik</h2>
-          <p>Derzeit setzen wir keine Statistik-Dienste ein. Sollten wir künftig eine datenschutzfreundliche Reichweitenmessung nutzen, geschieht dies nur mit Ihrer Einwilligung. Diese Richtlinie wird dann entsprechend ergänzt.</p>
+          {analyticsActive
+            ? <p>Für eine anonyme Reichweitenmessung nutzen wir Plausible Analytics (Plausible Insights OÜ, Estland; Server in der EU). Plausible setzt keine Cookies und speichert nichts auf Ihrem Gerät; IP-Adressen werden nicht gespeichert. Wir sehen nur zusammengefasste Zahlen, z. B. wie viele Besucher eine Seite aufrufen und wie viele Bewerbungen abgeschickt werden. Details finden Sie in der Datenschutzerklärung.</p>
+            : <p>Derzeit setzen wir keine Statistik-Dienste ein. Sollten wir künftig eine datenschutzfreundliche Reichweitenmessung nutzen, wird diese Richtlinie entsprechend ergänzt.</p>}
           <h2>Externe Inhalte</h2>
           <p>Schriftarten werden von unserem eigenen Server geladen. Karten, Videos oder Social-Media-Plugins binden wir nicht ein. Links zu anderen Diensten werden erst aktiv, wenn Sie darauf klicken. Der KI-Chat setzt keine Cookies und überträgt erst Daten, wenn Sie ihn aktiv starten.</p>
           <h2>Auswahl ändern</h2>
@@ -50,7 +53,9 @@ const { lang } = Astro.props;
             <li><strong>Recipients:</strong> none – the information never leaves your device</li>
           </ul>
           <h2>Statistics</h2>
-          <p>We currently do not use any analytics services. If we use privacy-friendly audience measurement in the future, we will only do so with your consent and update this policy accordingly.</p>
+          {analyticsActive
+            ? <p>For anonymous audience measurement we use Plausible Analytics (Plausible Insights OÜ, Estonia; servers in the EU). Plausible sets no cookies and stores nothing on your device; IP addresses are not stored. We only see aggregated numbers, e.g. how many visitors open a page and how many applications are sent. Details are in the privacy policy.</p>
+            : <p>We currently do not use any analytics services. If we use privacy-friendly audience measurement in the future, we will update this policy accordingly.</p>}
           <h2>External content</h2>
           <p>Fonts are loaded from our own server. We do not embed maps, videos or social media plugins. Links to other services only become active when you click them. The AI chat sets no cookies and only transfers data once you actively start it.</p>
           <h2>Change your choice</h2>

@@ -6,9 +6,10 @@
 // or living in Germany. The same rule is checked again in the n8n workflow.
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
-import { citizenshipGroups, residenceGroups, germanNames, EU_EEA, WB } from '../lib/countries';
-interface Props { lang: Lang; preset?: 'eu' | 'de' | 'wb'; job?: string; idPrefix?: string }
-const { lang, preset, job = '', idPrefix = 'cand' } = Astro.props;
+import { citizenshipGroups, driverCitizenshipGroups, residenceGroups, germanNames, EU_EEA, WB } from '../lib/countries';
+interface Props { lang: Lang; preset?: 'eu' | 'de' | 'wb'; job?: string; idPrefix?: string; variant?: 'default' | 'driver' }
+const { lang, preset, job = '', idPrefix = 'cand', variant = 'default' } = Astro.props;
+const driverForm = variant === 'driver';
 
 const t = {
   de: {
@@ -43,6 +44,14 @@ const t = {
     ok: 'Vielen Dank! Ihre Bewerbung ist eingegangen. Wir prüfen Ihre Angaben und melden uns, wenn wir eine passende Stelle haben.',
     err: `Das Senden hat leider nicht geklappt. Bitte versuchen Sie es später erneut oder schreiben Sie an ${site.applicationEmail}.`,
     months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+    messages: {
+      citizenship: 'Bitte wählen Sie Ihre Staatsangehörigkeit.', residence: 'Bitte wählen Sie das Land, in dem Sie leben.',
+      permit: 'Bitte geben Sie an, ob Sie einen gültigen Aufenthaltstitel haben.', month: 'Bitte wählen Sie den Monat.', year: 'Bitte wählen Sie das Jahr.',
+      name: 'Bitte geben Sie Ihren Namen ein.', either: 'Bitte geben Sie eine E-Mail-Adresse oder eine Telefonnummer an.',
+      email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.', job: 'Bitte wählen Sie den gewünschten Job.', consent: 'Bitte bestätigen Sie, dass Sie die Datenschutzerklärung gelesen haben.',
+    },
+    euHint: 'Mit EU-Pass brauchen Sie keine Arbeitserlaubnis. Bitte bewerben Sie sich hier:', euHintLink: '/fuer-bewerber/',
+    contactHint: 'Fragen vor der Bewerbung?', contactLink: 'Kontakt für Fahrer',
   },
   en: {
     step: (n: number) => `Step ${n} of 2`,
@@ -76,6 +85,14 @@ const t = {
     ok: 'Thank you! We have your application. We will check your details and contact you when we have a suitable job.',
     err: `Sending did not work. Please try again later or write to ${site.applicationEmail}.`,
     months: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+    messages: {
+      citizenship: 'Please choose your citizenship.', residence: 'Please choose the country you live in.',
+      permit: 'Please tell us if you have a valid residence permit.', month: 'Please choose the month.', year: 'Please choose the year.',
+      name: 'Please enter your name.', either: 'Please enter an email address or a phone number.',
+      email: 'Please enter a valid email address.', job: 'Please choose the job you want.', consent: 'Please confirm that you have read the privacy policy.',
+    },
+    euHint: 'With an EU passport you do not need a work permit. Please apply here:', euHintLink: '/en/for-applicants/',
+    contactHint: 'Questions before you apply?', contactLink: 'Contact for drivers',
   },
 }[lang];
 
@@ -87,7 +104,7 @@ const config = { eu: EU_EEA, wb: WB, names: germanNames() };
 ---
 <form class="form apply-form" data-apply-form data-lang={lang} data-endpoint={site.formEndpoint} data-preset={preset}
   data-label-one={t.step(1)} data-label-two={t.step(2)}
-  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-msg-either={t.either} data-msg-expired={t.expired} novalidate>
+  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-msg-either={t.either} data-msg-expired={t.expired} data-messages={JSON.stringify(t.messages)} novalidate>
   <div class="form-progress" aria-hidden="true">
     <span data-step-label>{t.step(1)}</span>
     <span class="progress-track"><span class="progress-fill"></span></span>
@@ -101,7 +118,7 @@ const config = { eu: EU_EEA, wb: WB, names: germanNames() };
         <span>{t.citizenship} <span class="req" aria-hidden="true">*</span></span>
         <select id={id('citizenship')} name="citizenshipCode" required autocomplete="off">
           <option value="">{t.choose}</option>
-          {citizenshipGroups(lang).map((g) => <optgroup label={g.label}>{g.items.map((c) => <option value={c.code}>{c.name}</option>)}</optgroup>)}
+          {(driverForm ? driverCitizenshipGroups(lang) : citizenshipGroups(lang)).map((g) => <optgroup label={g.label}>{g.items.map((c) => <option value={c.code}>{c.name}</option>)}</optgroup>)}
         </select>
       </label>
       <label class="field" for={id('residence')}>
@@ -135,6 +152,12 @@ const config = { eu: EU_EEA, wb: WB, names: germanNames() };
         </label>
       </div>
     </div>
+    {driverForm && (
+      <div class="not-eligible eu-hint" data-eu-hint role="status" aria-live="polite" hidden>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+        <p>{t.euHint} <a href={routes.bewerber[lang]}>{t.euHintLink}</a></p>
+      </div>
+    )}
     <p class="form-status err" data-step1-error role="alert" hidden></p>
     <div class="form-submit">
       <button type="button" class="btn btn-accent btn-lg" data-next>{t.next}</button>
@@ -238,6 +261,7 @@ const config = { eu: EU_EEA, wb: WB, names: germanNames() };
       <button type="button" class="btn btn-ghost" data-back>{t.back}</button>
       <p class="form-note"><span class="req">*</span> {t.required}</p>
     </div>
+    {driverForm && <p class="form-contact-hint">{t.contactHint} <a class="link-arrow" href={routes.kontaktFahrer[lang]}>{t.contactLink}</a></p>}
   </fieldset>
 
   <input type="hidden" name="source" value="website-form" />

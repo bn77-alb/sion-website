@@ -1,4 +1,5 @@
 ---
+import { analyticsActive } from '../config';
 import Base from '../layouts/Base.astro';
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
@@ -61,6 +62,10 @@ const servicesEn = 'n8n GmbH, Novalisstraße 10, 10115 Berlin, Germany (n8n Clou
           <h2>Speicherdauer</h2>
           <p>Wir speichern personenbezogene Daten nur so lange, wie es für den jeweiligen Zweck erforderlich ist oder gesetzliche Aufbewahrungsfristen bestehen. Anfragen, aus denen keine Zusammenarbeit entsteht, löschen wir spätestens nach 6 Monaten.</p>
 
+          {analyticsActive && <>
+            <h2>Reichweitenmessung mit Plausible Analytics</h2>
+            <p>Wir nutzen Plausible Analytics der Plausible Insights OÜ, Västriku tn 2, 50403 Tartu, Estland, um zu verstehen, wie unsere Website genutzt wird (z. B. Seitenaufrufe, Herkunft der Besucher, abgeschickte Bewerbungen und Besuche der Kontaktseite für Fahrer). Plausible setzt keine Cookies, speichert keine Daten auf Ihrem Endgerät und speichert keine IP-Adressen; zur Zählung eindeutiger Besucher wird ein täglich wechselnder, nicht rückverfolgbarer Kennwert gebildet. Die Daten werden auf Servern in der EU verarbeitet und nur zusammengefasst ausgewertet. Rechtsgrundlage ist unser berechtigtes Interesse an einer datensparsamen Reichweitenmessung (Art. 6 Abs. 1 lit. f DSGVO). Mit Plausible besteht ein Auftragsverarbeitungsvertrag.</p>
+          </>}
           <h2>Cookies und lokale Speicherung</h2>
           <p>Diese Website setzt keine Tracking- oder Marketing-Cookies und bindet keine externen Schriftarten, Karten oder Videos ein. Gespeichert wird lediglich Ihre Auswahl im Datenschutz-Hinweis im lokalen Speicher Ihres Browsers. Dies ist technisch erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Details finden Sie in unserer <a href={routes.cookies.de}>Cookie-Richtlinie</a>.</p>
 
@@ -122,6 +127,10 @@ const servicesEn = 'n8n GmbH, Novalisstraße 10, 10115 Berlin, Germany (n8n Clou
           <h2>Retention period</h2>
           <p>We only store personal data for as long as necessary for the respective purpose or as required by statutory retention periods. Enquiries that do not lead to a cooperation are deleted after 6 months at the latest.</p>
 
+          {analyticsActive && <>
+            <h2>Audience measurement with Plausible Analytics</h2>
+            <p>We use Plausible Analytics by Plausible Insights OÜ, Västriku tn 2, 50403 Tartu, Estonia, to understand how our website is used (e.g. page views, where visitors come from, submitted applications and visits to the driver contact page). Plausible sets no cookies, stores no data on your device and does not store IP addresses; to count unique visitors it uses a daily changing value that cannot be traced back. The data is processed on servers in the EU and only evaluated in aggregate. The legal basis is our legitimate interest in data-minimising audience measurement (Art. 6(1)(f) GDPR). A data processing agreement with Plausible is in place.</p>
+          </>}
           <h2>Cookies and local storage</h2>
           <p>This website does not use tracking or marketing cookies and does not load external fonts, maps or videos. Only your choice in the privacy notice is stored in your browser’s local storage. This is technically necessary (Section 25(2) No. 2 TDDDG). See our <a href={routes.cookies.en}>cookie policy</a> for details.</p>
 

@@ -21,9 +21,12 @@ export const site = {
   // Contact
   email: 'info@sionconsulting.de', // employers only
   applicationEmail: 'bewerbung@sionconsulting.de', // candidates only
-  // Web analytics – off until a tool is chosen. provider: 'ga4' (id: 'G-XXXXXXX') or 'plausible' (id: 'sionconsulting.de').
-  // Only loads after the visitor allows statistics in the cookie banner. Update the privacy and cookie pages before switching on.
-  analytics: { provider: '' as '' | 'ga4' | 'plausible', id: '' },
+  // Web analytics: Plausible (cookieless, no consent needed). Replace [PLAUSIBLE-DOMAIN] with the site domain
+  // registered in Plausible (normally 'sionconsulting.de') to switch it on. Privacy and cookie pages update automatically.
+  // Goals to create in Plausible: "Bewerbung gesendet" and "Kontaktseite besucht".
+  analytics: { provider: 'plausible' as '' | 'ga4' | 'plausible', id: '[PLAUSIBLE-DOMAIN]' },
+  // Google Search Console: paste the verification code from Search Console here (HTML tag method).
+  googleSiteVerification: '[CODE]',
 
   // Forms: n8n workflow "SION – Website Forms" – stores each inquiry in the data table
   // "SION Website Anfragen" and emails it to info@sionconsulting.de.
@@ -136,3 +139,7 @@ export const sampleJobs: SampleJob[] = [
     datePosted: '2026-11-06', validThrough: '2027-02-28',
   },
 ];
+
+/** true once a real value replaces a [PLACEHOLDER] */
+export const isSet = (v: string) => !!v && !v.startsWith('[');
+export const analyticsActive = !!site.analytics.provider && isSet(site.analytics.id);

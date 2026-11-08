@@ -652,3 +652,47 @@ p, li { line-height: 1.65; }
 /* Sticky request button appears once the visitor has scrolled past the first screen */
 .sticky-cta { transition: opacity .25s var(--ease), transform .25s var(--ease); }
 .sticky-cta:not(.is-visible) { opacity: 0; transform: translateY(12px); pointer-events: none; }
+
+/* Lean header for the truck driver pages */
+.driver-header .header-actions { display: flex; align-items: center; gap: 18px; }
+.driver-contact-link { font-weight: 600; color: var(--ink); text-decoration: none; }
+.driver-contact-link:hover, .driver-contact-link[aria-current="page"] { text-decoration: underline; text-underline-offset: 4px; }
+.driver-header .lang-switch-sm { background: var(--bg); border: 1px solid var(--line); }
+@media (max-width: 760px) {
+  .driver-header .driver-contact-link { display: none; }
+  .driver-header .header-actions { gap: 10px; }
+  .header-cta-driver { padding: 10px 14px; min-height: 44px; font-size: .95rem; }
+}
+.flag-rows { display: grid; gap: 18px; }
+.flag-row-label { font-weight: 700; margin-bottom: 8px; }
+.flag-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.flag-list li { display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px 5px 6px; font-size: .92rem; font-weight: 600; }
+.flag-list .flag { width: 28px; height: 21px; border-radius: 3px; }
+.hero-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.hero-chips li { display: inline-flex; align-items: center; gap: 6px; background: #EAF5EE; color: #1E5B38; border: 1px solid #B7D9C3; border-radius: 999px; padding: 6px 12px; font-weight: 600; font-size: .92rem; }
+.form-contact-hint { font-size: .95rem; color: var(--muted); }
+.eu-hint p { margin: 0; }
+.eu-hint a { font-weight: 700; }
+[aria-invalid="true"] { border-color: #B3261E !important; box-shadow: 0 0 0 3px rgba(179, 38, 30, .12); }
+.self-check { display: flex; flex-direction: column; gap: 14px; }
+.check-list { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+.check-list .consent { font-size: 1rem; color: var(--ink); align-items: center; }
+.check-result { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; background: #EAF5EE; border: 1px solid #B7D9C3; border-radius: 14px; padding: 16px 18px; font-weight: 600; color: #1E5B38; }
+.check-result[hidden], .check-no[hidden] { display: none; }
+.check-result p, .check-no p { margin: 0; }
+.qa-list { margin: 0; display: grid; gap: 10px; }
+.qa-list > div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+.qa-list dt { font-weight: 700; }
+.qa-list dd { margin: 4px 0 0; color: var(--muted); }
+.card-highlight { border: 2px solid var(--accent); }
+.card .btn { align-self: flex-start; margin-top: auto; }
+.number-list { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; }
+@media (max-width: 900px) { .mobile-bar.mobile-bar-2 { grid-template-columns: 1fr 1.6fr; } }
+.header-cta-driver { white-space: nowrap; }
+@media (max-width: 400px) { .driver-header .brand-light { display: none; } }
+/* Flag rows as a full-width band */
+.flags-band .flag-rows { gap: 28px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 3.5vw, 36px); box-shadow: var(--shadow-sm); }
+@media (min-width: 900px) { .flags-band .flag-rows { grid-template-columns: 1fr 1fr; gap: 40px; } }
+.flags-band .flag-row-label { font: 700 1.15rem var(--font-display); margin-bottom: 12px; }
+.flags-band .flag-list { gap: 10px; }
+.flags-band .flag-list li { background: var(--bg); }

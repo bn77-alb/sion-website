@@ -64,16 +64,31 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
   job.addEventListener('change', updateDriver);
   updateDriver();
 
+  // Validation messages are full sentences (data-messages on the form)
+  const M: Record<string, string> = JSON.parse(d.messages || '{}');
+  const fail1 = (el: HTMLElement, key: string) => {
+    err1.textContent = M[key] || '';
+    err1.hidden = false;
+    el.setAttribute('aria-invalid', 'true');
+    el.focus();
+  };
+  form.addEventListener('input', (e) => (e.target as HTMLElement).removeAttribute?.('aria-invalid'));
+  form.addEventListener('change', (e) => (e.target as HTMLElement).removeAttribute?.('aria-invalid'));
+
+  // Driver pages: EU/EEA citizens are sent to the general applicant page
+  const euHint = form.querySelector<HTMLElement>('[data-eu-hint]');
+  const updateEuHint = () => { if (euHint) euHint.hidden = !cfg.eu.includes(citizen.value); };
+  citizen.addEventListener('change', updateEuHint);
+
   $<HTMLButtonElement>('[data-next]').addEventListener('click', () => {
     err1.hidden = true;
-    const missing = [citizen, residence].find((el) => !el.value);
-    if (missing) { missing.reportValidity(); missing.focus(); return; }
+    if (!citizen.value) return fail1(citizen, 'citizenship');
+    if (euHint && cfg.eu.includes(citizen.value)) { euHint.hidden = false; euHint.querySelector('a')?.focus(); return; }
+    if (!residence.value) return fail1(residence, 'residence');
     if (needsPermit()) {
-      if (!permitValue()) {
-        err1.textContent = form.querySelector('[data-permit] legend')?.textContent?.replace('*', '').trim() || '';
-        err1.hidden = false; return;
-      }
-      if (permitValue() === 'ja' && !untilValue()) { (month.value ? year : month).focus(); err1.textContent = untilBox.querySelector('span')?.textContent?.replace('*', '').trim() || ''; err1.hidden = false; return; }
+      if (!permitValue()) return fail1(form.querySelector<HTMLInputElement>('[name="permit"]')!, 'permit');
+      if (permitValue() === 'ja' && !month.value) return fail1(month, 'month');
+      if (permitValue() === 'ja' && !year.value) return fail1(year, 'year');
     }
     const result = isEligible(cfg.eu, cfg.wb, citizen.value, residence.value, needsPermit() ? permitValue() : '', needsPermit() ? untilValue() : '');
     if (result !== 'yes') {
@@ -118,11 +133,15 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
     e.preventDefault();
     if (step2.hidden) return;
     const fd = new FormData(form);
-    if (!fd.get('email') && !fd.get('phone')) { show(d.msgEither || '', 'err'); $<HTMLInputElement>('[name="email"]').focus(); return; }
-    const reqd = [...step2.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[required]')];
-    for (const el of reqd) { if (!el.checkValidity()) { el.reportValidity(); return; } }
+    const fail2 = (el: HTMLElement, key: string) => { show(M[key] || '', 'err'); el.setAttribute('aria-invalid', 'true'); el.focus(); };
+    const nameEl = $<HTMLInputElement>('[name="name"]');
     const emailEl = $<HTMLInputElement>('[name="email"]');
-    if (!emailEl.checkValidity()) { emailEl.reportValidity(); return; }
+    if (!nameEl.value.trim()) return fail2(nameEl, 'name');
+    if (!fd.get('email') && !fd.get('phone')) return fail2(emailEl, 'either');
+    if (!emailEl.checkValidity()) return fail2(emailEl, 'email');
+    if (!job.value) return fail2(job, 'job');
+    const consent = $<HTMLInputElement>('[name="consent"]');
+    if (!consent.checked) return fail2(consent, 'consent');
 
     const isDriver = fd.get('job') === 'LKW';
     const perm = needsPermit();
@@ -172,7 +191,7 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
       step1.hidden = true;
       label.parentElement!.hidden = true;
       show(d.msgOk || '', 'ok');
-      track('application_submit', { job: fields.job || '', channel: fields.channel || '', page: location.pathname });
+      track('Bewerbung gesendet', { job: fields.job || '', page: location.pathname });
     } catch {
       show(d.msgErr || '', 'err');
     } finally {
@@ -181,6 +200,7 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
   });
 
   if (d.preset === 'de') { residence.value = 'DE'; }
+  updateEuHint();
   update();
   setStep(1);
 });
