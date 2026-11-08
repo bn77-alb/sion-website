@@ -11,12 +11,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           mkdir -p candidates
-          for slug in a-truck-on-a-road-CtFk1YWtbyw a-large-truck-on-the-road-N5EPfCrEuy8 a-red-semi-truck-cab-without-a-trailer-pAV_Y7DBOSg a-large-yellow-truck-Vef2nQBfVww; do
-            id=${slug##*-}
-            img=$(curl -fsSL -A "Mozilla/5.0" "https://unsplash.com/photos/$slug" | grep -oE 'https://images\.unsplash\.com/photo-[a-zA-Z0-9_-]+' | head -1)
-            echo "$id -> $img"
-            [ -n "$img" ] && curl -fsSL "$img?fm=jpg&q=80&w=1600&fit=crop" -o "candidates/$id.jpg" || echo "fail $id"
-            echo "$id $img" >> candidates/ids.txt
+          for id in 20855836 16706765 2199293 16325212; do
+            curl -fsSL "https://images.pexels.com/photos/$id/pexels-photo-$id.jpeg?auto=compress&cs=tinysrgb&w=1600" -o "candidates/px-$id.jpg" || echo "fail $id"
           done
           ls -la candidates
           git config user.name "github-actions"; git config user.email "actions@github.com"
