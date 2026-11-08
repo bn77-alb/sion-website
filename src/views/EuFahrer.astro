@@ -178,13 +178,18 @@ const schema = [
   </section>
 
   <section class="section section-first">
-    <div class="container grid-2" style="align-items: start">
+    <div class="container narrow">
       <div class="who-box">
         <h2 class="h2-sm">{c.whoH2}</h2>
         <p>{c.whoIntro}</p>
         <ul class="checklist checklist-green">{c.who.map((x) => <li>{x}</li>)}</ul>
         <p><a class="link-arrow" href={r('bewerber')}>{c.otherLink}</a></p>
       </div>
+    </div>
+  </section>
+
+  <section class="section flags-band" style="padding-top: 0">
+    <div class="container">
       <Flags lang={lang} />
     </div>
   </section>

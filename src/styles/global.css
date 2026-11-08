@@ -690,3 +690,9 @@ p, li { line-height: 1.65; }
 @media (max-width: 900px) { .mobile-bar.mobile-bar-2 { grid-template-columns: 1fr 1.6fr; } }
 .header-cta-driver { white-space: nowrap; }
 @media (max-width: 400px) { .driver-header .brand-light { display: none; } }
+/* Flag rows as a full-width band */
+.flags-band .flag-rows { gap: 28px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 3.5vw, 36px); box-shadow: var(--shadow-sm); }
+@media (min-width: 900px) { .flags-band .flag-rows { grid-template-columns: 1fr 1fr; gap: 40px; } }
+.flags-band .flag-row-label { font: 700 1.15rem var(--font-display); margin-bottom: 12px; }
+.flags-band .flag-list { gap: 10px; }
+.flags-band .flag-list li { background: var(--bg); }

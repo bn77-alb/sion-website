@@ -20,12 +20,14 @@ import geFlag from 'flag-icons/flags/4x3/ge.svg?url';
 import mdFlag from 'flag-icons/flags/4x3/md.svg?url';
 import inFlag from 'flag-icons/flags/4x3/in.svg?url';
 import phFlag from 'flag-icons/flags/4x3/ph.svg?url';
+import kgFlag from 'flag-icons/flags/4x3/kg.svg?url';
+import trFlag from 'flag-icons/flags/4x3/tr.svg?url';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
-const flags: Record<string, string> = { PL: plFlag, LT: ltFlag, LV: lvFlag, CZ: czFlag, SK: skFlag, NL: nlFlag, HU: huFlag, RO: roFlag, UA: uaFlag, BY: byFlag, UZ: uzFlag, KZ: kzFlag, GE: geFlag, MD: mdFlag, IN: inFlag, PH: phFlag };
+const flags: Record<string, string> = { PL: plFlag, LT: ltFlag, LV: lvFlag, CZ: czFlag, SK: skFlag, NL: nlFlag, HU: huFlag, RO: roFlag, UA: uaFlag, BY: byFlag, UZ: uzFlag, KZ: kzFlag, GE: geFlag, MD: mdFlag, IN: inFlag, PH: phFlag, TR: trFlag, KG: kgFlag };
 const rows = [
   { label: lang === 'de' ? 'Sie leben in:' : 'You live in:', codes: ['PL', 'LT', 'LV', 'CZ', 'SK', 'NL', 'HU', 'RO'] },
-  { label: lang === 'de' ? 'Wir vermitteln Fahrer aus:' : 'We place drivers from:', codes: ['UA', 'BY', 'UZ', 'KZ', 'GE', 'MD', 'IN', 'PH'] },
+  { label: lang === 'de' ? 'Wir vermitteln Fahrer aus:' : 'We place drivers from:', codes: ['UA', 'BY', 'UZ', 'KZ', 'GE', 'MD', 'IN', 'PH', 'TR', 'KG'] },
 ];
 ---
 <div class="flag-rows">
