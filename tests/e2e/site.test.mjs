@@ -65,10 +65,15 @@ test('static checks: no phone, no WhatsApp, no banned terms, valid JSON-LD, href
   }
 });
 
-test('candidate pages never link to the employer address info@', async () => {
-  for (const path of ['fuer-bewerber', 'en/for-applicants', 'lkw-fahrer-aus-der-eu', 'en/truck-drivers-eu']) {
+test('driver pages: lean header, no employer menu, no booking link, no info@ outside the footer', async () => {
+  for (const path of ['lkw-fahrer-aus-der-eu', 'en/truck-drivers-eu', 'kontakt-fuer-fahrer', 'en/contact-drivers']) {
     const h = await readFile(join(DIST, path, 'index.html'), 'utf8');
-    assert.doesNotMatch(h, /mailto:info@/, path);
+    const main = h.slice(h.indexOf('<main'), h.indexOf('</main>'));
+    const header = h.slice(h.indexOf('<header'), h.indexOf('</header>'));
+    assert.doesNotMatch(main, /mailto:info@/, path);
+    assert.doesNotMatch(header, /desktop-nav|Personal anfragen|Request staff/, path);
+    assert.match(header, /driver-contact-link/, path);
+    assert.doesNotMatch(h, /cal\.com|calendly|Cal\.com-Link/i, path);
   }
 });
 
@@ -124,8 +129,7 @@ test('employer form shows understandable validation instead of sending', async (
 test('applicant journey: driver living in Poland applies in two steps (phone)', async () => {
   const { p, ctx, errors, posts } = await page(devices['iPhone 13']);
   await p.goto(`${base}/en/truck-drivers-eu/`);
-  assert.match(await p.locator('h1').innerText(), /Already driving in the EU/);
-  assert.equal(await p.locator('.who-box').isVisible(), true);
+  assert.match(await p.locator('h1').innerText(), /without an EU passport/);
   const f = p.locator('[data-apply-form]');
   await f.locator('[name=citizenshipCode]').selectOption('UZ');
   await f.locator('[name=residenceCode]').selectOption('PL');
@@ -189,7 +193,7 @@ test('language switch leads to the matching page', async () => {
 test('no horizontal scrolling on phones and tablets', async () => {
   for (const d of ['iPhone SE', 'iPhone 13', 'Pixel 7', 'iPad Mini', 'iPad Mini landscape']) {
     const { p, ctx } = await page(devices[d]);
-    for (const path of ['/', '/en/truck-drivers-eu/', '/fuer-bewerber/', '/fuer-unternehmen/', '/lkw-fahrer/', '/kontakt/']) {
+    for (const path of ['/', '/en/truck-drivers-eu/', '/lkw-fahrer-aus-der-eu/', '/kontakt-fuer-fahrer/', '/en/contact-drivers/', '/fuer-bewerber/', '/fuer-unternehmen/', '/lkw-fahrer/', '/kontakt/']) {
       await p.goto(base + path);
       const over = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       assert.ok(over <= 1, `${d} ${path} overflows by ${over}px`);
@@ -202,5 +206,38 @@ test('reduced motion: nothing is hidden by the entrance animation', async () => 
   const { p, ctx } = await page({ reducedMotion: 'reduce' });
   await p.goto(`${base}/`);
   assert.equal(await p.locator('.reveal').count(), 0);
+  await ctx.close();
+});
+
+test('driver form: EU citizen gets the hint to /fuer-bewerber/, validation in full sentences', async () => {
+  const { p, ctx, posts } = await page();
+  await p.goto(`${base}/lkw-fahrer-aus-der-eu/`);
+  const f = p.locator('[data-apply-form]');
+  assert.equal(await f.locator('[name=citizenshipCode] optgroup').first().getAttribute('label'), 'Häufig');
+  await f.locator('[data-next]').click();
+  assert.equal(await f.locator('[data-step1-error]').innerText(), 'Bitte wählen Sie Ihre Staatsangehörigkeit.');
+  await f.locator('[name=citizenshipCode]').selectOption('PL');
+  assert.equal(await f.locator('[data-eu-hint]').isVisible(), true);
+  await f.locator('[data-next]').click();
+  assert.equal(await f.locator('[data-step="2"]').isVisible(), false);
+  await f.locator('[name=citizenshipCode]').selectOption('UA');
+  await f.locator('[name=residenceCode]').selectOption('PL');
+  await f.locator('[data-next]').click();
+  assert.equal(await f.locator('[data-step1-error]').innerText(), 'Bitte wählen Sie den Monat.');
+  assert.equal(posts.length, 0);
+  await ctx.close();
+});
+
+test('30-second check on the driver contact page', async () => {
+  const { p, ctx, posts } = await page();
+  await p.goto(`${base}/kontakt-fuer-fahrer/`);
+  const box = p.locator('[data-self-check]');
+  await box.locator('[data-check]').first().check();
+  await box.locator('[data-check-btn]').click();
+  assert.equal(await box.locator('[data-check-no]').isVisible(), true);
+  for (const c of await box.locator('[data-check]').all()) await c.check();
+  assert.equal(await box.locator('[data-check-yes]').isVisible(), true);
+  assert.equal(await box.locator('[data-check-no]').isVisible(), false);
+  assert.equal(posts.length, 0);
   await ctx.close();
 });

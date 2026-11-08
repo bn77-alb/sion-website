@@ -1,6 +1,6 @@
 // Analytics events – only sent when (1) an analytics tool is configured in config.ts (site.analytics)
 // and (2) the visitor allowed statistics in the cookie banner. Never sends names, emails or form contents.
-import { site } from '../config';
+import { site, analyticsActive } from '../config';
 
 type Props = Record<string, string | number>;
 declare global { interface Window { dataLayer?: unknown[]; gtag?: (...a: unknown[]) => void; plausible?: (e: string, o?: { props: Props }) => void } }
@@ -12,8 +12,11 @@ function consented(): boolean {
   try { return !!JSON.parse(localStorage.getItem('sion-consent-v1') || 'null')?.stats; } catch { return false; }
 }
 
+// Plausible is cookieless and needs no consent; GA4 only loads after consent.
+const allowed = () => analyticsActive && (cfg.provider === 'plausible' || consented());
+
 function load() {
-  if (loaded || !cfg.provider || !cfg.id || !consented()) return;
+  if (loaded || !allowed()) return;
   loaded = true;
   const s = document.createElement('script');
   s.async = true;
@@ -25,19 +28,18 @@ function load() {
     window.gtag('config', cfg.id, { anonymize_ip: true });
   } else if (cfg.provider === 'plausible') {
     s.src = 'https://plausible.io/js/script.js';
+    s.defer = true;
     s.dataset.domain = cfg.id;
+    window.plausible = window.plausible || function (...args: unknown[]) { ((window.plausible as unknown as { q?: unknown[] }).q ||= []).push(args); } as typeof window.plausible;
   }
   document.head.appendChild(s);
 }
 
 export function track(event: string, props: Props = {}) {
-  if (!cfg.provider || !cfg.id || !consented()) return;
+  if (!allowed()) return;
   load();
   if (cfg.provider === 'ga4') window.gtag?.('event', event, props);
-  else if (cfg.provider === 'plausible') {
-    window.plausible = window.plausible || function () { /* queued until the script loads */ };
-    window.plausible(event, { props });
-  }
+  else if (cfg.provider === 'plausible') window.plausible?.(event, { props });
 }
 
 // Load on page view if allowed, and as soon as the visitor gives consent

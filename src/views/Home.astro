@@ -15,8 +15,8 @@ const r = (k: keyof typeof routes) => routes[k][lang];
 
 const c = {
   de: {
-    title: 'Personalvermittlung Deutschland | LKW-Fahrer & Logistikpersonal | SION Consulting',
-    description: 'SION Consulting vermittelt LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal an Unternehmen in Deutschland und bietet Back-Office-Unterstützung. Keine Anzahlung, Zahlung erst nach 30 Tagen.',
+    title: 'Personalvermittlung für LKW-Fahrer & Logistik | SION',
+    description: 'LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal für Unternehmen in Deutschland – plus Back Office. Keine Anzahlung, Zahlung nach 30 Tagen.',
     h1: 'Qualifizierte LKW-Fahrer und Logistikmitarbeiter für Ihr Unternehmen',
     lead: 'Wir vermitteln vorgeprüfte Arbeitskräfte aus Deutschland, der EU und dem Westbalkan – mit direkter Anstellung und persönlicher Betreuung bis zum Arbeitsbeginn.',
     lead2: 'Zusätzlich entlasten wir Ihre Verwaltung mit Back-Office-Services.',
@@ -57,13 +57,14 @@ const c = {
     appH2: 'Sie suchen einen Job in Deutschland?',
     appLinks: [['Für LKW-Fahrer in der EU', r('eufahrer')], ['Westbalkanregelung für LKW-Fahrer', r('westbalkan')]],
     appText: 'Wir vermitteln Fahrer und Arbeitskräfte, die in der EU leben oder aus dem Westbalkan kommen – kostenlos, direkt beim Arbeitgeber, ohne Zeitarbeit.',
+    forDrivers: 'Für LKW-Fahrer', otherJobs: 'Andere Jobs',
     appCta: 'Jetzt bewerben', appCta2: 'Infos für Bewerber', heroApplicant: 'Sie suchen Arbeit?',
     bandH: 'Sie fahren schon in der EU?', bandSub: 'LKW-Fahrer mit Aufenthalt in der EU, C/CE und Code 95', bandGo: 'Jobs in Deutschland',
     trust: ['Direkte Anstellung', 'Keine Zeitarbeit', 'Kostenlos für Fahrer', 'Antwort in 1 Werktag'],
   },
   en: {
-    title: 'Recruitment Agency Germany | Truck Drivers & Logistics Staff | SION Consulting',
-    description: 'SION Consulting places truck drivers, parcel delivery drivers, warehouse and cleaning staff with companies in Germany and provides back-office support. No deposit, payment only after 30 days.',
+    title: 'Recruitment Agency for Truck Drivers & Logistics | SION',
+    description: 'Truck drivers, parcel delivery, warehouse and cleaning staff for companies in Germany – plus back office. No deposit, payment after 30 days.',
     h1: 'Qualified truck drivers and logistics staff for your company',
     lead: 'We place pre-screened workers from Germany, the EU and the Western Balkans – with direct employment and personal support until the first working day.',
     lead2: 'We also take work off your administration with back-office services.',
@@ -104,6 +105,7 @@ const c = {
     appH2: 'Looking for a job in Germany?',
     appLinks: [['For truck drivers in the EU', r('eufahrer')], ['Western Balkans regulation for truck drivers', r('westbalkan')]],
     appText: 'We place drivers and workers who live in the EU or come from the Western Balkans – free of charge, directly with the employer, no temporary agency.',
+    forDrivers: 'For truck drivers', otherJobs: 'Other jobs',
     appCta: 'Apply now', appCta2: 'Information for applicants', heroApplicant: 'Looking for work?',
     bandH: 'Already driving in the EU?', bandSub: 'Truck drivers living in the EU with C/CE and Code 95', bandGo: 'Jobs in Germany',
     trust: ['Direct employment', 'No temporary agency', 'Free for drivers', 'Reply in 1 working day'],
@@ -243,9 +245,8 @@ const schema = {
         <p class="muted">{c.appText}</p>
       </div>
       <div class="btn-row">
-        <a class="btn btn-accent btn-lg" href={r('eufahrer')}>{c.bandH} {c.bandGo}</a>
-        <a class="link-arrow" href={r('bewerber')}>{c.appCta2}</a>
-        {c.appLinks.map(([l, h]) => <a class="link-arrow" href={h}>{l}</a>)}
+        <a class="btn btn-accent btn-lg" href={r('eufahrer')}>{c.forDrivers}</a>
+        <a class="btn btn-ghost btn-lg" href={r('bewerber')}>{c.otherJobs}</a>
       </div>
     </div>
   </section>

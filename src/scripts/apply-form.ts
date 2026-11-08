@@ -191,7 +191,7 @@ document.querySelectorAll<HTMLFormElement>('[data-apply-form]').forEach((form) =
       step1.hidden = true;
       label.parentElement!.hidden = true;
       show(d.msgOk || '', 'ok');
-      track('application_submit', { job: fields.job || '', channel: fields.channel || '', page: location.pathname });
+      track('Bewerbung gesendet', { job: fields.job || '', page: location.pathname });
     } catch {
       show(d.msgErr || '', 'err');
     } finally {

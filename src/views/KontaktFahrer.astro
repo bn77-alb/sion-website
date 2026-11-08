@@ -1,0 +1,213 @@
+---
+// Contact page for truck drivers. Copy: "Implementation Brief – sionconsulting.de Driver Pages" (8 Nov 2026), section 6.
+// The 30-second check runs in the browser only – nothing is sent or stored. The call booking link is NOT on this page
+// (it is only in the confirmation email after an application).
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const r = (k: keyof typeof routes) => routes[k][lang];
+const applyHref = `${r('eufahrer')}#bewerbung`;
+
+const c = {
+  de: {
+    title: 'Kontakt für LKW-Fahrer | SION Consulting',
+    description: 'Fragen zu Job, Visum und Unterlagen? Chat, Bewerbung oder E-Mail – Antwort in 1–2 Werktagen. Kostenlos für Fahrer mit Aufenthaltstitel in der EU.',
+    kicker: 'Kontakt für LKW-Fahrer',
+    h1: 'Kontakt für LKW-Fahrer – so erreichen Sie uns',
+    lead: 'Sie fahren mit Aufenthaltstitel in der EU und möchten nach Deutschland wechseln? Hier finden Sie alle Wege zu uns – und die Antworten auf die häufigsten Fragen.',
+    info: ['Antwort in 1–2 Werktagen', 'Deutsch, Englisch, Russisch & Ukrainisch', 'Kostenlos für Fahrer'],
+    checkH2: '1. Passt das zu mir? (30-Sekunden-Check)',
+    checkIntro: 'Sie können sich bewerben, wenn alle Punkte zutreffen:',
+    checks: ['Ich habe keinen EU-Pass.', 'Ich habe einen gültigen Aufenthaltstitel in einem EU-Land.', 'Ich habe einen EU-Führerschein C/CE mit Code 95.', 'Ich habe mindestens 1 Jahr Erfahrung als LKW-Fahrer.'],
+    checkBtn: 'Ergebnis anzeigen',
+    checkYes: 'Super – bewerben Sie sich direkt. Das dauert etwa 1 Minute.', checkYesBtn: 'Jetzt bewerben',
+    checkNo: 'Dann können wir Sie im Moment leider nicht vermitteln. Mit EU-Pass oder aus dem Westbalkan?', checkNoLink: '/fuer-bewerber/',
+    faqH2: '2. Häufige Fragen vor dem Kontakt',
+    faq: [
+      ['Kostet mich das etwas?', 'Nein. Der Arbeitgeber bezahlt uns.'],
+      ['Wie lange dauert es bis zum Start?', 'Meist einige Wochen bis wenige Monate, je nach Botschaft.'],
+      ['Wo beantrage ich das Visum?', 'In der Regel bei der deutschen Botschaft in Ihrem Wohnland.'],
+      ['Welche Unterlagen brauche ich?', 'Reisepass, Aufenthaltstitel, EU-Führerschein C/CE mit Code 95, Fahrerkarte, Lebenslauf.'],
+      ['Muss ich Deutsch sprechen?', 'Nicht für jede Stelle.'],
+      ['Ich habe mich schon beworben – wann melden Sie sich?', 'Innerhalb von 1–2 Werktagen per E-Mail. Bitte schauen Sie auch im Spam-Ordner.'],
+    ],
+    allFaq: 'Alle Fragen und Antworten',
+    reachH2: '3. So erreichen Sie uns',
+    chatH: 'Sofort-Antwort im Chat', chatP: 'Unser KI-Assistent beantwortet Fragen zu Ablauf, Unterlagen und Visum – rund um die Uhr.', chatBtn: 'Chat öffnen',
+    applyH: 'Bewerbung senden (empfohlen)', applyP: 'Der schnellste Weg zu einem Job. Nach der Bewerbung erhalten Sie eine E-Mail mit den nächsten Schritten und einem Link, um ein kurzes Telefon- oder Videogespräch mit uns zu buchen.', applyBtn: 'Jetzt bewerben',
+    mailH: 'Unterlagen und Fragen per E-Mail', mailP: 'Bitte schreiben Sie in den Betreff: Ihren Namen + „LKW-Fahrer“. Unterlagen bitte als PDF, maximal 10 MB.',
+    nextH2: '4. Was nach Ihrer Nachricht passiert',
+    next: ['Sie erhalten sofort eine Eingangsbestätigung per E-Mail.', 'Wir prüfen Ihre Angaben innerhalb von 1–2 Werktagen.', 'Passt Ihr Profil, buchen Sie ein kurzes Gespräch mit uns.', 'Danach stellen wir Sie passenden Arbeitgebern vor.'],
+    fraudH2: '5. Vorsicht vor Betrug',
+    fraudP: 'Wir verlangen niemals Geld von Fahrern – nicht für Vermittlung, Visum oder Unterlagen. Wir schreiben nur von Adressen mit @sionconsulting.de. Wenn jemand in unserem Namen Geld verlangt, schreiben Sie uns:',
+    officeH2: '6. Unser Büro',
+    office: 'Besuche nur nach Termin.',
+    employerLink: 'Sie sind ein Unternehmen und suchen Fahrer?',
+    country: site.countryDe,
+    contactType: 'Bewerbungen LKW-Fahrer',
+  },
+  en: {
+    title: 'Contact for Truck Drivers | SION Consulting',
+    description: 'Questions about jobs, visa or documents? Chat, apply or email – reply within 1–2 working days. Free for drivers with an EU residence permit.',
+    kicker: 'Contact for truck drivers',
+    h1: 'Contact for truck drivers – how to reach us',
+    lead: 'You drive in the EU with a residence permit and want to move to Germany? Here you find every way to reach us – and the answers to the most common questions.',
+    info: ['Reply within 1–2 working days', 'German, English, Russian & Ukrainian', 'Free for drivers'],
+    checkH2: '1. Is this right for me? (30-second check)',
+    checkIntro: 'You can apply if all points are true:',
+    checks: ['I do not have an EU passport.', 'I have a valid residence permit in an EU country.', 'I have an EU driving licence C/CE with Code 95.', 'I have at least 1 year of experience as a truck driver.'],
+    checkBtn: 'Show result',
+    checkYes: 'Great – apply directly. It takes about 1 minute.', checkYesBtn: 'Apply now',
+    checkNo: 'Then we cannot place you at the moment, sorry. With an EU passport or from the Western Balkans?', checkNoLink: '/en/for-applicants/',
+    faqH2: '2. Common questions before you contact us',
+    faq: [
+      ['Does it cost me anything?', 'No. The employer pays us.'],
+      ['How long until I start?', 'Usually a few weeks to a few months, depending on the embassy.'],
+      ['Where do I apply for the visa?', 'Usually at the German embassy in your country of residence.'],
+      ['Which documents do I need?', 'Passport, residence permit, EU driving licence C/CE with Code 95, driver card, CV.'],
+      ['Do I need to speak German?', 'Not for every job.'],
+      ['I have already applied – when will you contact me?', 'Within 1–2 working days by email. Please also check your spam folder.'],
+    ],
+    allFaq: 'All questions and answers',
+    reachH2: '3. How to reach us',
+    chatH: 'Instant answers in the chat', chatP: 'Our AI assistant answers questions about the process, documents and visa – around the clock.', chatBtn: 'Open chat',
+    applyH: 'Send an application (recommended)', applyP: 'The fastest way to a job. After you apply, you get an email with the next steps and a link to book a short phone or video call with us.', applyBtn: 'Apply now',
+    mailH: 'Documents and questions by email', mailP: 'Please write in the subject: your name + “truck driver”. Documents as PDF, maximum 10 MB.',
+    nextH2: '4. What happens after your message',
+    next: ['You immediately receive a confirmation by email.', 'We check your details within 1–2 working days.', 'If your profile fits, you book a short call with us.', 'Then we introduce you to suitable employers.'],
+    fraudH2: '5. Beware of fraud',
+    fraudP: 'We never ask drivers for money – not for placement, visa or documents. We only write from addresses ending in @sionconsulting.de. If someone asks you for money in our name, write to us:',
+    officeH2: '6. Our office',
+    office: 'Visits by appointment only.',
+    employerLink: 'You are a company looking for drivers?',
+    country: site.countryEn,
+    contactType: 'Truck driver applications',
+  },
+}[lang];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: c.kicker,
+  url: new URL(r('kontaktFahrer'), site.url).href,
+  inLanguage: lang,
+  about: {
+    '@type': 'EmploymentAgency',
+    name: site.name,
+    url: `${site.url}/`,
+    contactPoint: { '@type': 'ContactPoint', contactType: c.contactType, email: site.applicationEmail, availableLanguage: ['de', 'en', 'ru', 'uk'] },
+  },
+};
+---
+<Base lang={lang} page="kontaktFahrer" title={c.title} description={c.description} schema={schema} audience="candidate" layout="driver">
+  <section class="page-hero narrow-hero">
+    <div class="container stack-lg">
+      <p class="eyebrow">{c.kicker}</p>
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.lead}</p>
+      <ul class="hero-chips">{c.info.map((x) => <li><Icon name="check" size={16} />{x}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section section-first" style="padding-top: 0">
+    <div class="container narrow">
+      <div class="card self-check" data-self-check>
+        <h2 class="h2-sm">{c.checkH2}</h2>
+        <p>{c.checkIntro}</p>
+        <fieldset class="check-list">
+          <legend class="sr-only">{c.checkH2}</legend>
+          {c.checks.map((x) => <label class="consent"><input type="checkbox" data-check /> <span>{x}</span></label>)}
+        </fieldset>
+        <div><button type="button" class="btn btn-ghost" data-check-btn>{c.checkBtn}</button></div>
+        <div class="check-result check-yes" data-check-yes role="status" aria-live="polite" hidden>
+          <p>{c.checkYes}</p>
+          <a class="btn btn-accent" href={applyHref}>{c.checkYesBtn}</a>
+        </div>
+        <div class="not-eligible check-no" data-check-no role="status" aria-live="polite" hidden>
+          <p>{c.checkNo} <a href={r('bewerber')}>→ {c.checkNoLink}</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container narrow">
+      <h2 class="h2-sm" style="margin-bottom: 18px">{c.faqH2}</h2>
+      <dl class="qa-list">
+        {c.faq.map(([q, a]) => <div><dt>{q}</dt><dd>{a}</dd></div>)}
+      </dl>
+      <p style="margin-top: 16px"><a class="link-arrow" href={`${r('eufahrer')}#faq`}>{c.allFaq}</a></p>
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container">
+      <div class="section-head"><h2>{c.reachH2}</h2></div>
+      <div class="grid-3">
+        <article class="card">
+          <Icon name="chat" class="card-icon" />
+          <h3>{c.chatH}</h3>
+          <p>{c.chatP}</p>
+          <button type="button" class="btn btn-ghost" data-chat-open>{c.chatBtn}</button>
+        </article>
+        <article class="card card-highlight">
+          <Icon name="doc" class="card-icon" />
+          <h3>{c.applyH}</h3>
+          <p>{c.applyP}</p>
+          <a class="btn btn-accent" href={applyHref}>{c.applyBtn}</a>
+        </article>
+        <article class="card">
+          <Icon name="mail" class="card-icon" />
+          <h3>{c.mailH}</h3>
+          <p><a href={`mailto:${site.applicationEmail}`}><strong>{site.applicationEmail}</strong></a></p>
+          <p>{c.mailP}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <h2 class="h2-sm" style="margin-bottom: 18px">{c.nextH2}</h2>
+      <ol class="number-list">{c.next.map((x) => <li>{x}</li>)}</ol>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="container narrow stack-lg">
+      <div class="free-box">
+        <Icon name="shield" size={28} />
+        <div><strong>{c.fraudH2}</strong><p>{c.fraudP} <a href={`mailto:${site.applicationEmail}`}>{site.applicationEmail}</a></p></div>
+      </div>
+      <div>
+        <h2 class="h2-sm">{c.officeH2}</h2>
+        <p>{site.name}<br />{site.street}, {site.zip} {site.city}, {c.country}<br />{c.office}</p>
+      </div>
+      <p><a class="link-arrow" href={r('kontakt')}>{c.employerLink}</a></p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { track } from '../scripts/track';
+  track('Kontaktseite besucht', { page: location.pathname });
+
+  // 30-second self-check: runs only in the browser, nothing is sent or stored.
+  document.querySelectorAll<HTMLElement>('[data-self-check]').forEach((box) => {
+    const checks = [...box.querySelectorAll<HTMLInputElement>('[data-check]')];
+    const yes = box.querySelector<HTMLElement>('[data-check-yes]')!;
+    const no = box.querySelector<HTMLElement>('[data-check-no]')!;
+    let shown = false;
+    const update = () => {
+      const all = checks.every((c) => c.checked);
+      if (all) shown = true; // all four ticked: show the result straight away
+      yes.hidden = !(shown && all);
+      no.hidden = !(shown && !all);
+    };
+    checks.forEach((c) => c.addEventListener('change', update));
+    box.querySelector('[data-check-btn]')?.addEventListener('click', () => { shown = true; update(); });
+  });
+</script>

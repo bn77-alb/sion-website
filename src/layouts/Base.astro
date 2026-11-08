@@ -15,7 +15,7 @@ import ChatWidget from '../components/ChatWidget.astro';
 import MobileBar from '../components/MobileBar.astro';
 import Icon from '../components/Icon.astro';
 import { routes, ui, type Lang, type PageKey } from '../i18n';
-import { site } from '../config';
+import { site, isSet } from '../config';
 
 interface Props {
   lang: Lang;
@@ -60,6 +60,7 @@ const allSchema = [...(schema ? (Array.isArray(schema) ? schema : [schema]) : []
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    {isSet(site.googleSiteVerification) && <meta name="google-site-verification" content={site.googleSiteVerification} />}
     <link rel="preload" href={headingFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />

@@ -8,7 +8,7 @@ const { lang, audience = 'employer', layout = 'default', onApplyPage = false } =
 const t = ui[lang];
 const candidate = audience === 'candidate';
 ---
-<nav class="mobile-bar" aria-label={t.contactBar}>
+<nav class:list={["mobile-bar", { "mobile-bar-2": layout === 'driver' }]} aria-label={t.contactBar}>
   {layout === 'driver' ? (
     <>
       <a href={routes.kontaktFahrer[lang]}><Icon name="chat" size={20} /><span>{t.contactShort}</span></a>
