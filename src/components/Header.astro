@@ -3,17 +3,36 @@ import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { routes, nav, ui, requestHref, type Lang, type PageKey } from '../i18n';
 import { site } from '../config';
-interface Props { lang: Lang; page: PageKey; audience?: 'employer' | 'candidate' }
-const { lang, page, audience = 'employer' } = Astro.props;
+interface Props { lang: Lang; page: PageKey; audience?: 'employer' | 'candidate'; layout?: 'default' | 'driver' }
+const { lang, page, audience = 'employer', layout = 'default' } = Astro.props;
+const driver = layout === 'driver';
+const applyHref = page === 'eufahrer' ? '#bewerbung' : `${routes.eufahrer[lang]}#bewerbung`;
 const candidate = audience === 'candidate';
 const t = ui[lang];
 const items = nav(lang);
 ---
+{driver ? (
+<header class="site-header driver-header">
+  <div class="container header-inner">
+    <a href={routes.home[lang]} class="brand" aria-label={t.homeLabel}>
+      <Logo />
+      <span>SION <span class="brand-light">Consulting</span></span>
+    </a>
+    <div class="header-actions">
+      <div class="lang-switch lang-switch-sm" role="group" aria-label={t.language}>
+        <a href={routes[page].de} hreflang="de" lang="de" aria-current={lang === 'de' ? 'true' : undefined}>DE</a>
+        <a href={routes[page].en} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+      </div>
+      <a class="driver-contact-link" href={routes.kontaktFahrer[lang]} aria-current={page === 'kontaktFahrer' ? 'page' : undefined}>{t.driverContact}</a>
+      <a class="btn btn-accent header-cta-driver" href={applyHref}>{t.apply}</a>
+    </div>
+  </div>
+</header>
+) : (<>
 <div class="topbar">
   <div class="container topbar-inner">
     <nav class="topbar-candidates" aria-label={t.candidateLinks}>
-      <a class="topbar-eu" href={routes.eufahrer[lang]} aria-current={page === 'eufahrer' ? 'page' : undefined}><Icon name="truck" size={16} /> {t.euDrivers}</a>
-      <a href={routes.bewerber[lang]} aria-current={page === 'bewerber' ? 'page' : undefined}>{t.applicants}</a>
+      <a class="topbar-eu" href={routes.eufahrer[lang]}><Icon name="truck" size={16} /> {t.drivers}</a>
     </nav>
     <div class="topbar-links">
       <div class="lang-switch lang-switch-sm" role="group" aria-label={t.language}>
@@ -66,6 +85,7 @@ const items = nav(lang);
     </div>
   </nav>
 </header>
+</>)}
 
 <script>
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');

@@ -3,13 +3,18 @@
 import Icon from './Icon.astro';
 import { ui, routes, requestHref, type Lang } from '../i18n';
 import { site } from '../config';
-interface Props { lang: Lang; audience?: 'employer' | 'candidate' }
-const { lang, audience = 'employer' } = Astro.props;
+interface Props { lang: Lang; audience?: 'employer' | 'candidate'; layout?: 'default' | 'driver'; onApplyPage?: boolean }
+const { lang, audience = 'employer', layout = 'default', onApplyPage = false } = Astro.props;
 const t = ui[lang];
 const candidate = audience === 'candidate';
 ---
 <nav class="mobile-bar" aria-label={t.contactBar}>
-  {candidate ? (
+  {layout === 'driver' ? (
+    <>
+      <a href={routes.kontaktFahrer[lang]}><Icon name="chat" size={20} /><span>{t.contactShort}</span></a>
+      <a href={onApplyPage ? '#bewerbung' : `${routes.eufahrer[lang]}#bewerbung`} class="mobile-bar-cta"><Icon name="doc" size={20} /><span>{t.apply}</span></a>
+    </>
+  ) : candidate ? (
     <>
       <a href={routes.eufahrer[lang]}><Icon name="truck" size={20} /><span>{t.euShort}</span></a>
       {site.chatEndpoint && <button type="button" data-chat-open><Icon name="chat" size={20} /><span>{t.chatShort}</span></button>}

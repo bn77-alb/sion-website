@@ -1,5 +1,6 @@
 ---
-// Main landing page for truck drivers who already live and work legally in another EU country.
+// Landing page for truck drivers WITHOUT an EU passport who already live and drive in another EU country.
+// Copy: "Implementation Brief – sionconsulting.de Driver Pages" (8 Nov 2026), section 5 – German master, English translated.
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
@@ -9,173 +10,190 @@ import CandidateForm from '../components/CandidateForm.astro';
 import { routes, type Lang } from '../i18n';
 import { site, sampleJobs, showSampleJobs } from '../config';
 import { jobPostingSchema } from '../lib/jobs';
+import { photoFor } from '../lib/photos';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const r = (k: keyof typeof routes) => routes[k][lang];
 
 const c = {
   de: {
-    title: 'LKW-Fahrer Wechsel nach Deutschland – für Fahrer mit Aufenthalt in der EU | SION Consulting',
-    description: 'LKW-Fahrer Wechsel nach Deutschland: kostenlos für Fahrer · direkte Anstellung · keine Zeitarbeit · für Fahrer mit Aufenthalt in der EU, Führerschein C/CE und Code 95.',
-    eyebrow: 'Für LKW-Fahrer, die schon in der EU leben',
-    h1: 'Sie fahren schon in der EU? Wechseln Sie zu einem LKW-Job in Deutschland.',
-    whoTitle: 'Das ist für Sie, wenn Sie …',
+    title: 'Mit EU-Aufenthaltstitel als LKW-Fahrer nach Deutschland',
+    description: 'Kein EU-Pass, aber Aufenthaltstitel und CE-Job in Polen, Litauen & Co.? Wechseln Sie in eine Festanstellung in Deutschland – kostenlos, mit Visum-Hilfe.',
+    kicker: 'Für LKW-Fahrer ohne EU-Pass, die schon in der EU fahren',
+    h1: 'LKW-Fahrer Job in Deutschland – für Fahrer ohne EU-Pass, die schon in der EU fahren',
+    lead: 'Sie leben mit Aufenthaltstitel in Polen, Litauen, Tschechien oder einem anderen EU-Land und fahren dort CE? Wir vermitteln Sie in eine Festanstellung direkt bei einem deutschen Transportunternehmen – und helfen beim Visum.',
+    chips: ['Kostenlos für Fahrer', 'Festanstellung, keine Zeitarbeit', 'Hilfe bei Visum und Unterlagen'],
+    cta: 'In 1 Minute bewerben', ctaContact: 'Fragen? Kontakt für Fahrer',
+    alt: 'Orangefarbene Volvo-Sattelzugmaschine mit Frontlenker-Kabine und weißem Auflieger in Fahrt auf einer Straße',
+    whoH2: 'Ist das für Sie?',
+    whoIntro: 'Diese Seite ist für Sie, wenn Sie …',
     who: [
-      'legal in einem EU-Land leben und arbeiten (z. B. Polen, Litauen, Niederlande, Tschechien) – mit Aufenthaltstitel, egal welche Staatsangehörigkeit',
-      'einen Führerschein C/CE und Code 95 haben',
-      'mehr verdienen, feste Touren fahren und in Deutschland leben möchten',
+      'keinen EU-Pass haben (z. B. aus der Ukraine, Belarus, Usbekistan, Kasachstan, Georgien, Moldau, Indien oder den Philippinen),',
+      'mit gültigem Aufenthaltstitel in einem EU-Land leben (z. B. karta pobytu, leidimas gyventi, povolení k pobytu),',
+      'einen EU-Führerschein C/CE mit Code 95 haben,',
+      'mindestens 1 Jahr als LKW-Fahrer gearbeitet haben.',
     ],
-    cta: 'In 1 Minute bewerben', cta2: 'Beispiel-Jobs ansehen',
-    free: 'Kostenlos für Fahrer – wir nehmen niemals Geld von Fahrern.',
-    flagsLabel: 'Von Polen, Litauen, Lettland, den Niederlanden, Tschechien, der Slowakei, Ungarn, Rumänien, Kroatien oder Slowenien nach Deutschland',
-    alt: 'LKW-Fahrer Wechsel nach Deutschland: Sattelzug auf einer deutschen Landstraße',
-    whyEyebrow: 'Warum Deutschland, warum wir',
-    whyH2: 'Was Sie als LKW-Fahrer in Deutschland erwartet',
-    why: [
-      ['handshake', 'Festanstellung beim Arbeitgeber', 'Unbefristeter Vertrag direkt beim Arbeitgeber – keine Zeitarbeit.'],
-      ['award', 'Deutscher Lohn', 'Deutscher Lohn, Spesen und deutsche Sozialversicherung.'],
-      ['clock', 'Feste Touren', 'Nahverkehr – jeden Tag zu Hause möglich – oder Fernverkehr.'],
-      ['pin', 'Wohnung oder WG', 'Wir helfen bei der Suche nach einer Wohnung oder einem WG-Zimmer.'],
-      ['check', 'Kostenlos für Fahrer', 'Sie zahlen nichts. Der Arbeitgeber zahlt unsere Vermittlung.'],
+    otherLink: 'EU-Bürger oder aus dem Westbalkan? Hier entlang',
+    expectH2: 'Was Sie in Deutschland erwartet',
+    expect: [
+      ['handshake', 'Festanstellung beim Arbeitgeber', 'Sie arbeiten direkt beim deutschen Unternehmen, nicht über Zeitarbeit.'],
+      ['doc', 'Deutscher Arbeitsvertrag', 'deutscher Lohn, Spesen und deutsche Sozialversicherung.'],
+      ['clock', 'Feste Touren', 'Nahverkehr mit Feierabend zu Hause oder Fernverkehr, je nach Stelle.'],
+      ['users', 'Familie', 'mit dem Aufenthaltstitel für Berufskraftfahrer ist Familiennachzug grundsätzlich möglich.'],
+      ['pin', 'Hilfe beim Start', 'wir unterstützen bei Anmeldung, Wohnungssuche und Unterlagen.'],
     ],
-    stepsEyebrow: 'Ablauf', stepsH2: 'In 5 Schritten zum LKW-Job in Deutschland',
+    stepsH2: 'So kommen Sie nach Deutschland',
     steps: [
-      ['Bewerben', 'Das Formular dauert 1 Minute.'],
-      ['Wir prüfen', 'Aufenthaltstitel, Führerschein und Code 95.'],
-      ['Video-Gespräch', 'Sie sprechen per Video mit dem Arbeitgeber.'],
-      ['Unterlagen', 'Wir helfen bei den Unterlagen für Arbeits- und Aufenthaltserlaubnis in Deutschland.'],
-      ['Start in Deutschland', 'Sie beginnen bei Ihrem neuen Arbeitgeber.'],
+      ['Bewerben', 'Formular, etwa 1 Minute.'],
+      ['Prüfung', 'wir prüfen Aufenthaltstitel, Führerschein und Code 95.'],
+      ['Video-Gespräch', 'Sie sprechen mit dem Arbeitgeber.'],
+      ['Arbeitsvertrag', 'Sie erhalten ein konkretes Jobangebot.'],
+      ['Zustimmung der Arbeitsagentur', 'der Arbeitgeber beantragt sie nach § 24a BeschV. Die Agentur prüft, ob Lohn und Bedingungen fair sind.'],
+      ['Visum', 'Sie beantragen es bei der deutschen Botschaft in Ihrem Wohnland (Aufenthaltstitel nach § 19c Abs. 1 AufenthG). Oft geht das beschleunigte Fachkräfteverfahren.'],
+      ['Start in Deutschland', 'Anmeldung, Arbeitsbeginn.'],
     ] as [string, string][],
-    timing: 'Wie lange dauert es? Das hängt von Ihrem Fall ab – oft einige Wochen bis wenige Monate. Wir prüfen Ihren Fall individuell; die Entscheidung treffen die Behörden.',
-    needH2: 'Was Sie mitbringen',
-    need: [
-      'Gültiger Aufenthaltstitel in einem EU-Land (z. B. karta pobytu, leidimas gyventi, verblijfsvergunning …)',
-      'Führerschein C/CE (EU-Führerschein bevorzugt) mit Code 95',
-      'Mindestens 1 Jahr Erfahrung als LKW-Fahrer',
-      'Sauberes Führungszeugnis',
-      'Deutschkenntnisse sind ein Plus – nicht für jeden Job nötig',
-    ],
+    timing: 'Wie lange dauert es? Meist einige Wochen bis wenige Monate, je nach Botschaft. Die Entscheidung treffen die Behörden.',
+    docsH2: 'Diese Unterlagen brauchen Sie',
+    docs: ['Reisepass', 'Aufenthaltstitel im EU-Land (gültig)', 'EU-Führerschein C/CE mit Code 95', 'Fahrerkarte', 'Lebenslauf mit Ihren Fahrerjobs', 'Arbeitsbescheinigungen, wenn vorhanden'],
     freeH: 'Kostenlos für Fahrer',
-    freeP: 'Wir verlangen niemals Geld von Bewerberinnen und Bewerbern. Wenn jemand in unserem Namen Geld verlangt, melden Sie es uns.',
-    jobsEyebrow: 'Beispiel-Jobs', jobsH2: 'Aktuelle LKW-Fahrer-Jobs in Deutschland',
-    jobsText: 'Beispiele für offene Stellen bei unseren Arbeitgebern. Den Namen des Arbeitgebers nennen wir im Gespräch.',
-    pay: 'Gehalt', payOpen: 'Gehalt auf Anfrage', perMonth: '€ brutto/Monat', housing: 'Wohnung/WG möglich', applyJob: 'Für diesen Job bewerben',
-    faqH2: 'Häufige Fragen von LKW-Fahrern aus der EU',
+    freeP: 'Wir verlangen niemals Geld von Fahrern. Der Arbeitgeber bezahlt unsere Vermittlung. Wenn jemand in unserem Namen Geld verlangt, melden Sie es uns:',
+    faqH2: 'Häufige Fragen',
     faq: [
-      { q: 'Ich habe einen Aufenthaltstitel in Polen oder Litauen – kann ich in Deutschland arbeiten?', a: 'Oft ja, aber es hängt von Ihrem Aufenthaltstitel und Ihrer Staatsangehörigkeit ab. Wir prüfen Ihre Unterlagen und erklären die nächsten Schritte; die Entscheidung treffen die deutschen Behörden.' },
-      { q: 'Darf ich mit meinem Aufenthaltstitel aus einem anderen EU-Land automatisch in Deutschland arbeiten?', a: 'Nein, in der Regel nicht. Ein Aufenthaltstitel aus Polen, Litauen oder einem anderen EU-Land erlaubt normalerweise keine Arbeit in Deutschland. Für Ihre Arbeit hier brauchen Sie meist eine eigene Erlaubnis der deutschen Behörden. Wir helfen bei den Unterlagen; die Entscheidung treffen die deutschen Behörden.' },
-      { q: 'Gilt mein EU-Führerschein in Deutschland?', a: 'Ja, ein EU-Führerschein und Code 95 gelten in Deutschland.' },
-      { q: 'Muss ich etwas bezahlen?', a: 'Nein. Wir nehmen niemals Geld von Fahrern.' },
-      { q: 'Muss ich Deutsch sprechen?', a: 'Nicht für jeden Job. Deutsch hilft aber.' },
+      { q: 'Ich habe eine karta pobytu in Polen. Darf ich in Deutschland als LKW-Fahrer arbeiten?', a: 'Ja, wenn Sie einen EU-Führerschein C/CE mit Code 95 und ein Jobangebot aus Deutschland haben. Der Arbeitgeber holt die Zustimmung der Bundesagentur für Arbeit ein, Sie beantragen das Visum. Wir bereiten die Unterlagen mit Ihnen vor.' },
+      { q: 'Kann ich mit meinem polnischen oder litauischen Aufenthaltstitel einfach in Deutschland anfangen?', a: 'Nein. Für eine feste Stelle in Deutschland brauchen Sie einen deutschen Aufenthaltstitel. Für Berufskraftfahrer ist das Verfahren aber speziell geregelt (§ 24a BeschV) und gut machbar.' },
+      { q: 'Gilt mein Führerschein mit Code 95 in Deutschland?', a: 'Ein EU-Führerschein gilt in Deutschland, und Code 95 aus einem EU-Land wird anerkannt. Die Weiterbildung alle 5 Jahre machen Sie dann in Deutschland.' },
+      { q: 'Muss ich Deutsch sprechen?', a: 'Nicht für jede Stelle. Viele Arbeitgeber akzeptieren Englisch oder Grundkenntnisse. Deutsch ist ein Plus.' },
+      { q: 'Wie lange dauert es?', a: 'Meist einige Wochen bis wenige Monate, je nach Botschaft in Ihrem Wohnland.' },
+      { q: 'Was kostet das für mich?', a: 'Nichts. Der Arbeitgeber bezahlt uns.' },
+      { q: 'Kann meine Familie mitkommen?', a: 'Grundsätzlich ja, über den Familiennachzug. Die Voraussetzungen prüft die Botschaft.' },
     ],
-    formEyebrow: 'Bewerbung', formH2: 'Jetzt als LKW-Fahrer bewerben',
-    formText: 'Zuerst zwei Fragen zu Staatsangehörigkeit und Wohnland. Dann Ihre Daten – fertig in etwa einer Minute.',
-    note: 'Wir unterstützen bei administrativen Schritten; eine Rechtsberatung bieten wir nicht an. Verbindlich entscheiden die zuständigen Behörden.',
-    otherH: 'Sie leben nicht in der EU?',
-    otherP: 'Wir vermitteln auch Staatsangehörige aus Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro sowie Bosnien und Herzegowina.',
-    otherLink: 'Alle Informationen für Bewerber',
+    // FAQPage JSON-LD exactly as in the brief (section 7)
+    faqSchema: [
+      ['Ich habe eine karta pobytu in Polen. Darf ich in Deutschland als LKW-Fahrer arbeiten?', 'Ja, wenn Sie einen EU-Führerschein C/CE mit Code 95 und ein Jobangebot aus Deutschland haben. Der Arbeitgeber holt die Zustimmung der Bundesagentur für Arbeit ein, Sie beantragen das Visum.'],
+      ['Kann ich mit meinem polnischen oder litauischen Aufenthaltstitel einfach in Deutschland anfangen?', 'Nein. Für eine feste Stelle in Deutschland brauchen Sie einen deutschen Aufenthaltstitel. Für Berufskraftfahrer ist das Verfahren nach § 24a BeschV speziell geregelt.'],
+      ['Gilt mein Führerschein mit Code 95 in Deutschland?', 'Ein EU-Führerschein gilt in Deutschland, und Code 95 aus einem EU-Land wird anerkannt. Die Weiterbildung alle 5 Jahre machen Sie dann in Deutschland.'],
+      ['Muss ich Deutsch sprechen?', 'Nicht für jede Stelle. Viele Arbeitgeber akzeptieren Englisch oder Grundkenntnisse.'],
+      ['Wie lange dauert es?', 'Meist einige Wochen bis wenige Monate, je nach Botschaft in Ihrem Wohnland.'],
+      ['Was kostet das für mich?', 'Nichts. Der Arbeitgeber bezahlt uns.'],
+      ['Kann meine Familie mitkommen?', 'Grundsätzlich ja, über den Familiennachzug. Die Voraussetzungen prüft die Botschaft.'],
+    ],
+    disclaimer: 'Wir unterstützen bei administrativen Schritten; eine Rechtsberatung bieten wir nicht an. Verbindlich entscheiden die zuständigen Behörden.',
+    formH2: 'Jetzt bewerben',
+    jobsEyebrow: 'Beispiel-Jobs', jobsH2: 'Aktuelle LKW-Fahrer-Jobs in Deutschland', jobsText: 'Beispiele für offene Stellen bei unseren Arbeitgebern.',
+    pay: 'Gehalt', payOpen: 'Gehalt auf Anfrage', perMonth: '€ brutto/Monat', housing: 'Wohnung/WG möglich', applyJob: 'Für diesen Job bewerben',
   },
   en: {
-    title: 'Truck Driver Jobs in Germany for EU Residence Permit Holders | SION Consulting',
-    description: 'Truck driver jobs in Germany for drivers with an EU residence permit: free for drivers · direct employment · no temporary agency · for drivers living in the EU with C/CE and Code 95.',
-    eyebrow: 'For truck drivers who live in the EU',
-    h1: 'Already driving in the EU? Move to a truck job in Germany.',
-    whoTitle: 'This is for you if you …',
+    title: 'Non-EU Truck Drivers in the EU: Move to a Job in Germany',
+    description: 'Non-EU citizen driving CE in Poland, Lithuania or elsewhere in the EU? Move to a permanent job in Germany. Free for drivers, with visa help.',
+    kicker: 'For truck drivers without an EU passport who already drive in the EU',
+    h1: 'Truck driver job in Germany – for drivers without an EU passport who already drive in the EU',
+    lead: 'You live with a residence permit in Poland, Lithuania, the Czech Republic or another EU country and drive CE there? We place you in a permanent job directly with a German transport company – and help with the visa.',
+    chips: ['Free for drivers', 'Permanent job, no temporary agency', 'Help with visa and documents'],
+    cta: 'Apply in 1 minute', ctaContact: 'Questions? Contact for drivers',
+    alt: 'Orange Volvo cab-over tractor unit with a white trailer driving on a road',
+    whoH2: 'Is this for you?',
+    whoIntro: 'This page is for you if you …',
     who: [
-      'live and work legally in an EU country (e.g. Poland, Lithuania, Netherlands, Czech Republic) with a residence permit – any nationality',
-      'have a driving licence C/CE and Code 95',
-      'want better pay, fixed routes and to live in Germany',
+      'do not have an EU passport (e.g. from Ukraine, Belarus, Uzbekistan, Kazakhstan, Georgia, Moldova, India or the Philippines),',
+      'live in an EU country with a valid residence permit (e.g. karta pobytu, leidimas gyventi, povolení k pobytu),',
+      'have an EU driving licence C/CE with Code 95,',
+      'have worked as a truck driver for at least 1 year.',
     ],
-    cta: 'Apply in 1 minute', cta2: 'See sample jobs',
-    free: 'Free for drivers. We never take money from drivers.',
-    flagsLabel: 'From Poland, Lithuania, Latvia, the Netherlands, Czech Republic, Slovakia, Hungary, Romania, Croatia or Slovenia to Germany',
-    alt: 'Truck driver jobs in Germany with an EU residence permit: semi-trailer truck on a German road',
-    whyEyebrow: 'Why Germany, why us',
-    whyH2: 'What you get as a truck driver in Germany',
-    why: [
-      ['handshake', 'Permanent contract', 'A permanent contract directly with the employer. No temporary agency.'],
-      ['award', 'German pay', 'German wages, daily allowances (Spesen) and German social security.'],
-      ['clock', 'Fixed routes', 'Regional work – home every day is possible – or long-haul.'],
-      ['pin', 'Apartment or shared flat', 'We help you find an apartment or a room in a shared flat.'],
-      ['check', 'Free for drivers', 'You pay nothing. The employer pays for our service.'],
+    otherLink: 'EU citizen or from the Western Balkans? Go here',
+    expectH2: 'What you can expect in Germany',
+    expect: [
+      ['handshake', 'Permanent job with the employer', 'You work directly for the German company, not through a temporary agency.'],
+      ['doc', 'German employment contract', 'German wages, daily allowances (Spesen) and German social security.'],
+      ['clock', 'Fixed routes', 'Regional work with evenings at home, or long-haul – depending on the job.'],
+      ['users', 'Family', 'with the residence permit for professional drivers, family reunification is generally possible.'],
+      ['pin', 'Help with the start', 'we help with registration, finding a flat and paperwork.'],
     ],
-    stepsEyebrow: 'How it works', stepsH2: '5 steps to your truck job in Germany',
+    stepsH2: 'How you get to Germany',
     steps: [
-      ['Apply', 'The form takes 1 minute.'],
-      ['We check', 'Your residence permit, licence and Code 95.'],
-      ['Video interview', 'You talk to the employer by video.'],
-      ['Paperwork', 'We help with the papers for the German work and residence permit.'],
-      ['Start in Germany', 'You start with your new employer.'],
+      ['Apply', 'Form, about 1 minute.'],
+      ['Check', 'we check your residence permit, licence and Code 95.'],
+      ['Video interview', 'you talk to the employer.'],
+      ['Employment contract', 'you get a concrete job offer.'],
+      ['Approval of the employment agency', 'the employer applies for it under Section 24a BeschV. The agency checks that pay and conditions are fair.'],
+      ['Visa', 'you apply at the German embassy in your country of residence (residence permit under Section 19c(1) AufenthG). The accelerated skilled worker procedure is often possible.'],
+      ['Start in Germany', 'registration, first working day.'],
     ] as [string, string][],
-    timing: 'How long does it take? It depends on your case – often a few weeks to a few months. We check your case individually; the decision is made by the German authorities.',
-    needH2: 'What you need',
-    need: [
-      'A valid residence permit in an EU country (e.g. karta pobytu, leidimas gyventi, verblijfsvergunning …)',
-      'Driving licence C/CE (EU licence preferred) with Code 95',
-      'At least 1 year of experience as a truck driver',
-      'A clean criminal record',
-      'Basic German is a plus. It is not needed for every job.',
-    ],
+    timing: 'How long does it take? Usually a few weeks to a few months, depending on the embassy. The authorities make the decision.',
+    docsH2: 'Documents you need',
+    docs: ['Passport', 'Residence permit in the EU country (valid)', 'EU driving licence C/CE with Code 95', 'Driver card (tachograph card)', 'CV with your driving jobs', 'Employment certificates, if you have them'],
     freeH: 'Free for drivers',
-    freeP: 'We never ask applicants for money. If someone asks you for money in our name, please tell us.',
-    jobsEyebrow: 'Sample jobs', jobsH2: 'Truck driver jobs in Germany now',
-    jobsText: 'Examples of open jobs with our employers. We tell you the employer’s name in the interview.',
-    pay: 'Pay', payOpen: 'Pay on request', perMonth: '€ gross/month', housing: 'Apartment/shared flat possible', applyJob: 'Apply for this job',
-    faqH2: 'Questions from truck drivers in the EU',
+    freeP: 'We never ask drivers for money. The employer pays for our service. If someone asks you for money in our name, please tell us:',
+    faqH2: 'Frequently asked questions',
     faq: [
-      { q: 'I have a residence permit in Poland or Lithuania. Can I work in Germany?', a: 'Often yes, but it depends on your permit and nationality. We check your documents and explain the next steps; the decision is made by the German authorities.' },
-      { q: 'Can I work in Germany automatically with my residence permit from another EU country?', a: 'No, usually not. A residence permit from Poland, Lithuania or another EU country normally does not allow you to work in Germany. For work here you usually need your own permit from the German authorities. We help with the papers; the decision is made by the German authorities.' },
-      { q: 'Is my EU driving licence valid in Germany?', a: 'Yes, an EU licence and Code 95 are valid in Germany.' },
-      { q: 'Do I have to pay?', a: 'No. We never take money from drivers.' },
-      { q: 'Do I need German?', a: 'Not for every job. It helps.' },
+      { q: 'I have a karta pobytu in Poland. Can I work in Germany as a truck driver?', a: 'Yes, if you have an EU driving licence C/CE with Code 95 and a job offer from Germany. The employer gets the approval of the Federal Employment Agency, you apply for the visa. We prepare the documents with you.' },
+      { q: 'Can I simply start working in Germany with my Polish or Lithuanian residence permit?', a: 'No. For a permanent job in Germany you need a German residence permit. For professional drivers, however, the procedure has its own rules (Section 24a BeschV) and is very doable.' },
+      { q: 'Is my licence with Code 95 valid in Germany?', a: 'An EU driving licence is valid in Germany, and Code 95 from an EU country is recognised. You then do the further training every 5 years in Germany.' },
+      { q: 'Do I need to speak German?', a: 'Not for every job. Many employers accept English or basic German. German is a plus.' },
+      { q: 'How long does it take?', a: 'Usually a few weeks to a few months, depending on the embassy in your country of residence.' },
+      { q: 'What does it cost me?', a: 'Nothing. The employer pays us.' },
+      { q: 'Can my family come with me?', a: 'Generally yes, through family reunification. The embassy checks the requirements.' },
     ],
-    formEyebrow: 'Apply', formH2: 'Apply as a truck driver now',
-    formText: 'First two questions about your citizenship and the country you live in. Then your details. It takes about one minute.',
-    note: 'We help with administrative steps. We do not give legal advice. The competent authorities make the binding decision.',
-    otherH: 'You do not live in the EU?',
-    otherP: 'We also place citizens of Albania, Kosovo, North Macedonia, Serbia, Montenegro and Bosnia and Herzegovina.',
-    otherLink: 'All information for applicants',
+    faqSchema: [
+      ['I have a karta pobytu in Poland. Can I work in Germany as a truck driver?', 'Yes, if you have an EU driving licence C/CE with Code 95 and a job offer from Germany. The employer gets the approval of the Federal Employment Agency, you apply for the visa.'],
+      ['Can I simply start working in Germany with my Polish or Lithuanian residence permit?', 'No. For a permanent job in Germany you need a German residence permit. For professional drivers, the procedure has its own rules under Section 24a BeschV.'],
+      ['Is my licence with Code 95 valid in Germany?', 'An EU driving licence is valid in Germany, and Code 95 from an EU country is recognised. You then do the further training every 5 years in Germany.'],
+      ['Do I need to speak German?', 'Not for every job. Many employers accept English or basic German.'],
+      ['How long does it take?', 'Usually a few weeks to a few months, depending on the embassy in your country of residence.'],
+      ['What does it cost me?', 'Nothing. The employer pays us.'],
+      ['Can my family come with me?', 'Generally yes, through family reunification. The embassy checks the requirements.'],
+    ],
+    disclaimer: 'We help with administrative steps; we do not give legal advice. The competent authorities make the binding decision.',
+    formH2: 'Apply now',
+    jobsEyebrow: 'Sample jobs', jobsH2: 'Truck driver jobs in Germany now', jobsText: 'Examples of open jobs with our employers.',
+    pay: 'Pay', payOpen: 'Pay on request', perMonth: '€ gross/month', housing: 'Apartment/shared flat possible', applyJob: 'Apply for this job',
   },
 }[lang];
 
 const jobs = showSampleJobs ? sampleJobs : [];
 const pageUrl = new URL(r('eufahrer'), site.url).href;
 const fmt = (n: number) => n.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB');
+const heroPhoto = photoFor('lkw-eu') ? 'lkw-eu' : 'lkw-strasse';
 const schema = [
-  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faqSchema.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
   ...jobs.map((j) => jobPostingSchema(j, lang, pageUrl)),
 ];
 ---
-<Base lang={lang} page="eufahrer" title={c.title} description={c.description} schema={schema} audience="candidate">
+<Base lang={lang} page="eufahrer" title={c.title} description={c.description} schema={schema} audience="candidate" layout="driver">
   <section class="page-hero">
     <div class="container grid-2">
       <div class="hero-copy">
-        <p class="eyebrow">{c.eyebrow}</p>
+        <p class="eyebrow">{c.kicker}</p>
         <h1>{c.h1}</h1>
-        <div class="who-box">
-          <p class="who-title"><Icon name="check" size={24} /> {c.whoTitle}</p>
-          <ul class="checklist checklist-green">{c.who.map((x) => <li>{x}</li>)}</ul>
-        </div>
+        <p class="lead">{c.lead}</p>
+        <ul class="hero-chips">{c.chips.map((x) => <li><Icon name="check" size={16} />{x}</li>)}</ul>
         <div class="btn-row">
           <a class="btn btn-accent btn-lg" href="#bewerbung">{c.cta}</a>
-          {jobs.length > 0 && <a class="btn btn-ghost btn-lg" href="#jobs">{c.cta2}</a>}
+          <a class="link-arrow" href={r('kontaktFahrer')}>{c.ctaContact}</a>
         </div>
-        <p class="free-note">{c.free}</p>
       </div>
-      <div class="stack-lg">
-        <div class="media ratio-landscape hide-mobile-block">
-          <Photo name="lkw-strasse" alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
-        </div>
-        <Flags lang={lang} label={c.flagsLabel} />
+      <div class="media ratio-landscape hide-mobile-block">
+        <Photo name={heroPhoto} alt={c.alt} priority hideOnMobile sizes="(max-width: 760px) 1px, 50vw" />
       </div>
     </div>
   </section>
 
   <section class="section section-first">
+    <div class="container grid-2" style="align-items: start">
+      <div class="who-box">
+        <h2 class="h2-sm">{c.whoH2}</h2>
+        <p>{c.whoIntro}</p>
+        <ul class="checklist checklist-green">{c.who.map((x) => <li>{x}</li>)}</ul>
+        <p><a class="link-arrow" href={r('bewerber')}>{c.otherLink}</a></p>
+      </div>
+      <Flags lang={lang} />
+    </div>
+  </section>
+
+  <section class="section band-soft">
     <div class="container">
-      <div class="section-head"><p class="eyebrow">{c.whyEyebrow}</p><h2>{c.whyH2}</h2></div>
+      <div class="section-head"><h2>{c.expectH2}</h2></div>
       <div class="grid-3">
-        {c.why.map(([icon, h, p]) => (
+        {c.expect.map(([icon, h, p]) => (
           <article class="card"><Icon name={icon} class="card-icon" /><h3>{h}</h3><p>{p}</p></article>
         ))}
       </div>
@@ -184,24 +202,17 @@ const schema = [
 
   <section class="band-dark section">
     <div class="container">
-      <div class="section-head"><p class="eyebrow">{c.stepsEyebrow}</p><h2>{c.stepsH2}</h2></div>
+      <div class="section-head"><h2>{c.stepsH2}</h2></div>
       <ol class="steps steps-5">{c.steps.map(([h, p]) => <li><h3>{h}</h3><p>{p}</p></li>)}</ol>
       <p class="timing">{c.timing}</p>
     </div>
   </section>
 
   <section class="section">
-    <div class="container grid-2" style="align-items: start">
+    <div class="container narrow">
       <div class="card">
-        <h2 class="h2-sm">{c.needH2}</h2>
-        <ul class="checklist">{c.need.map((x) => <li>{x}</li>)}</ul>
-      </div>
-      <div class="stack-lg">
-        <div class="free-box">
-          <Icon name="shield" size={30} />
-          <div><strong>{c.freeH}</strong><p>{c.freeP}</p></div>
-        </div>
-        <p class="note">{c.note}</p>
+        <h2 class="h2-sm">{c.docsH2}</h2>
+        <ul class="checklist">{c.docs.map((x) => <li>{x}</li>)}</ul>
       </div>
     </div>
   </section>
@@ -227,28 +238,24 @@ const schema = [
     </div>
   </section>}
 
-  <section class="section">
+  <section id="faq" class="section" style="padding-top: 0">
     <div class="container narrow">
       <div class="section-head"><h2>{c.faqH2}</h2></div>
       <Faq items={c.faq} />
+      <p class="note" style="margin-top: 24px">{c.disclaimer}</p>
     </div>
   </section>
 
   <section id="bewerbung" class="section band-sand">
     <div class="container form-layout">
       <div class="stack-lg">
-        <p class="eyebrow">{c.formEyebrow}</p>
         <h2>{c.formH2}</h2>
-        <p class="muted">{c.formText}</p>
-        <div class="free-box"><Icon name="shield" size={26} /><div><strong>{c.freeH}</strong><p>{c.freeP}</p></div></div>
-        <p class="note">{c.note}</p>
-        <div class="stack">
-          <h3>{c.otherH}</h3>
-          <p class="muted">{c.otherP}</p>
-          <a class="link-arrow" href={r('bewerber')}>{c.otherLink}</a>
+        <div class="free-box">
+          <Icon name="shield" size={26} />
+          <div><strong>{c.freeH}</strong><p>{c.freeP} <a href={`mailto:${site.applicationEmail}`}>{site.applicationEmail}</a></p></div>
         </div>
       </div>
-      <CandidateForm lang={lang} preset="eu" job="LKW" />
+      <CandidateForm lang={lang} preset="eu" job="LKW" variant="driver" />
     </div>
   </section>
 </Base>
