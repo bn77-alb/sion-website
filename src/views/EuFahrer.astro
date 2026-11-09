@@ -6,7 +6,7 @@ import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
 import Faq from '../components/Faq.astro';
 import Flags from '../components/Flags.astro';
-import CandidateForm from '../components/CandidateForm.astro';
+import DriverForm from '../components/DriverForm.astro';
 import { routes, type Lang } from '../i18n';
 import { site, sampleJobs, showSampleJobs } from '../config';
 import { jobPostingSchema } from '../lib/jobs';
@@ -260,7 +260,7 @@ const schema = [
           <div><strong>{c.freeH}</strong><p>{c.freeP} <a href={`mailto:${site.applicationEmail}`}>{site.applicationEmail}</a></p></div>
         </div>
       </div>
-      <CandidateForm lang={lang} preset="eu" job="LKW" variant="driver" />
+      <DriverForm lang={lang} />
     </div>
   </section>
 </Base>

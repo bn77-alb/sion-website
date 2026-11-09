@@ -1,6 +1,6 @@
 ---
 // Contact page for truck drivers. Copy: "Implementation Brief – sionconsulting.de Driver Pages" (8 Nov 2026), section 6.
-// The 30-second check runs in the browser only – nothing is sent or stored. The call booking link is NOT on this page
+// The Code 95 check runs in the browser only – nothing is sent or stored. The call booking link is NOT on this page
 // (it is only in the confirmation email after an application).
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
@@ -19,12 +19,10 @@ const c = {
     h1: 'Kontakt für LKW-Fahrer – so erreichen Sie uns',
     lead: 'Sie fahren mit Aufenthaltstitel in der EU und möchten nach Deutschland wechseln? Hier finden Sie alle Wege zu uns – und die Antworten auf die häufigsten Fragen.',
     info: ['Antwort in 1–2 Werktagen', 'Deutsch, Englisch, Russisch & Ukrainisch', 'Kostenlos für Fahrer'],
-    checkH2: '1. Passt das zu mir? (30-Sekunden-Check)',
-    checkIntro: 'Sie können sich bewerben, wenn alle Punkte zutreffen:',
-    checks: ['Ich habe keinen EU-Pass.', 'Ich habe einen gültigen Aufenthaltstitel in einem EU-Land.', 'Ich habe einen EU-Führerschein C/CE mit Code 95.', 'Ich habe mindestens 1 Jahr Erfahrung als LKW-Fahrer.'],
-    checkBtn: 'Ergebnis anzeigen',
-    checkYes: 'Super – bewerben Sie sich direkt. Das dauert etwa 1 Minute.', checkYesBtn: 'Jetzt bewerben',
-    checkNo: 'Dann können wir Sie im Moment leider nicht vermitteln. Mit EU-Pass oder aus dem Westbalkan?', checkNoLink: '/fuer-bewerber/',
+    checkH2: '1. Passt das zu mir?',
+    checkQ: 'Haben Sie einen EU-Führerschein C/CE mit Code 95?', yes: 'Ja', no: 'Nein',
+    checkYes: 'Super – bewerben Sie sich direkt. Das dauert weniger als 1 Minute.', checkYesBtn: 'Jetzt bewerben',
+    checkNo: 'Im Moment können wir leider nur Fahrer mit EU-Führerschein und Code 95 vermitteln. Mit EU-Pass oder aus dem Westbalkan?', checkNoLink: '/fuer-bewerber/',
     faqH2: '2. Häufige Fragen vor dem Kontakt',
     faq: [
       ['Kostet mich das etwas?', 'Nein. Der Arbeitgeber bezahlt uns.'],
@@ -56,12 +54,10 @@ const c = {
     h1: 'Contact for truck drivers – how to reach us',
     lead: 'You drive in the EU with a residence permit and want to move to Germany? Here you find every way to reach us – and the answers to the most common questions.',
     info: ['Reply within 1–2 working days', 'German, English, Russian & Ukrainian', 'Free for drivers'],
-    checkH2: '1. Is this right for me? (30-second check)',
-    checkIntro: 'You can apply if all points are true:',
-    checks: ['I do not have an EU passport.', 'I have a valid residence permit in an EU country.', 'I have an EU driving licence C/CE with Code 95.', 'I have at least 1 year of experience as a truck driver.'],
-    checkBtn: 'Show result',
-    checkYes: 'Great – apply directly. It takes about 1 minute.', checkYesBtn: 'Apply now',
-    checkNo: 'Then we cannot place you at the moment, sorry. With an EU passport or from the Western Balkans?', checkNoLink: '/en/for-applicants/',
+    checkH2: '1. Is this right for me?',
+    checkQ: 'Do you have an EU driving licence C/CE with Code 95?', yes: 'Yes', no: 'No',
+    checkYes: 'Great – apply directly. It takes less than 1 minute.', checkYesBtn: 'Apply now',
+    checkNo: 'At the moment we can only place drivers with an EU licence and Code 95. With an EU passport or from the Western Balkans?', checkNoLink: '/en/for-applicants/',
     faqH2: '2. Common questions before you contact us',
     faq: [
       ['Does it cost me anything?', 'No. The employer pays us.'],
@@ -116,12 +112,13 @@ const schema = {
     <div class="container narrow">
       <div class="card self-check" data-self-check>
         <h2 class="h2-sm">{c.checkH2}</h2>
-        <p>{c.checkIntro}</p>
-        <fieldset class="check-list">
-          <legend class="sr-only">{c.checkH2}</legend>
-          {c.checks.map((x) => <label class="consent"><input type="checkbox" data-check /> <span>{x}</span></label>)}
+        <fieldset class="code95-q">
+          <legend>{c.checkQ}</legend>
+          <div class="yes-no">
+            <label><input type="radio" name="code95-check" value="ja" data-check /><span>{c.yes}</span></label>
+            <label><input type="radio" name="code95-check" value="nein" data-check /><span>{c.no}</span></label>
+          </div>
         </fieldset>
-        <div><button type="button" class="btn btn-ghost" data-check-btn>{c.checkBtn}</button></div>
         <div class="check-result check-yes" data-check-yes role="status" aria-live="polite" hidden>
           <p>{c.checkYes}</p>
           <a class="btn btn-accent" href={applyHref}>{c.checkYesBtn}</a>
@@ -195,19 +192,13 @@ const schema = {
   import { track } from '../scripts/track';
   track('Kontaktseite besucht', { page: location.pathname });
 
-  // 30-second self-check: runs only in the browser, nothing is sent or stored.
+  // Code 95 check: runs only in the browser, nothing is sent or stored.
   document.querySelectorAll<HTMLElement>('[data-self-check]').forEach((box) => {
-    const checks = [...box.querySelectorAll<HTMLInputElement>('[data-check]')];
     const yes = box.querySelector<HTMLElement>('[data-check-yes]')!;
     const no = box.querySelector<HTMLElement>('[data-check-no]')!;
-    let shown = false;
-    const update = () => {
-      const all = checks.every((c) => c.checked);
-      if (all) shown = true; // all four ticked: show the result straight away
-      yes.hidden = !(shown && all);
-      no.hidden = !(shown && !all);
-    };
-    checks.forEach((c) => c.addEventListener('change', update));
-    box.querySelector('[data-check-btn]')?.addEventListener('click', () => { shown = true; update(); });
+    box.querySelectorAll<HTMLInputElement>('[data-check]').forEach((r) => r.addEventListener('change', () => {
+      yes.hidden = r.value !== 'ja';
+      no.hidden = r.value === 'ja';
+    }));
   });
 </script>

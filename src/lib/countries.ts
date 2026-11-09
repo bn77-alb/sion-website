@@ -55,3 +55,13 @@ export function driverCitizenshipGroups(lang: Lang) {
     { label: lang === 'de' ? 'EU / EWR / Schweiz' : 'EU / EEA / Switzerland', items: sortByName(EU_EEA, lang) },
   ];
 }
+
+// Simple driver form: countries where most drivers live first, then the rest of the EU/EEA, then all others
+const DRIVER_RES = ['PL', 'LT', 'LV', 'CZ', 'SK', 'NL', 'HU', 'RO'];
+export function driverResidenceGroups(lang: Lang) {
+  return [
+    { label: lang === 'de' ? 'Häufig' : 'Common', items: DRIVER_RES.map((c) => ({ code: c, name: countryName(c, lang) })) },
+    { label: lang === 'de' ? 'Andere EU-Länder' : 'Other EU countries', items: sortByName(EU_EEA.filter((c) => !DRIVER_RES.includes(c)), lang) },
+    { label: lang === 'de' ? 'Andere Länder' : 'Other countries', items: sortByName(ALL.filter((c) => !EU_EEA.includes(c)), lang) },
+  ];
+}

@@ -57,7 +57,7 @@ test('static checks: no phone, no WhatsApp, no banned terms, valid JSON-LD, href
     assert.doesNotMatch(h, /href="tel:|wa\.me|whatsapp|"telephone"/i, f);
     assert.doesNotMatch(h, /visa sponsorship|work visa germany|job in germany with visa|free visa|work permit germany for foreigners/i, f);
     for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(m[1]);
-    if (!/http-equiv="refresh"/.test(h) && !f.endsWith('404.html')) {
+    if (!/http-equiv="refresh"/.test(h) && !f.endsWith('404.html') && !/\/google[0-9a-f]+\.html$/.test(f)) {
       assert.match(h, /<h1[\s>]/, `h1 in ${f}`);
       assert.match(h, /rel="canonical"/, `canonical in ${f}`);
       assert.match(h, /hreflang="de"[\s\S]*hreflang="en"/, `hreflang in ${f}`);
@@ -128,15 +128,16 @@ test('employer form shows understandable validation instead of sending', async (
 
 test('applicant journey: driver living in Poland applies in two steps (phone)', async () => {
   const { p, ctx, errors, posts } = await page(devices['iPhone 13']);
-  await p.goto(`${base}/en/truck-drivers-eu/`);
-  assert.match(await p.locator('h1').innerText(), /without an EU passport/);
+  await p.goto(`${base}/en/for-applicants/`);
   const f = p.locator('[data-apply-form]');
   await f.locator('[name=citizenshipCode]').selectOption('UZ');
   await f.locator('[name=residenceCode]').selectOption('PL');
+  await f.locator('[name=permit][value=ja]').check();
   await f.locator('[name=permitMonth]').selectOption('05');
   await f.locator('[name=permitYear]').selectOption('2028');
   await f.locator('[data-next]').click();
   assert.equal(await f.locator('[data-step="2"]').isVisible(), true);
+  await f.locator('[name=job]').selectOption('LKW');
   await f.locator('[name=name]').fill('TEST Driver');
   await f.locator('[name=email]').fill('driver@example.com');
   await f.locator('[name=licences][value=CE]').check();
@@ -209,33 +210,49 @@ test('reduced motion: nothing is hidden by the entrance animation', async () => 
   await ctx.close();
 });
 
-test('driver form: EU citizen gets the hint to /fuer-bewerber/, validation in full sentences', async () => {
-  const { p, ctx, posts } = await page();
-  await p.goto(`${base}/lkw-fahrer-aus-der-eu/`);
-  const f = p.locator('[data-apply-form]');
-  assert.equal(await f.locator('[name=citizenshipCode] optgroup').first().getAttribute('label'), 'Häufig');
-  await f.locator('[data-next]').click();
-  assert.equal(await f.locator('[data-step1-error]').innerText(), 'Bitte wählen Sie Ihre Staatsangehörigkeit.');
-  await f.locator('[name=citizenshipCode]').selectOption('PL');
-  assert.equal(await f.locator('[data-eu-hint]').isVisible(), true);
-  await f.locator('[data-next]').click();
-  assert.equal(await f.locator('[data-step="2"]').isVisible(), false);
-  await f.locator('[name=citizenshipCode]').selectOption('UA');
+test('simple driver form: Code 95 "Nein" sends nothing, "Ja" sends name + contact + country', async () => {
+  const { p, ctx, errors, posts } = await page({ ...devices['iPhone 13'] });
+  await p.goto(`${base}/lkw-fahrer-aus-der-eu/?utm_source=facebook`);
+  const f = p.locator('[data-driver-form]');
+  assert.equal(await f.locator('[name=name]').isVisible(), false, 'fields hidden until Code 95 = Ja');
+  await f.locator('.yes-no label').nth(1).click();
+  assert.equal(await f.locator('[data-code95-no]').isVisible(), true);
+  assert.equal(await f.locator('[name=name]').isVisible(), false);
+  await f.locator('.yes-no label').nth(0).click();
+  assert.equal(await f.locator('[data-code95-no]').isVisible(), false);
+  await f.locator('[name=name]').fill('Ivan Test');
+  await f.locator('button[type=submit]').click();
+  assert.equal(await f.locator('.form-status').innerText(), 'Bitte geben Sie eine E-Mail-Adresse oder eine Telefonnummer an.');
+  await f.locator('[name=phone]').fill('+48 600 000 000');
+  await f.locator('button[type=submit]').click();
+  assert.equal(await f.locator('.form-status').innerText(), 'Bitte wählen Sie das Land, in dem Sie leben.');
+  assert.equal(await f.locator('[name=residenceCode] optgroup').first().getAttribute('label'), 'Häufig');
   await f.locator('[name=residenceCode]').selectOption('PL');
-  await f.locator('[data-next]').click();
-  assert.equal(await f.locator('[data-step1-error]').innerText(), 'Bitte wählen Sie den Monat.');
-  assert.equal(posts.length, 0);
+  await f.locator('[name=consent]').check();
+  await f.locator('button[type=submit]').click();
+  await p.waitForTimeout(500);
+  assert.equal(posts.length, 1);
+  const pl = payloadOf(posts[0]);
+  assert.equal(pl.formType, 'candidate');
+  assert.equal(pl.fields.variant, 'driver');
+  assert.equal(pl.fields.code95EU, 'ja');
+  assert.equal(pl.fields.residence, 'Polen');
+  assert.equal(pl.fields.phone, '+48 600 000 000');
+  assert.equal(pl.fields.email, undefined);
+  assert.equal(pl.attribution.channel !== undefined, true);
+  assert.match(await f.locator('.form-status').innerText(), /Vielen Dank/);
+  assert.deepEqual(errors, []);
   await ctx.close();
 });
 
-test('30-second check on the driver contact page', async () => {
+test('Code 95 question on the driver contact page', async () => {
   const { p, ctx, posts } = await page();
   await p.goto(`${base}/kontakt-fuer-fahrer/`);
   const box = p.locator('[data-self-check]');
-  await box.locator('[data-check]').first().check();
-  await box.locator('[data-check-btn]').click();
+  await box.locator('.yes-no label').nth(1).click();
   assert.equal(await box.locator('[data-check-no]').isVisible(), true);
-  for (const c of await box.locator('[data-check]').all()) await c.check();
+  assert.equal(await box.locator('[data-check-yes]').isVisible(), false);
+  await box.locator('.yes-no label').nth(0).click();
   assert.equal(await box.locator('[data-check-yes]').isVisible(), true);
   assert.equal(await box.locator('[data-check-no]').isVisible(), false);
   assert.equal(posts.length, 0);

@@ -696,3 +696,15 @@ p, li { line-height: 1.65; }
 .flags-band .flag-row-label { font: 700 1.15rem var(--font-display); margin-bottom: 12px; }
 .flags-band .flag-list { gap: 10px; }
 .flags-band .flag-list li { background: var(--bg); }
+/* Simple driver form */
+.driver-form { gap: 18px; }
+.driver-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.driver-fields-main { display: flex; flex-direction: column; gap: 18px; }
+.driver-fields-main[hidden] { display: none; }
+.code95-q legend { font: 700 1.2rem var(--font-display); margin-bottom: 12px; padding: 0; }
+.yes-no { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.yes-no label { position: relative; cursor: pointer; }
+.yes-no input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.yes-no span { display: flex; align-items: center; justify-content: center; min-height: 56px; border: 2px solid var(--ink); border-radius: 14px; font-weight: 700; font-size: 1.1rem; background: #fff; transition: background .15s, color .15s; }
+.yes-no input:checked + span { background: var(--ink); color: #fff; }
+.yes-no input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 3px; }
