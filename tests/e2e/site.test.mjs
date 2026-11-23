@@ -57,7 +57,7 @@ test('static checks: no phone, no WhatsApp, no banned terms, valid JSON-LD, href
     assert.doesNotMatch(h, /href="tel:|wa\.me|whatsapp|"telephone"/i, f);
     assert.doesNotMatch(h, /visa sponsorship|work visa germany|job in germany with visa|free visa|work permit germany for foreigners/i, f);
     for (const m of h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(m[1]);
-    if (!/http-equiv="refresh"/.test(h) && !f.endsWith('404.html')) {
+    if (!/http-equiv="refresh"/.test(h) && !f.endsWith('404.html') && !/google[0-9a-f]+\.html$/.test(f)) {
       assert.match(h, /<h1[\s>]/, `h1 in ${f}`);
       assert.match(h, /rel="canonical"/, `canonical in ${f}`);
       assert.match(h, /hreflang="de"[\s\S]*hreflang="en"/, `hreflang in ${f}`);

@@ -16,7 +16,7 @@ const r = (k: keyof typeof routes) => routes[k][lang];
 const c = {
   de: {
     title: 'Westbalkanregelung für LKW-Fahrer | SION Consulting',
-    description: 'Westbalkanregelung für LKW-Fahrer erklärt: Ablauf, Zeitrahmen, Führerschein ohne Prüfung. Direkte Anstellung – Zahlung erst nach 30 Tagen.',
+    description: 'Westbalkanregelung für LKW-Fahrer erklärt: Ablauf, Zeitrahmen, Führerschein ohne Prüfung. Direkte Anstellung – Rechnung erst nach 30 Arbeitstagen.',
     eyebrow: 'Für Transport- und Logistikunternehmen',
     h1: 'Westbalkanregelung: LKW-Fahrer aus dem Westbalkan',
     lead: 'Fahrer aus Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro sowie Bosnien und Herzegowina können über die Westbalkanregelung in Deutschland arbeiten. Wir finden passende CE-Fahrer und begleiten die administrativen Schritte – bis zum ersten Arbeitstag.',
@@ -26,7 +26,7 @@ const c = {
     what: [
       'Die Westbalkanregelung (§ 26 Abs. 2 Beschäftigungsverordnung) erlaubt Staatsangehörigen aus Albanien, Bosnien und Herzegowina, Kosovo, Montenegro, Nordmazedonien und Serbien eine Beschäftigung in Deutschland – auch ohne anerkannte Berufsausbildung.',
       'Voraussetzung ist ein konkretes Arbeitsplatzangebot. Die Bundesagentur für Arbeit muss zustimmen und prüft dabei unter anderem die Arbeitsbedingungen. Zeitarbeit ist ausgeschlossen – der Fahrer wird direkt bei Ihnen angestellt.',
-      'Die Zahl der Zustimmungen ist pro Jahr begrenzt (derzeit bis zu 50.000). Eine Absenkung ist politisch angekündigt. Wir informieren Sie über den aktuellen Stand.',
+      'Die Zahl der Zustimmungen ist pro Jahr begrenzt (derzeit bis zu 50.000). Die Bundesregierung hat im November 2026 beschlossen, das Kontingent ab 2027 auf 25.000 zu halbieren; die Zustimmung des Bundesrats stand zu diesem Zeitpunkt noch aus. Wir informieren Sie über den aktuellen Stand.',
     ],
     licEyebrow: 'Führerschein', licH2: 'Umschreibung ohne Prüfung',
     lic: [
@@ -55,10 +55,11 @@ const c = {
     formH2: 'Fahrer aus dem Westbalkan anfragen',
     formText: 'Beschreiben Sie kurz Ihren Bedarf – Touren, Fahrzeugtyp, Einsatzort. Wir melden uns innerhalb von 1 Werktag.',
     formMail: 'Lieber per E-Mail?',
+    guide1: 'Ratgeber: LKW-Fahrer aus dem Ausland einstellen', guide2: 'Ratgeber: Führerschein umschreiben und Code 95',
   },
   en: {
     title: 'Western Balkans Regulation for Truck Drivers | SION',
-    description: 'The Western Balkans regulation for truck drivers: process, timeframe, licence conversion without a test. Direct employment – pay after 30 days.',
+    description: 'The Western Balkans regulation for truck drivers: process, timeframe, licence conversion without a test. Direct employment – invoice after 30 working days.',
     eyebrow: 'For transport and logistics companies',
     h1: 'Western Balkans regulation: truck drivers from the Western Balkans',
     lead: 'Drivers from Albania, Kosovo, North Macedonia, Serbia, Montenegro and Bosnia and Herzegovina can work in Germany under the Western Balkans regulation. We find suitable CE drivers and support the administrative steps – up to the first working day.',
@@ -68,7 +69,7 @@ const c = {
     what: [
       'The Western Balkans regulation (Section 26(2) of the German Employment Ordinance) allows citizens of Albania, Bosnia and Herzegovina, Kosovo, Montenegro, North Macedonia and Serbia to work in Germany – even without a recognised vocational qualification.',
       'A concrete job offer is required. The Federal Employment Agency must approve it and checks, among other things, the working conditions. Temporary agency work is excluded – the driver is employed directly by you.',
-      'The number of approvals per year is limited (currently up to 50,000). A reduction has been announced. We keep you informed about the current situation.',
+      'The number of approvals per year is limited (currently up to 50,000). In November 2026 the German government decided to halve the quota to 25,000 from 2027; the approval of the Bundesrat was still pending at that time. We keep you informed about the current situation.',
     ],
     licEyebrow: 'Driving licence', licH2: 'Conversion without a test',
     lic: [
@@ -97,6 +98,7 @@ const c = {
     formH2: 'Request drivers from the Western Balkans',
     formText: 'Briefly describe what you need – routes, vehicle type, location. We will get back to you within 1 working day.',
     formMail: 'Prefer email?',
+    guide1: 'Guide: hiring truck drivers from abroad', guide2: 'Guide: licence conversion and Code 95',
   },
 }[lang];
 
@@ -155,6 +157,7 @@ const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntit
     <div class="container narrow">
       <div class="section-head"><h2>{c.faqH2}</h2></div>
       <Faq items={c.faq} />
+      <p style="margin-top: 24px"><a class="link-arrow" href={r('rgAusland')}>{c.guide1}</a><br /><a class="link-arrow" href={r('rgFuehrerschein')}>{c.guide2}</a></p>
     </div>
   </section>
 
