@@ -16,7 +16,7 @@ const r = (k: keyof typeof routes) => routes[k][lang];
 const c = {
   de: {
     title: 'Personalvermittlung für LKW-Fahrer & Logistik | SION',
-    description: 'LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal für Unternehmen in Deutschland – plus Back Office. Keine Anzahlung, Zahlung nach 30 Tagen.',
+    description: 'LKW-Fahrer, Paketzusteller, Lager- und Reinigungspersonal für Unternehmen in Deutschland. Keine Anzahlung, Rechnung erst nach 30 Arbeitstagen.',
     h1: 'Qualifizierte LKW-Fahrer und Logistikmitarbeiter für Ihr Unternehmen',
     lead: 'Wir vermitteln vorgeprüfte Arbeitskräfte aus Deutschland, der EU und dem Westbalkan – mit direkter Anstellung und persönlicher Betreuung bis zum Arbeitsbeginn.',
     lead2: 'Zusätzlich entlasten wir Ihre Verwaltung mit Back-Office-Services.',
@@ -38,6 +38,7 @@ const c = {
     lkwText: 'Der Fahrermangel bremst Speditionen in ganz Deutschland. Wir rekrutieren erfahrene CE-Fahrer – vor allem Fahrer, die bereits mit EU-Führerschein und Code 95 in der EU fahren –, prüfen sie vorab und unterstützen bei allen administrativen Schritten – bis der Fahrer bei Ihnen im Einsatz ist.',
     lkwList: ['CE-Fahrer mit Berufserfahrung', 'Vorauswahl und Vorstellungsgespräch mit Ihnen', 'Unterstützung bei Führerscheinumschreibung und Code 95', 'Direkte Anstellung bei Ihnen – keine Arbeitnehmerüberlassung'],
     lkwCta: 'LKW-Fahrer anfragen', lkwCta2: 'Kostenloses Erstgespräch',
+    lkwWb: 'LKW-Fahrer über die Westbalkanregelung einstellen', lkwGuide: 'Ratgeber: LKW-Fahrer aus dem Ausland einstellen',
     lkwAlt: 'Weißer LKW auf der Landstraße bei Sonnenuntergang',
     boEyebrow: 'Zweites Standbein',
     boH2: 'Back Office: operative Unterstützung für KMU',
@@ -64,7 +65,7 @@ const c = {
   },
   en: {
     title: 'Recruitment Agency for Truck Drivers & Logistics | SION',
-    description: 'Truck drivers, parcel delivery, warehouse and cleaning staff for companies in Germany – plus back office. No deposit, payment after 30 days.',
+    description: 'Truck drivers, parcel delivery, warehouse and cleaning staff for companies in Germany – plus back office. No deposit, invoice only after 30 working days.',
     h1: 'Qualified truck drivers and logistics staff for your company',
     lead: 'We place pre-screened workers from Germany, the EU and the Western Balkans – with direct employment and personal support until the first working day.',
     lead2: 'We also take work off your administration with back-office services.',
@@ -86,6 +87,7 @@ const c = {
     lkwText: 'The driver shortage is slowing down hauliers across Germany. We recruit experienced CE drivers – above all drivers who already drive in the EU with an EU licence and Code 95 –, screen them in advance and assist with all administrative steps – until the driver is on the road for you.',
     lkwList: ['CE drivers with professional experience', 'Pre-selection and an interview with you', 'Assistance with licence conversion and Code 95', 'Direct employment with you – no temporary agency work'],
     lkwCta: 'Request truck drivers', lkwCta2: 'Free initial consultation',
+    lkwWb: 'Hiring truck drivers under the Western Balkans regulation', lkwGuide: 'Guide: hiring truck drivers from abroad',
     lkwAlt: 'White truck on a country road at sunset',
     boEyebrow: 'Second business area',
     boH2: 'Back office: operational support for SMEs',
@@ -185,6 +187,7 @@ const schema = {
           <a class="btn btn-accent btn-lg" href={`${r('lkw')}#anfrage`}>{c.lkwCta}</a>
           <a class="btn btn-ghost btn-lg" href={r('kontakt')}>{c.lkwCta2}</a>
         </div>
+        <p><a class="link-arrow" href={r('westbalkan')}>{c.lkwWb}</a><br /><a class="link-arrow" href={r('rgAusland')}>{c.lkwGuide}</a></p>
       </div>
     </div>
   </section>

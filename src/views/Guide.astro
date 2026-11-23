@@ -1,0 +1,76 @@
+---
+// Guide article (Ratgeber). Texts live in src/lib/guides.ts.
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { routes, requestHref, ui, type Lang } from '../i18n';
+import { site } from '../config';
+import { guides, guideKeys, guideUi, relatedLabels, type GuideKey } from '../lib/guides';
+interface Props { lang: Lang; guide: GuideKey }
+const { lang, guide } = Astro.props;
+const g = guides[guide];
+const c = g[lang];
+const t = guideUi[lang];
+const [y, m] = g.updated.split('-').map(Number);
+const updatedLabel = `${t.updated}: ${t.months[m - 1]} ${y}`;
+const url = new URL(routes[guide][lang], site.url).href;
+const others = guideKeys.filter((k) => k !== guide);
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article',
+    headline: c.h1, description: c.description, inLanguage: lang,
+    datePublished: g.updated, dateModified: g.updated, mainEntityOfPage: url,
+    author: { '@type': 'Organization', name: site.name, url: site.url },
+    publisher: { '@type': 'Organization', name: site.name, url: site.url },
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
+---
+<Base lang={lang} page={guide} title={c.title} description={c.description} schema={schema} stickyCta={requestHref(lang)}>
+  <section class="page-hero">
+    <div class="container narrow-hero hero-copy">
+      <p class="eyebrow"><a href={routes.ratgeber[lang]}>{t.eyebrow}</a></p>
+      <h1>{c.h1}</h1>
+      <p class="lead">{c.lead}</p>
+      <p class="muted"><time datetime={g.updated}>{updatedLabel}</time></p>
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container">
+      <article class="prose guide">
+        {c.sections.map((s) => (
+          <section>
+            <h2>{s.h}</h2>
+            {s.p?.map((p) => <p>{p}</p>)}
+            {s.list && <ul>{s.list.map((x) => <li>{x}</li>)}</ul>}
+          </section>
+        ))}
+        <p class="note">{t.note}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container narrow">
+      <div class="section-head"><h2>{t.faqH2}</h2></div>
+      <Faq items={c.faq} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2" style="align-items: start">
+      <div class="stack-lg">
+        <h2 class="h2-sm">{t.relatedH2}</h2>
+        <ul class="chips">{g.related.map((k) => <li><a class="chip" href={routes[k][lang]}>{relatedLabels[lang][k]}</a></li>)}</ul>
+        <div class="btn-row"><a class="btn btn-accent btn-lg" href={requestHref(lang)}>{ui[lang].request}</a></div>
+      </div>
+      <div class="stack-lg">
+        <h2 class="h2-sm">{t.moreH2}</h2>
+        <ul class="guide-links">{others.map((k) => <li><a class="link-arrow" href={routes[k][lang]}>{guides[k][lang].h1}</a></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

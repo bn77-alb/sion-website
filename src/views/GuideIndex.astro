@@ -1,0 +1,37 @@
+---
+// Overview of all guide articles (Ratgeber).
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { routes, requestHref, type Lang } from '../i18n';
+import { guides, guideKeys, guideUi } from '../lib/guides';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = guideUi[lang];
+---
+<Base lang={lang} page="ratgeber" title={t.indexTitle} description={t.indexDescription} stickyCta={requestHref(lang)}>
+  <section class="page-hero">
+    <div class="container narrow-hero hero-copy">
+      <p class="eyebrow">{t.eyebrow}</p>
+      <h1>{t.indexH1}</h1>
+      <p class="lead">{t.indexLead}</p>
+    </div>
+  </section>
+
+  <section class="section section-first">
+    <div class="container">
+      <div class="grid-3">
+        {guideKeys.map((k) => (
+          <article class="card">
+            <Icon name={guides[k].icon} class="card-icon" />
+            <h2 class="h2-sm"><a href={routes[k][lang]}>{guides[k][lang].h1}</a></h2>
+            <p>{guides[k][lang].card}</p>
+            <p><a class="link-arrow" href={routes[k][lang]} aria-label={`${t.read}: ${guides[k][lang].h1}`}>{t.read}</a></p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

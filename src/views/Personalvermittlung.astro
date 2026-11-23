@@ -4,6 +4,9 @@ import Icon from '../components/Icon.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import Trust from '../components/Trust.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
+import PricingBox from '../components/PricingBox.astro';
 import { routes, ui, requestHref, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -11,7 +14,7 @@ const { lang } = Astro.props;
 const c = {
   de: {
     title: 'Personalvermittlung für Unternehmen in Deutschland | SION',
-    description: 'LKW-Fahrer, Paketzusteller, Lager- und Reinigungskräfte – direkt bei Ihnen angestellt. Keine Anzahlung, Zahlung erst nach 30 Tagen.',
+    description: 'Personalvermittlung für Transport, Logistik und Dienstleistung: direkte Anstellung, keine Zeitarbeit, keine Anzahlung, Rechnung erst nach 30 Arbeitstagen.',
     eyebrow: 'Personalvermittlung', h1: 'Personalvermittlung für Unternehmen in Deutschland',
     lead: 'Wir finden zuverlässige Mitarbeiter für Transport, Logistik und Dienstleistung aus der EU, dem Westbalkan und Deutschland – und begleiten den Prozess bis zum ersten Arbeitstag.',
     cta2: 'Bereiche ansehen',
@@ -22,11 +25,28 @@ const c = {
       ['pin', 'Kandidaten in Deutschland', 'Arbeitskräfte, die bereits in Deutschland leben und eine neue Stelle suchen – oft kurzfristig verfügbar.'],
       ['handshake', 'Direkte Anstellung', 'Alle Mitarbeiter werden direkt bei Ihnen angestellt. Es handelt sich nicht um Arbeitnehmerüberlassung.'],
     ],
-    howH2: 'Wie läuft die Zusammenarbeit ab?', howText: 'Ablauf, Konditionen, Ihre Aufgaben als Arbeitgeber und häufige Fragen haben wir für Sie auf einer Seite zusammengefasst.', howCta: 'Zusammenarbeit für Unternehmen',
+    introH2: 'Personalvermittlung in direkte Anstellung',
+    intro: [
+      'SION Consulting ist eine Personalvermittlung für Unternehmen in Deutschland, die Fahrer, Lager-, Reinigungs- und Saisonkräfte suchen. Wir übernehmen die Suche, prüfen Erfahrung und Unterlagen vorab und stellen Ihnen nur Kandidaten vor, die zu Ihrer Stelle passen.',
+      'Anders als bei der Zeitarbeit schließen die Mitarbeiter ihren Arbeitsvertrag direkt mit Ihrem Unternehmen. Sie entscheiden nach dem Vorstellungsgespräch selbst, wen Sie einstellen – und zahlen erst, wenn die Zusammenarbeit funktioniert.',
+      'Bei Kandidaten aus dem Ausland begleiten wir zusätzlich die administrativen Schritte: Unterlagen für die Bundesagentur für Arbeit, Visumverfahren, Anreise und die ersten Tage in Deutschland.',
+    ],
+    introLink: 'Personalvermittlung oder Zeitarbeit: die Unterschiede',
+    procEyebrow: 'Ablauf', procH2: 'So läuft die Personalvermittlung ab',
+    faqH2: 'Häufige Fragen zur Personalvermittlung',
+    faq: [
+      { q: 'Was kostet die Personalvermittlung?', a: 'Sie zahlen eine einmalige Vermittlungsprämie je Mitarbeiter, ohne Anzahlung. Die Rechnung kommt erst nach 30 Arbeitstagen; scheidet der Mitarbeiter vorher aus, zahlen Sie nichts. Die Höhe hängt von Position und Anzahl ab – Sie erhalten vorab ein individuelles Angebot.' },
+      { q: 'Wie lange dauert es, bis ein Mitarbeiter anfangen kann?', a: 'Kandidaten, die bereits in Deutschland leben, sind oft kurzfristig verfügbar. Bei Kandidaten aus dem Ausland hängt die Dauer vom Verfahren ab – bei der Westbalkanregelung oft mehrere Monate.' },
+      { q: 'Ist das Zeitarbeit?', a: 'Nein. Alle Mitarbeiter werden direkt bei Ihnen angestellt. Es handelt sich nicht um Arbeitnehmerüberlassung.' },
+      { q: 'Für welche Positionen vermitteln Sie?', a: 'Für LKW-Fahrer mit Führerschein C/CE, Paketzusteller, Lager- und Logistikmitarbeiter, Reinigungskräfte sowie Saisonkräfte für Bau, Hotel und Gastronomie.' },
+      { q: 'In welchen Regionen sind Sie tätig?', a: 'Wir vermitteln an Unternehmen in ganz Deutschland. Die Abstimmung läuft per E-Mail, Video und Telefon – auf Deutsch oder Englisch.' },
+      { q: 'Was müssen wir als Arbeitgeber beitragen?', a: 'Eine klare Stellenbeschreibung, ein Vorstellungsgespräch, einen Arbeitsvertrag zu in Deutschland üblichen Bedingungen und bei Kandidaten aus dem Ausland die nötigen Angaben für die Behörden. Bei den Formularen unterstützen wir.' },
+    ],
+    howH2: 'Wie läuft die Zusammenarbeit ab?', howText: 'Ihre Aufgaben als Arbeitgeber, weitere Fragen und Antworten sowie Ratgeber zur Einstellung aus dem Ausland finden Sie hier.', howCta: 'Zusammenarbeit für Unternehmen', howGuides: 'Ratgeber für Arbeitgeber',
   },
   en: {
     title: 'Recruitment for Companies in Germany | SION Consulting',
-    description: 'Truck drivers, parcel delivery drivers, warehouse and cleaning staff – employed directly by you. No deposit, payment only after 30 days.',
+    description: 'Recruitment for transport, logistics and services in Germany: direct employment, no agency work, no deposit, invoice only after 30 working days.',
     eyebrow: 'Recruitment', h1: 'Recruitment for companies in Germany',
     lead: 'We find reliable employees for transport, logistics and services from the EU, the Western Balkans and Germany – and support the process up to the first working day.',
     cta2: 'See our areas',
@@ -37,11 +57,30 @@ const c = {
       ['pin', 'Candidates in Germany', 'Workers who already live in Germany and are looking for a new job – often available at short notice.'],
       ['handshake', 'Direct employment', 'All employees are employed directly by you. This is not temporary agency work.'],
     ],
-    howH2: 'How does working with us work?', howText: 'Process, terms, your responsibilities as an employer and frequently asked questions – summarised on one page.', howCta: 'Working with us as an employer',
+    introH2: 'Recruitment into direct employment',
+    intro: [
+      'SION Consulting is a recruitment agency for companies in Germany looking for drivers, warehouse, cleaning and seasonal staff. We handle the search, check experience and documents in advance and only introduce candidates who fit your position.',
+      'Unlike temporary staffing, the employees sign their employment contract directly with your company. After the interview you decide yourself whom to hire – and you only pay once the cooperation works.',
+      'For candidates from abroad we also support the administrative steps: documents for the Federal Employment Agency, the visa procedure, arrival and the first days in Germany.',
+    ],
+    introLink: 'Recruitment or temporary staffing: the differences',
+    procEyebrow: 'Process', procH2: 'How recruitment with us works',
+    faqH2: 'Frequently asked questions about recruitment',
+    faq: [
+      { q: 'What does recruitment cost?', a: 'You pay a one-off placement fee per employee, with no deposit. The invoice only comes after 30 working days; if the employee leaves before then, you pay nothing. The amount depends on the position and the number of employees – you receive an individual offer in advance.' },
+      { q: 'How long does it take until an employee can start?', a: 'Candidates who already live in Germany are often available at short notice. For candidates from abroad the duration depends on the procedure – under the Western Balkans regulation often several months.' },
+      { q: 'Is this temporary agency work?', a: 'No. All employees are employed directly by you. This is not temporary agency work.' },
+      { q: 'Which positions do you recruit for?', a: 'Truck drivers with a C/CE licence, parcel delivery drivers, warehouse and logistics staff, cleaning staff and seasonal workers for construction, hotels and restaurants.' },
+      { q: 'In which regions do you work?', a: 'We recruit for companies across Germany. Coordination takes place by email, video and phone – in German or English.' },
+      { q: 'What do we need to contribute as an employer?', a: 'A clear job description, an interview, an employment contract on terms customary in Germany and, for candidates from abroad, the information the authorities need. We help with the forms.' },
+    ],
+    howH2: 'How does working with us work?', howText: 'Your responsibilities as an employer, more questions and answers, and guides on hiring from abroad can be found here.', howCta: 'Working with us as an employer', howGuides: 'Guides for employers',
   },
 }[lang];
+
+const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 ---
-<Base lang={lang} page="personalvermittlung" title={c.title} description={c.description} stickyCta={requestHref(lang)}>
+<Base lang={lang} page="personalvermittlung" title={c.title} description={c.description} schema={schema} stickyCta={requestHref(lang)}>
   <section class="page-hero">
     <div class="container narrow-hero hero-copy">
       <p class="eyebrow">{c.eyebrow}</p>
@@ -54,19 +93,47 @@ const c = {
     </div>
   </section>
 
-  <section class="section section-first" id="bereiche">
+  <section class="section section-first">
+    <div class="container">
+      <div class="prose">
+        <h2 style="margin-top: 0">{c.introH2}</h2>
+        {c.intro.map((p) => <p>{p}</p>)}
+        <p><a class="link-arrow" href={routes.rgVermittlung[lang]}>{c.introLink}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band-soft" id="bereiche">
     <div class="container">
       <div class="section-head"><h2>{c.areasH2}</h2></div>
       <ServiceCards lang={lang} />
     </div>
   </section>
 
-  <section class="section band-soft">
+  <section class="section">
     <div class="container">
       <div class="section-head"><h2>{c.sourceH2}</h2></div>
       <div class="grid-3">
         {c.sources.map(([icon, h, p]) => <article class="card"><Icon name={icon} class="card-icon" /><h3>{h}</h3><p>{p}</p></article>)}
       </div>
+    </div>
+  </section>
+
+  <section id="ablauf" class="band-dark section">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.procEyebrow}</p><h2>{c.procH2}</h2></div>
+      <Steps lang={lang} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container"><PricingBox lang={lang} /></div>
+  </section>
+
+  <section class="section band-soft">
+    <div class="container narrow">
+      <div class="section-head"><h2>{c.faqH2}</h2></div>
+      <Faq items={c.faq} />
     </div>
   </section>
 
@@ -76,7 +143,7 @@ const c = {
         <h2>{c.howH2}</h2>
         <p class="muted">{c.howText}</p>
       </div>
-      <div class="btn-row"><a class="btn btn-dark btn-lg" href={routes.unternehmen[lang]}>{c.howCta}</a></div>
+      <div class="btn-row"><a class="btn btn-dark btn-lg" href={routes.unternehmen[lang]}>{c.howCta}</a><a class="link-arrow" href={routes.ratgeber[lang]}>{c.howGuides}</a></div>
     </div>
   </section>
 

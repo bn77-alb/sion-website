@@ -696,3 +696,13 @@ p, li { line-height: 1.65; }
 .flags-band .flag-row-label { font: 700 1.15rem var(--font-display); margin-bottom: 12px; }
 .flags-band .flag-list { gap: 10px; }
 .flags-band .flag-list li { background: var(--bg); }
+
+/* Guide articles (Ratgeber) */
+.guide { margin-inline: auto; }
+.guide section:first-child h2 { margin-top: 0; }
+.guide .note { margin-top: 36px; }
+.guide-links { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.page-hero .eyebrow a { color: inherit; text-decoration: none; }
+.page-hero .eyebrow a:hover { text-decoration: underline; }
+.card h2 a { color: inherit; text-decoration: none; }
+.card h2 a:hover { text-decoration: underline; }
