@@ -19,7 +19,7 @@ export function jobPostingSchema(job: SampleJob, lang: Lang, pageUrl: string) {
     employmentType: 'FULL_TIME',
     directApply: true,
     url: `${pageUrl}#job-${job.id}`,
-    hiringOrganization: { '@type': 'Organization', name: site.name, sameAs: site.url, logo: `${site.url}/favicon.svg` },
+    hiringOrganization: { '@type': 'Organization', name: site.name, sameAs: site.url, logo: `${site.url}/icon-512.png` },
     jobLocation: {
       '@type': 'Place',
       address: { '@type': 'PostalAddress', ...(job.city ? { addressLocality: job.city } : {}), addressRegion: job.regionCode, addressCountry: 'DE' },

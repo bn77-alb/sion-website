@@ -14,7 +14,7 @@ const { lang } = Astro.props;
 const c = {
   de: {
     title: 'Personalvermittlung LKW-Fahrer: CE-Fahrer finden | SION',
-    description: 'CE-Fahrer aus der EU, dem Westbalkan und Deutschland – direkte Anstellung, keine Zeitarbeit, keine Anzahlung. Zahlung erst nach 30 Tagen.',
+    description: 'CE-Fahrer aus der EU, dem Westbalkan und Deutschland – direkte Anstellung, keine Zeitarbeit, keine Anzahlung. Rechnung erst nach 30 Arbeitstagen.',
     eyebrow: 'Personalvermittlung für Transport & Logistik',
     h1: 'Personalvermittlung LKW-Fahrer',
     lead: 'Wir vermitteln qualifizierte CE-Fahrer und Berufskraftfahrer aus der EU, dem Westbalkan und Deutschland an Transport- und Logistikunternehmen in ganz Deutschland – von der Kandidatensuche bis zum ersten Arbeitstag.',
@@ -65,14 +65,14 @@ const c = {
     euEyebrow: 'Schnellster Weg', euH2: 'Fahrer mit EU-Führerschein und Code 95 – bereits in der EU tätig',
     euText: 'Viele erfahrene CE-Fahrer leben und arbeiten bereits mit Aufenthaltstitel in Polen, Litauen, den Niederlanden oder Tschechien und möchten nach Deutschland wechseln.',
     euList: ['Europäische Fahrpraxis – Mautsysteme, Lenk- und Ruhezeiten, Tachograph', 'EU-Führerschein und Code 95 gelten in Deutschland – keine Umschreibung nötig', 'Oft schnellerer Start als bei Kandidaten von außerhalb der EU'],
-    euLink: 'Infos für Fahrer in der EU', wbLink: 'Westbalkanregelung für LKW-Fahrer',
+    euLink: 'Infos für Fahrer in der EU', wbLink: 'Westbalkanregelung für LKW-Fahrer', guide1: 'Ratgeber: LKW-Fahrer aus dem Ausland einstellen', guide2: 'Ratgeber: Führerschein umschreiben und Code 95',
     formH2: 'LKW-Fahrer anfragen',
     formText: 'Beschreiben Sie kurz Ihren Bedarf – Touren, Fahrzeugtyp, Einsatzort. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
     formCall: 'Lieber per E-Mail?',
   },
   en: {
     title: 'Truck Driver Recruitment: Hire CE Drivers | SION',
-    description: 'CE drivers from the EU, the Western Balkans and Germany – direct employment, no temporary agency, no deposit. Payment only after 30 days.',
+    description: 'CE drivers from the EU, the Western Balkans and Germany – direct employment, no temporary agency, no deposit. Invoice only after 30 working days.',
     eyebrow: 'Recruitment for transport & logistics',
     h1: 'Truck driver recruitment',
     lead: 'We place qualified CE drivers and professional drivers from the EU, the Western Balkans and Germany with transport and logistics companies across Germany – from the candidate search to the first working day.',
@@ -123,7 +123,7 @@ const c = {
     euEyebrow: 'Fastest route', euH2: 'Drivers with an EU licence and Code 95 – already working in the EU',
     euText: 'Many experienced CE drivers already live and work with a residence permit in Poland, Lithuania, the Netherlands or the Czech Republic and want to move to Germany.',
     euList: ['European driving experience – toll systems, driving and rest times, tachograph', 'EU licence and Code 95 are valid in Germany – no conversion needed', 'Often a faster start than candidates from outside the EU'],
-    euLink: 'Information for drivers in the EU', wbLink: 'Western Balkans regulation for truck drivers',
+    euLink: 'Information for drivers in the EU', wbLink: 'Western Balkans regulation for truck drivers', guide1: 'Guide: hiring truck drivers from abroad', guide2: 'Guide: licence conversion and Code 95',
     formH2: 'Request truck drivers',
     formText: 'Briefly describe what you need – routes, vehicle type, location. We will get back to you within 1 working day with a proposal.',
     formCall: 'Prefer email?',
@@ -221,6 +221,7 @@ const schema = {
     <div class="container narrow">
       <div class="section-head"><h2>{c.faqH2}</h2></div>
       <Faq items={c.faq} />
+      <p style="margin-top: 24px"><a class="link-arrow" href={routes.rgAusland[lang]}>{c.guide1}</a><br /><a class="link-arrow" href={routes.rgFuehrerschein[lang]}>{c.guide2}</a></p>
     </div>
   </section>
 
