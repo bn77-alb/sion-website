@@ -699,7 +699,6 @@ p, li { line-height: 1.65; }
 .flags-band .flag-row-label { font: 700 1.15rem var(--font-display); margin-bottom: 12px; }
 .flags-band .flag-list { gap: 10px; }
 .flags-band .flag-list li { background: var(--bg); }
-<<<<<<< HEAD
 /* Simple driver form */
 .driver-form { gap: 18px; }
 .driver-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
@@ -712,7 +711,6 @@ p, li { line-height: 1.65; }
 .yes-no span { display: flex; align-items: center; justify-content: center; min-height: 56px; border: 2px solid var(--ink); border-radius: 14px; font-weight: 700; font-size: 1.1rem; background: #fff; transition: background .15s, color .15s; }
 .yes-no input:checked + span { background: var(--ink); color: #fff; }
 .yes-no input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 3px; }
-=======
 
 /* Guide articles (Ratgeber) */
 .guide { margin-inline: auto; }
@@ -723,4 +721,3 @@ p, li { line-height: 1.65; }
 .page-hero .eyebrow a:hover { text-decoration: underline; }
 .card h2 a { color: inherit; text-decoration: none; }
 .card h2 a:hover { text-decoration: underline; }
->>>>>>> logo
