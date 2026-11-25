@@ -119,6 +119,8 @@ const schema = {
   '@type': 'EmploymentAgency',
   name: site.name,
   url: site.url,
+  logo: `${site.url}/icon-512.png`,
+  image: `${site.url}/images/og-logo.jpg`,
   email: site.email,
   address: { '@type': 'PostalAddress', streetAddress: site.street, postalCode: site.zip, addressLocality: site.city, addressCountry: 'AL' },
   areaServed: { '@type': 'Country', name: 'Germany' },

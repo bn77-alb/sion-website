@@ -32,7 +32,7 @@ interface Props {
   // 'driver': lean header and mobile bar for the truck driver pages
   layout?: 'default' | 'driver';
 }
-const { lang, page, title, description, noindex = false, schema, image = '/images/og-image.jpg', audience = 'employer', stickyCta, layout = 'default' } = Astro.props;
+const { lang, page, title, description, noindex = false, schema, image = '/images/og-logo.jpg', audience = 'employer', stickyCta, layout = 'default' } = Astro.props;
 const abs = (path: string) => new URL(path, site.url).href;
 const canonical = abs(routes[page][lang]);
 // Structured data added on every page: breadcrumb (sub pages), WebSite + Organization (home), ContactPage (contact)
@@ -78,7 +78,10 @@ const allSchema = [...(schema ? (Array.isArray(schema) ? schema : [schema]) : []
     <meta property="og:locale" content={lang === 'de' ? 'de_DE' : 'en_GB'} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#12212E" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     {allSchema.map((sc) => <script type="application/ld+json" set:html={JSON.stringify(sc)} />)}
     <script>

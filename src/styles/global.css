@@ -150,6 +150,8 @@ p { margin: 0; text-wrap: pretty; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: var(--header-h); }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font: 700 1.2rem var(--font-display); letter-spacing: -.01em; white-space: nowrap; }
 .brand:hover { color: var(--ink); }
+.brand picture, .brand img { display: block; }
+.brand img { height: 44px; width: auto; }
 .brand-light { font-weight: 500; }
 .desktop-nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
 .desktop-nav a { text-decoration: none; font-weight: 500; font-size: .95rem; padding: 8px 0; white-space: nowrap; }
@@ -180,7 +182,7 @@ html.menu-open { overflow: hidden; }
   .topbar-links { display: none; }
   .topbar-inner { justify-content: center; min-height: 38px; }
   .brand { font-size: 1.05rem; gap: 8px; }
-  .brand svg { width: 28px; height: 28px; }
+  .brand img { height: 36px; }
 }
 @media (max-width: 340px) {
   .brand-light { display: none; }
@@ -381,7 +383,8 @@ address { font-style: normal; color: var(--muted); }
 .site-footer a, .site-footer .linklike { color: var(--on-dark); }
 .site-footer a:hover, .site-footer .linklike:hover { color: #fff; }
 .site-footer .btn-whatsapp, .site-footer .btn-whatsapp:hover { color: #fff; }
-.footer-brand { font: 700 1.2rem var(--font-display); color: #fff; }
+.footer-brand { display: inline-block; background: #fff; border-radius: 12px; padding: 10px 14px; margin-bottom: 4px; line-height: 0; }
+.footer-brand img { display: block; height: 40px; width: auto; }
 .footer-phone { display: inline-flex; align-items: center; gap: 8px; font: 700 1.3rem var(--font-display); color: #fff !important; text-decoration: none; }
 .footer-title { font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #fff; margin-bottom: 12px; }
 .footer-sub { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
