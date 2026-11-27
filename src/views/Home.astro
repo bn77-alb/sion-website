@@ -22,7 +22,7 @@ const c = {
     lead2: 'Zusätzlich entlasten wir Ihre Verwaltung mit Back-Office-Services.',
     heroCta: 'Jetzt Personal anfragen', heroCta2: 'Ich suche einen Job',
     procSteps: [['Personalbedarf mitteilen', 'Sie nennen Position, Anzahl, Einsatzort und Starttermin – per Formular oder im Gespräch.'], ['Kandidaten suchen und vorprüfen', 'Wir suchen passende Bewerber und prüfen Erfahrung, Führerschein und Unterlagen.'], ['Bewerber kennenlernen und auswählen', 'Sie führen die Gespräche – vor Ort oder per Video – und entscheiden selbst.'], ['Einstellung und Arbeitsbeginn', 'Wir unterstützen bei Unterlagen und Organisation bis zum ersten Arbeitstag.']] as [string, string][],
-    chips: [['LKW-Fahrer', r('lkw')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
+    chips: [['LKW-Fahrer', r('lkw')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Bau', r('bau')], ['Küche & Gastronomie', r('kueche')], ['Helfer & Produktion', r('helfer')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
     chipsLabel: 'Unsere Bereiche',
     services: 'Unsere Leistungen',
     callNow: 'Jetzt anrufen:',
@@ -71,7 +71,7 @@ const c = {
     lead2: 'We also take work off your administration with back-office services.',
     heroCta: 'Request staff now', heroCta2: 'I am looking for a job',
     procSteps: [['Tell us what you need', 'Position, number, location and start date – via the form or in a call.'], ['We search and pre-screen', 'We look for suitable applicants and check experience, licence and documents.'], ['Meet and choose', 'You hold the interviews – on site or by video – and decide yourself.'], ['Hiring and first day', 'We assist with paperwork and organisation until the first working day.']] as [string, string][],
-    chips: [['Truck drivers', r('lkw')], ['Parcel delivery', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning', r('reinigung')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
+    chips: [['Truck drivers', r('lkw')], ['Parcel delivery', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning', r('reinigung')], ['Construction', r('bau')], ['Kitchen & hospitality', r('kueche')], ['Helpers & production', r('helfer')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
     chipsLabel: 'Our areas',
     services: 'Our services',
     callNow: 'Call now:',
@@ -125,6 +125,7 @@ const schema = {
   address: { '@type': 'PostalAddress', streetAddress: site.street, postalCode: site.zip, addressLocality: site.city, addressCountry: 'AL' },
   areaServed: { '@type': 'Country', name: 'Germany' },
   knowsLanguage: ['de', 'en'],
+  knowsAbout: ['Personalvermittlung', 'LKW-Fahrer', 'Berufskraftfahrer', 'Paketzusteller', 'Lagerpersonal', 'Reinigungskräfte', 'Bauarbeiter', 'Bauhelfer', 'Tiefbau', 'Küchenhelfer', 'Köche', 'Produktionshelfer', 'Saisonarbeit', 'Westbalkanregelung', 'Back Office'],
 };
 ---
 <Base lang={lang} page="home" title={c.title} description={c.description} schema={schema} stickyCta={requestHref(lang)}>

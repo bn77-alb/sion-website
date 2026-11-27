@@ -1,14 +1,16 @@
 ---
-// Shared layout for the service pages Paketzusteller, Lager & Logistik, Reinigung.
+// Shared layout for the trade pages: Paketzusteller, Lager & Logistik, Reinigung, Bau, Helfer & Produktion.
+// Each page: roles we fill, where the workers come from, process, FAQ (also as FAQPage data for Google and AI tools), request form.
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Photo from '../components/Photo.astro';
 import Steps from '../components/Steps.astro';
+import Faq from '../components/Faq.astro';
 import EmployerForm from '../components/EmployerForm.astro';
 import { routes, type Lang } from '../i18n';
 import { site } from '../config';
 import { hasPhoto } from '../lib/photos';
-type Key = 'paket' | 'lager' | 'reinigung';
+type Key = 'paket' | 'lager' | 'reinigung' | 'bau' | 'kueche' | 'helfer';
 interface Props { lang: Lang; service: Key }
 const { lang, service } = Astro.props;
 
@@ -17,103 +19,311 @@ const common = {
     cta: 'Personal anfragen', cta2: 'Kostenloses Erstgespräch',
     whatH2: 'Was wir für Sie übernehmen',
     what: [
-      { icon: 'search', h: 'Suche & Vorauswahl', p: 'Wir suchen passende Kandidaten in der EU, im Westbalkan und in Deutschland und prüfen Erfahrung und Unterlagen.' },
-      { icon: 'users', h: 'Vorstellung', p: 'Sie erhalten aussagekräftige Profile und lernen die Kandidaten im Gespräch kennen.' },
-      { icon: 'doc', h: 'Dokumente & Organisation', p: 'Unterstützung bei administrativen Schritten und der Vorbereitung erforderlicher Unterlagen.' },
-      { icon: 'handshake', h: 'Direkte Anstellung', p: 'Die Mitarbeiter werden direkt bei Ihnen angestellt. Wir bleiben Ihr Ansprechpartner.' },
+      { icon: 'search', h: 'Suche & Vorauswahl', p: 'Wir suchen passende Kandidaten und prüfen Erfahrung, Qualifikation und Unterlagen, bevor wir sie Ihnen vorstellen.' },
+      { icon: 'users', h: 'Vorstellung', p: 'Sie erhalten aussagekräftige Profile und lernen die Kandidaten im Gespräch kennen – auch per Video.' },
+      { icon: 'doc', h: 'Dokumente & Organisation', p: 'Unterstützung bei administrativen Schritten und der Vorbereitung erforderlicher Unterlagen, auch für Behörden.' },
+      { icon: 'handshake', h: 'Direkte Anstellung', p: 'Die Mitarbeiter werden direkt bei Ihnen angestellt – keine Zeitarbeit. Wir bleiben Ihr Ansprechpartner.' },
     ],
+    rolesH2: 'Diese Positionen besetzen wir',
     reqH2: 'Was die Kandidaten mitbringen',
+    originH2: 'Woher die Mitarbeiter kommen',
+    origins: {
+      de: ['pin', 'Aus Deutschland', 'Kandidaten, die bereits in Deutschland leben und arbeiten dürfen – oft kurzfristig verfügbar.'],
+      eu: ['globe', 'Aus der EU', 'EU-Bürger brauchen keine Arbeitserlaubnis. Der Start hängt vor allem von Umzug und Anmeldung ab.'],
+      wb: ['globe', 'Aus dem Westbalkan', 'Aus Albanien, Kosovo, Nordmazedonien, Serbien, Montenegro sowie Bosnien und Herzegowina über die Westbalkanregelung – mit Zustimmung der Bundesagentur für Arbeit, oft mehrere Monate Vorlauf.'],
+      third: ['plane', 'Aus Drittstaaten wie Indien und Usbekistan', 'Je nach Beruf und Qualifikation z. B. als Fachkraft mit anerkanntem Abschluss oder befristet. Den möglichen Weg prüfen wir vorab mit Ihnen; Visumverfahren dauern meist mehrere Monate.'],
+    },
+    originNote: 'Wir unterstützen bei administrativen Prozessen und der Vorbereitung erforderlicher Unterlagen. Eine Rechtsberatung bieten wir nicht an; verbindliche Entscheidungen treffen die zuständigen Behörden.',
     procEyebrow: 'Ablauf', procH2: 'So funktioniert die Zusammenarbeit',
-    formH2: 'Personal anfragen', formText: 'Beschreiben Sie kurz Ihren Bedarf. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
+    faqH2: 'Häufige Fragen',
+    formH2: 'Personal anfragen', formText: 'Beschreiben Sie kurz Ihren Bedarf: Position, Anzahl, Einsatzort und gewünschter Start. Wir melden uns innerhalb von 1 Werktag mit einem Vorschlag.',
     formCall: 'Lieber per E-Mail?', other: 'Weitere Bereiche',
+    area: 'Deutschland',
   },
   en: {
     cta: 'Request staff', cta2: 'Free initial consultation',
     whatH2: 'What we take care of',
     what: [
-      { icon: 'search', h: 'Search & pre-selection', p: 'We search for suitable candidates in the EU, the Western Balkans and Germany and check experience and documents.' },
-      { icon: 'users', h: 'Introduction', p: 'You receive meaningful profiles and meet the candidates in an interview.' },
-      { icon: 'doc', h: 'Documents & organisation', p: 'Assistance with administrative steps and the preparation of required documents.' },
-      { icon: 'handshake', h: 'Direct employment', p: 'The employees are employed directly by you. We remain your contact person.' },
+      { icon: 'search', h: 'Search & pre-selection', p: 'We search for suitable candidates and check experience, qualifications and documents before we introduce them to you.' },
+      { icon: 'users', h: 'Introduction', p: 'You receive meaningful profiles and meet the candidates in an interview – also by video.' },
+      { icon: 'doc', h: 'Documents & organisation', p: 'Assistance with administrative steps and the preparation of required documents, including for the authorities.' },
+      { icon: 'handshake', h: 'Direct employment', p: 'The employees are employed directly by you – no temporary agency work. We remain your contact person.' },
     ],
+    rolesH2: 'Positions we fill',
     reqH2: 'What the candidates bring',
+    originH2: 'Where the workers come from',
+    origins: {
+      de: ['pin', 'From Germany', 'Candidates who already live in Germany and are allowed to work – often available at short notice.'],
+      eu: ['globe', 'From the EU', 'EU citizens do not need a work permit. The start mainly depends on moving and registration.'],
+      wb: ['globe', 'From the Western Balkans', 'From Albania, Kosovo, North Macedonia, Serbia, Montenegro and Bosnia and Herzegovina under the Western Balkans regulation – with approval of the Federal Employment Agency, often several months of lead time.'],
+      third: ['plane', 'From non-EU countries such as India and Uzbekistan', 'Depending on the job and qualification, e.g. as a skilled worker with a recognised qualification or for a limited period. We check the possible route with you in advance; visa procedures usually take several months.'],
+    },
+    originNote: 'We assist with administrative processes and the preparation of required documents. We do not provide legal advice; binding decisions are made by the competent authorities.',
     procEyebrow: 'Process', procH2: 'How we work together',
-    formH2: 'Request staff', formText: 'Briefly describe what you need. We will get back to you within 1 working day with a proposal.',
+    faqH2: 'Frequently asked questions',
+    formH2: 'Request staff', formText: 'Briefly describe what you need: position, number, location and preferred start. We will get back to you within 1 working day with a proposal.',
     formCall: 'Prefer email?', other: 'Other areas',
+    area: 'Germany',
+  },
+}[lang];
+
+// FAQ answers that are the same for several trades (cost, direct employment, regions)
+const shared = {
+  de: {
+    cost: { q: 'Was kostet die Vermittlung?', a: 'Sie zahlen eine einmalige Vermittlungsprämie je Mitarbeiter, ohne Anzahlung. Die Rechnung kommt erst nach 30 Arbeitstagen; scheidet der Mitarbeiter vorher aus, zahlen Sie nichts. Die Höhe hängt von Position und Anzahl ab – Sie erhalten vorab ein individuelles Angebot.' },
+    direct: { q: 'Ist das Zeitarbeit?', a: 'Nein. Wir sind eine Personalvermittlung: Die Mitarbeiter schließen ihren Arbeitsvertrag direkt mit Ihrem Unternehmen. Es handelt sich nicht um Arbeitnehmerüberlassung.' },
+    region: { q: 'In welchen Regionen vermitteln Sie?', a: 'Wir vermitteln an Unternehmen in ganz Deutschland, zum Beispiel in Bayern, Baden-Württemberg, Nordrhein-Westfalen, Hessen und Niedersachsen. Die Abstimmung läuft per E-Mail, Video und Telefon – auf Deutsch oder Englisch.' },
+    abroad: { q: 'Können Sie auch Mitarbeiter aus Indien oder Usbekistan vermitteln?', a: 'Ja, wenn es für die Stelle einen passenden Weg gibt. Für Mitarbeiter aus Drittstaaten ist ein Aufenthaltstitel zur Beschäftigung nötig – je nach Beruf und Qualifikation etwa als Fachkraft mit anerkanntem Abschluss oder befristet. Wir prüfen den Weg vorab mit Ihnen und bereiten die Unterlagen vor; Visumverfahren dauern meist mehrere Monate. Die Entscheidung treffen die Bundesagentur für Arbeit und die Auslandsvertretung.' },
+    speed: (what: string) => ({ q: `Wie schnell können ${what} anfangen?`, a: 'Kandidaten, die bereits in Deutschland leben, sind oft innerhalb weniger Wochen verfügbar. Aus der EU dauert es meist einige Wochen. Über die Westbalkanregelung und bei Kandidaten aus Drittstaaten wie Indien oder Usbekistan sollten Sie mehrere Monate einplanen.' }),
+  },
+  en: {
+    cost: { q: 'What does recruitment cost?', a: 'You pay a one-off placement fee per employee, with no deposit. The invoice only comes after 30 working days; if the employee leaves before then, you pay nothing. The amount depends on the position and the number of employees – you receive an individual offer in advance.' },
+    direct: { q: 'Is this temporary agency work?', a: 'No. We are a recruitment agency: the employees sign their employment contract directly with your company. This is not temporary agency work.' },
+    region: { q: 'In which regions do you recruit?', a: 'We recruit for companies across Germany, for example in Bavaria, Baden-Württemberg, North Rhine-Westphalia, Hesse and Lower Saxony. Coordination takes place by email, video and phone – in German or English.' },
+    abroad: { q: 'Can you also place workers from India or Uzbekistan?', a: 'Yes, if there is a suitable route for the position. Workers from non-EU countries need a residence permit for employment – depending on the job and qualification, for example as a skilled worker with a recognised qualification or for a limited period. We check the route with you in advance and prepare the documents; visa procedures usually take several months. The decision is made by the Federal Employment Agency and the German mission abroad.' },
+    speed: (what: string) => ({ q: `How quickly can ${what} start?`, a: 'Candidates who already live in Germany are often available within a few weeks. From the EU it usually takes a few weeks. Under the Western Balkans regulation and for candidates from non-EU countries such as India or Uzbekistan, you should plan several months.' }),
   },
 }[lang];
 
 const pages = {
   paket: {
-    image: 'paketzusteller', icon: 'package', focus: '50% 58%',
+    image: 'paketzusteller', icon: 'package', focus: '50% 58%', origins: ['de', 'eu', 'wb'],
     alt: { de: 'Paketzusteller trägt Pakete zur Auslieferung', en: 'Delivery driver carrying parcels for delivery' },
     de: {
       title: 'Paketzusteller vermitteln | SION Consulting',
       description: 'Zuverlässige Paketzusteller mit Führerschein B für Paket- und Kurierdienste in ganz Deutschland. Keine Anzahlung, Rechnung erst nach 30 Arbeitstagen.',
       eyebrow: 'Personalvermittlung', h1: 'Paketzusteller für Ihr Unternehmen',
       lead: 'Zuverlässige Zustellfahrer für Paket- und Kurierdienste und deren Subunternehmer – bundesweit, aus der EU, dem Westbalkan und Deutschland.',
+      serviceType: 'Personalvermittlung Paketzusteller',
       areas: ['Paketzustellung', 'Kurierdienste', 'Express & Same Day', 'Transporter bis 3,5 t'],
+      roles: [],
       req: ['Führerschein Klasse B', 'Erfahrung in der Zustellung oder als Fahrer – je nach Kandidat', 'Zuverlässigkeit und körperliche Belastbarkeit', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+      faq: [
+        { q: 'Welchen Führerschein brauchen Paketzusteller?', a: 'Für Transporter bis 3,5 t reicht der Führerschein Klasse B. Ob ein ausländischer Führerschein umgeschrieben werden muss, hängt vom Ausstellungsland und der Wohnsitzdauer ab – das klären wir vor der Einstellung.' },
+        { q: 'Vermitteln Sie auch an Subunternehmer von Paketdiensten?', a: 'Ja. Wir vermitteln an Paket- und Kurierdienste ebenso wie an deren Subunternehmer, in ganz Deutschland.' },
+        'cost', 'direct', 'region',
+      ],
     },
     en: {
       title: 'Parcel Delivery Driver Recruitment | SION Consulting',
       description: 'Reliable parcel delivery drivers with a class B licence for parcel and courier services across Germany. No deposit, invoice only after 30 working days.',
       eyebrow: 'Recruitment', h1: 'Parcel delivery drivers for your company',
       lead: 'Reliable delivery drivers for parcel and courier services and their subcontractors – nationwide, from the EU, the Western Balkans and Germany.',
+      serviceType: 'Recruitment of parcel delivery drivers',
       areas: ['Parcel delivery', 'Courier services', 'Express & same day', 'Vans up to 3.5 t'],
+      roles: [],
       req: ['Class B driving licence', 'Experience in delivery or as a driver – depending on the candidate', 'Reliability and physical fitness', 'German skills vary by candidate – we tell you honestly in advance'],
+      faq: [
+        { q: 'Which licence do parcel delivery drivers need?', a: 'For vans up to 3.5 t a class B licence is enough. Whether a foreign licence has to be converted depends on the issuing country and how long the driver has lived in Germany – we clarify this before hiring.' },
+        { q: 'Do you also recruit for subcontractors of parcel services?', a: 'Yes. We recruit for parcel and courier services as well as their subcontractors, across Germany.' },
+        'cost', 'direct', 'region',
+      ],
     },
   },
   lager: {
-    image: 'lager', icon: 'warehouse', focus: undefined,
+    image: 'lager', icon: 'warehouse', focus: undefined, origins: ['de', 'eu', 'wb', 'third'],
     alt: { de: 'Mitarbeiter in einem Logistiklager', en: 'Employees working in a logistics warehouse' },
     de: {
       title: 'Lagerpersonal & Logistikmitarbeiter vermitteln | SION',
-      description: 'Lagerarbeiter für Kommissionierung, Verladung, Wareneingang und Versand – in ganz Deutschland. Keine Anzahlung, Rechnung erst nach 30 Arbeitstagen.',
+      description: 'Lagerarbeiter, Kommissionierer und Staplerfahrer für Logistik, Handel und Produktion in ganz Deutschland. Keine Anzahlung, Rechnung erst nach 30 Arbeitstagen.',
       eyebrow: 'Personalvermittlung', h1: 'Lager- und Logistikpersonal',
-      lead: 'Motivierte Lagerarbeiter für Logistikzentren, Speditionen, Handel und Produktion – bundesweit, aus der EU, dem Westbalkan und Deutschland.',
+      lead: 'Motivierte Lagerarbeiter für Logistikzentren, Speditionen, Handel und Produktion – bundesweit, aus Deutschland, der EU, dem Westbalkan und Drittstaaten wie Indien und Usbekistan.',
+      serviceType: 'Personalvermittlung Lager und Logistik',
       areas: ['Kommissionierung', 'Verladung', 'Wareneingang & Versand', 'Staplerfahrer'],
+      roles: ['Lagerhelfer und Lagerarbeiter', 'Kommissionierer', 'Staplerfahrer (mit Staplerschein)', 'Mitarbeiter für Wareneingang und Versand', 'Verlader', 'Fachkräfte für Lagerlogistik – je nach Verfügbarkeit'],
       req: ['Erfahrung im Lager oder in der Logistik – je nach Kandidat', 'Staplerschein auf Anfrage', 'Bereitschaft zur Schichtarbeit nach Absprache', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+      faq: [
+        { q: 'Haben die Kandidaten einen Staplerschein?', a: 'Viele Kandidaten bringen Erfahrung mit Flurförderzeugen mit. Ob ein gültiger Staplerschein vorhanden ist, steht im Profil. Brauchen Sie ausschließlich Staplerfahrer, geben Sie es in der Anfrage an.' },
+        { q: 'Können die Mitarbeiter im Schichtbetrieb arbeiten?', a: 'Ja, nach Absprache. Nennen Sie uns Ihre Schichtzeiten – wir stellen nur Kandidaten vor, die damit einverstanden sind.' },
+        'speed:Lagermitarbeiter', 'abroad', 'cost', 'direct',
+      ],
     },
     en: {
       title: 'Warehouse & Logistics Staff Recruitment | SION',
-      description: 'Warehouse workers for order picking, loading, goods receipt and dispatch across Germany. No deposit, invoice only after 30 working days.',
+      description: 'Warehouse workers, order pickers and forklift drivers for logistics, retail and production across Germany. No deposit, invoice only after 30 working days.',
       eyebrow: 'Recruitment', h1: 'Warehouse and logistics staff',
-      lead: 'Motivated warehouse workers for logistics centres, hauliers, retail and production – nationwide, from the EU, the Western Balkans and Germany.',
+      lead: 'Motivated warehouse workers for logistics centres, hauliers, retail and production – nationwide, from Germany, the EU, the Western Balkans and non-EU countries such as India and Uzbekistan.',
+      serviceType: 'Recruitment of warehouse and logistics staff',
       areas: ['Order picking', 'Loading', 'Goods receipt & dispatch', 'Forklift drivers'],
+      roles: ['Warehouse helpers and warehouse workers', 'Order pickers', 'Forklift drivers (with licence)', 'Goods receipt and dispatch staff', 'Loaders', 'Warehouse logistics specialists – depending on availability'],
       req: ['Experience in warehousing or logistics – depending on the candidate', 'Forklift licence on request', 'Willingness to work shifts as agreed', 'German skills vary by candidate – we tell you honestly in advance'],
+      faq: [
+        { q: 'Do the candidates have a forklift licence?', a: 'Many candidates have experience with industrial trucks. Whether a valid forklift licence is available is stated in the profile. If you only need forklift drivers, mention it in your request.' },
+        { q: 'Can the employees work shifts?', a: 'Yes, as agreed. Tell us your shift times – we only introduce candidates who accept them.' },
+        'speed:warehouse staff', 'abroad', 'cost', 'direct',
+      ],
     },
   },
   reinigung: {
-    image: 'reinigung', icon: 'sparkle', focus: undefined,
+    image: 'reinigung', icon: 'sparkle', focus: undefined, origins: ['de', 'eu', 'wb', 'third'],
     alt: { de: 'Reinigungskraft reinigt einen Büroschreibtisch', en: 'Cleaner cleaning an office desk' },
     de: {
       title: 'Reinigungskräfte vermitteln | SION Consulting',
-      description: 'Reinigungskräfte für Büro-, Unterhalts- und Objektreinigung in ganz Deutschland. Keine Anzahlung, Rechnung erst nach 30 Arbeitstagen.',
+      description: 'Reinigungskräfte für Gebäude-, Büro-, Unterhalts- und Hotelreinigung in ganz Deutschland. Keine Anzahlung, Rechnung erst nach 30 Arbeitstagen.',
       eyebrow: 'Personalvermittlung', h1: 'Reinigungskräfte für Ihr Unternehmen',
-      lead: 'Zuverlässiges Reinigungspersonal für Gebäudereinigungen, Hotels und Unternehmen – bundesweit, aus der EU, dem Westbalkan und Deutschland.',
+      lead: 'Zuverlässiges Reinigungspersonal für Gebäudereinigungen, Hotels und Unternehmen – bundesweit, aus Deutschland, der EU, dem Westbalkan und Drittstaaten wie Indien und Usbekistan.',
+      serviceType: 'Personalvermittlung Reinigungskräfte',
       areas: ['Büroreinigung', 'Unterhaltsreinigung', 'Objektreinigung', 'Hotels & Gastronomie'],
-      req: ['Erfahrung in der Reinigung – je nach Kandidat', 'Sorgfalt und Zuverlässigkeit', 'Flexible Arbeitszeiten nach Absprache', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+      roles: ['Reinigungskräfte für Büro- und Unterhaltsreinigung', 'Gebäudereiniger', 'Zimmermädchen und Roomboys für Hotels', 'Reinigungskräfte für Industrie- und Objektreinigung', 'Vorarbeiter Reinigung – je nach Verfügbarkeit'],
+      req: ['Erfahrung in der Reinigung – je nach Kandidat', 'Sorgfalt und Zuverlässigkeit', 'Flexible Arbeitszeiten nach Absprache, auch früh morgens oder abends', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+      faq: [
+        { q: 'Vermitteln Sie Reinigungskräfte an Gebäudereinigungsfirmen?', a: 'Ja. Wir vermitteln an Gebäudereinigungen, Hotels und Unternehmen mit eigenem Reinigungspersonal – in Vollzeit oder Teilzeit, je nach Ihrem Bedarf.' },
+        { q: 'Können die Reinigungskräfte auch früh morgens oder abends arbeiten?', a: 'Ja, nach Absprache. Nennen Sie uns die Einsatzzeiten und Objekte – wir stellen nur Kandidaten vor, die dazu passen.' },
+        'speed:Reinigungskräfte', 'abroad', 'cost', 'direct',
+      ],
     },
     en: {
       title: 'Cleaning Staff Recruitment | SION Consulting',
-      description: 'Cleaning staff for office, maintenance and commercial cleaning across Germany. No deposit, invoice only after 30 working days.',
+      description: 'Cleaning staff for building, office, maintenance and hotel cleaning across Germany. No deposit, invoice only after 30 working days.',
       eyebrow: 'Recruitment', h1: 'Cleaning staff for your company',
-      lead: 'Reliable cleaning staff for cleaning companies, hotels and businesses – nationwide, from the EU, the Western Balkans and Germany.',
+      lead: 'Reliable cleaning staff for cleaning companies, hotels and businesses – nationwide, from Germany, the EU, the Western Balkans and non-EU countries such as India and Uzbekistan.',
+      serviceType: 'Recruitment of cleaning staff',
       areas: ['Office cleaning', 'Maintenance cleaning', 'Commercial cleaning', 'Hotels & hospitality'],
-      req: ['Experience in cleaning – depending on the candidate', 'Care and reliability', 'Flexible working hours as agreed', 'German skills vary by candidate – we tell you honestly in advance'],
+      roles: ['Cleaners for office and maintenance cleaning', 'Building cleaners', 'Room attendants for hotels', 'Cleaners for industrial and commercial cleaning', 'Cleaning supervisors – depending on availability'],
+      req: ['Experience in cleaning – depending on the candidate', 'Care and reliability', 'Flexible working hours as agreed, including early mornings or evenings', 'German skills vary by candidate – we tell you honestly in advance'],
+      faq: [
+        { q: 'Do you place cleaning staff with cleaning companies?', a: 'Yes. We recruit for cleaning companies, hotels and businesses with their own cleaning staff – full-time or part-time, depending on your needs.' },
+        { q: 'Can the cleaners work early mornings or evenings?', a: 'Yes, as agreed. Tell us the working hours and sites – we only introduce candidates who fit.' },
+        'speed:cleaning staff', 'abroad', 'cost', 'direct',
+      ],
+    },
+  },
+  bau: {
+    image: 'bau', icon: 'helmet', focus: undefined, origins: ['de', 'eu', 'wb', 'third'],
+    alt: { de: 'Bauarbeiter auf einer Baustelle', en: 'Construction workers on a building site' },
+    de: {
+      title: 'Bauhelfer & Bauarbeiter vermitteln | SION Consulting',
+      description: 'Bauhelfer, Maurer, Trockenbauer, Elektriker, Maler und Tiefbauer für Bauunternehmen in ganz Deutschland. Direkte Anstellung, keine Anzahlung.',
+      eyebrow: 'Personalvermittlung', h1: 'Bauarbeiter und Bauhelfer für Ihr Unternehmen',
+      lead: 'Fachkräfte und Helfer für Hochbau, Tiefbau und Ausbau – direkt bei Ihnen angestellt, bundesweit, aus Deutschland, der EU, dem Westbalkan und Drittstaaten wie Indien und Usbekistan.',
+      serviceType: 'Personalvermittlung Bau',
+      areas: ['Hochbau', 'Tiefbau', 'Trockenbau & Ausbau', 'Elektro', 'Malerarbeiten'],
+      roles: ['Bauhelfer', 'Maurer', 'Trockenbauer', 'Elektriker', 'Maler und Lackierer', 'Tiefbauer und Helfer im Tiefbau'],
+      req: ['Erfahrung auf dem Bau – Tätigkeiten und Jahre nennen wir im Profil', 'Für Fachkräfte: Berufsabschluss oder nachweisbare Berufserfahrung – ob eine Anerkennung nötig ist, prüfen wir vorab', 'Körperliche Belastbarkeit und Arbeit im Freien', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+      faq: [
+        { q: 'Welche Bauberufe vermitteln Sie?', a: 'Bauhelfer, Maurer, Trockenbauer, Elektriker, Maler sowie Tiefbauer und Helfer im Tiefbau. Brauchen Sie einen anderen Beruf, fragen Sie uns – wir sagen Ihnen ehrlich, ob wir passende Kandidaten haben.' },
+        { q: 'Können Sie mehrere Bauarbeiter für ein Projekt vermitteln?', a: 'Ja. Nennen Sie uns Anzahl, Gewerk, Einsatzort und Zeitraum. Wir sagen Ihnen vorab, wie viele Kandidaten realistisch sind und ab wann.' },
+        { q: 'Werden die Bauarbeiter überlassen oder bei uns angestellt?', a: 'Die Mitarbeiter werden direkt bei Ihnen angestellt. Wir sind keine Zeitarbeitsfirma und überlassen keine Arbeitnehmer.' },
+        { q: 'Haben die Fachkräfte einen anerkannten Abschluss?', a: 'Das ist je nach Kandidat unterschiedlich. Für Fachkräfte wie Elektriker oder Maurer aus dem Ausland kann eine Anerkennung des Berufsabschlusses nötig sein. Wir prüfen Abschluss und Erfahrung vorab und unterstützen bei den Unterlagen.' },
+        'speed:Bauarbeiter', 'abroad', 'cost',
+      ],
+    },
+    en: {
+      title: 'Construction Workers & Helpers Recruitment | SION',
+      description: 'Construction helpers, bricklayers, drywall installers, electricians, painters and civil engineering workers for companies across Germany. Direct employment.',
+      eyebrow: 'Recruitment', h1: 'Construction workers and helpers for your company',
+      lead: 'Skilled workers and helpers for building construction, civil engineering and interior finishing – employed directly by you, nationwide, from Germany, the EU, the Western Balkans and non-EU countries such as India and Uzbekistan.',
+      serviceType: 'Recruitment of construction workers',
+      areas: ['Building construction', 'Civil engineering', 'Drywall & interior finishing', 'Electrical', 'Painting'],
+      roles: ['Construction helpers', 'Bricklayers', 'Drywall installers', 'Electricians', 'Painters and decorators', 'Civil engineering workers and helpers'],
+      req: ['Experience in construction – tasks and years are stated in the profile', 'For skilled workers: vocational qualification or proven work experience – we check in advance whether recognition is needed', 'Physical fitness and outdoor work', 'German skills vary by candidate – we tell you honestly in advance'],
+      faq: [
+        { q: 'Which construction jobs do you recruit for?', a: 'Construction helpers, bricklayers, drywall installers, electricians, painters and civil engineering workers and helpers. If you need another trade, ask us – we will tell you honestly whether we have suitable candidates.' },
+        { q: 'Can you place several construction workers for one project?', a: 'Yes. Tell us the number, trade, location and period. We tell you in advance how many candidates are realistic and from when.' },
+        { q: 'Are the workers leased or employed by us?', a: 'The workers are employed directly by you. We are not a temporary staffing agency and do not lease workers.' },
+        { q: 'Do the skilled workers have a recognised qualification?', a: 'This differs by candidate. For skilled workers from abroad, such as electricians or bricklayers, recognition of the qualification may be required. We check qualifications and experience in advance and help with the documents.' },
+        'speed:construction workers', 'abroad', 'cost',
+      ],
+    },
+  },
+  kueche: {
+    image: 'kueche', icon: 'utensils', focus: undefined, origins: ['de', 'eu', 'wb', 'third'],
+    alt: { de: 'Küchenpersonal in einer Großküche', en: 'Kitchen staff in a commercial kitchen' },
+    de: {
+      title: 'Küchenhilfen & Küchenpersonal vermitteln | SION',
+      description: 'Küchenhelfer, Spülkräfte, Beiköche und Köche für Restaurants, Hotels, Kantinen und Großküchen in ganz Deutschland. Direkte Anstellung, keine Anzahlung.',
+      eyebrow: 'Personalvermittlung', h1: 'Küchenhelfer und Küchenpersonal für Ihren Betrieb',
+      lead: 'Zuverlässige Küchenhilfen, Spülkräfte und Köche für Restaurants, Hotels, Kantinen, Catering und Großküchen – bundesweit, aus Deutschland, der EU, dem Westbalkan und Drittstaaten wie Indien und Usbekistan.',
+      serviceType: 'Personalvermittlung Küche und Gastronomie',
+      areas: ['Restaurants', 'Hotels', 'Kantinen & Großküchen', 'Catering', 'Systemgastronomie'],
+      roles: ['Küchenhelfer und Küchenhelferinnen', 'Spülkräfte', 'Beiköche', 'Köche – je nach Verfügbarkeit', 'Frühstückshilfen in Hotels', 'Helfer für Kantinen und Catering'],
+      req: ['Erfahrung in der Küche – je nach Kandidat', 'Hygienebewusstsein; die Belehrung nach dem Infektionsschutzgesetz organisieren wir mit Ihnen vor dem Start', 'Arbeit am Wochenende und im Schichtdienst nach Absprache', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+      faq: [
+        { q: 'Welches Küchenpersonal vermitteln Sie?', a: 'Küchenhelfer und Küchenhelferinnen, Spülkräfte, Beiköche, Köche sowie Helfer für Frühstück, Kantine und Catering. Für Köche mit Berufsabschluss hängt es von der Verfügbarkeit ab – wir sagen es Ihnen ehrlich vorab.' },
+        { q: 'Brauchen Küchenhelfer eine Belehrung nach dem Infektionsschutzgesetz?', a: 'Wer gewerblich mit Lebensmitteln arbeitet, braucht vor dem ersten Einsatz eine Erstbelehrung nach § 43 Infektionsschutzgesetz, in der Regel beim Gesundheitsamt. Wir organisieren den Termin mit Ihnen und dem Mitarbeiter.' },
+        { q: 'Können die Mitarbeiter am Wochenende und in Schichten arbeiten?', a: 'Ja, nach Absprache. Nennen Sie uns Ihre Arbeitszeiten – wir stellen nur Kandidaten vor, die damit einverstanden sind.' },
+        'speed:Küchenhelfer', 'abroad', 'cost', 'direct',
+      ],
+    },
+    en: {
+      title: 'Kitchen Helpers & Kitchen Staff Recruitment | SION',
+      description: 'Kitchen helpers, dishwashers, commis cooks and cooks for restaurants, hotels, canteens and commercial kitchens across Germany. Direct employment, no deposit.',
+      eyebrow: 'Recruitment', h1: 'Kitchen helpers and kitchen staff for your business',
+      lead: 'Reliable kitchen helpers, dishwashers and cooks for restaurants, hotels, canteens, catering and commercial kitchens – nationwide, from Germany, the EU, the Western Balkans and non-EU countries such as India and Uzbekistan.',
+      serviceType: 'Recruitment of kitchen and hospitality staff',
+      areas: ['Restaurants', 'Hotels', 'Canteens & commercial kitchens', 'Catering', 'Quick-service restaurants'],
+      roles: ['Kitchen helpers', 'Dishwashers', 'Commis cooks', 'Cooks – depending on availability', 'Breakfast helpers in hotels', 'Helpers for canteens and catering'],
+      req: ['Kitchen experience – depending on the candidate', 'Awareness of hygiene; we organise the food hygiene instruction under the Infection Protection Act with you before the start', 'Weekend and shift work as agreed', 'German skills vary by candidate – we tell you honestly in advance'],
+      faq: [
+        { q: 'Which kitchen staff do you recruit?', a: 'Kitchen helpers, dishwashers, commis cooks, cooks and helpers for breakfast, canteens and catering. For qualified cooks it depends on availability – we tell you honestly in advance.' },
+        { q: 'Do kitchen helpers need a food hygiene instruction?', a: 'Anyone working commercially with food needs an initial instruction under section 43 of the German Infection Protection Act before the first shift, usually at the public health office. We organise the appointment with you and the employee.' },
+        { q: 'Can the employees work weekends and shifts?', a: 'Yes, as agreed. Tell us your working hours – we only introduce candidates who accept them.' },
+        'speed:kitchen helpers', 'abroad', 'cost', 'direct',
+      ],
+    },
+  },
+  helfer: {
+    image: 'helfer', icon: 'gear', focus: undefined, origins: ['de', 'eu', 'wb', 'third'],
+    alt: { de: 'Produktionshelfer an einer Fertigungslinie', en: 'Production helpers on a production line' },
+    de: {
+      title: 'Produktionshelfer & Hilfskräfte vermitteln | SION',
+      description: 'Produktionshelfer, Montagehelfer und Hilfskräfte für Industrie, Handwerk und Gewerbe in ganz Deutschland. Direkte Anstellung, keine Anzahlung.',
+      eyebrow: 'Personalvermittlung', h1: 'Helfer für Produktion, Montage und Gewerbe',
+      lead: 'Zuverlässige Hilfskräfte für Produktion, Montage, Verpackung und andere gewerbliche Tätigkeiten – bundesweit, aus Deutschland, der EU, dem Westbalkan und Drittstaaten wie Indien und Usbekistan.',
+      serviceType: 'Personalvermittlung Produktionshelfer und Hilfskräfte',
+      areas: ['Produktion', 'Montage', 'Verpackung', 'Gewerbliche Hilfstätigkeiten'],
+      roles: ['Produktionshelfer', 'Montagehelfer', 'Maschinenbediener nach Einarbeitung', 'Mitarbeiter für Verpackung und Konfektionierung', 'Allgemeine Hilfskräfte für Gewerbe und Handwerk'],
+      req: ['Erfahrung in Produktion oder Handwerk – je nach Kandidat', 'Zuverlässigkeit und Bereitschaft zur Einarbeitung', 'Schichtarbeit nach Absprache', 'Deutschkenntnisse je nach Kandidat – wir nennen sie Ihnen ehrlich vorab'],
+      faq: [
+        { q: 'Welche Hilfskräfte vermitteln Sie?', a: 'Produktionshelfer, Montagehelfer, Mitarbeiter für Verpackung sowie allgemeine Hilfskräfte für Gewerbe und Handwerk. Beschreiben Sie uns die Tätigkeit – wir sagen Ihnen ehrlich, ob wir passende Kandidaten haben.' },
+        { q: 'Dürfen Hilfskräfte aus Drittstaaten in Deutschland arbeiten?', a: 'Für Tätigkeiten ohne Berufsabschluss gibt es nur bestimmte Wege, etwa die Westbalkanregelung oder befristete Beschäftigungen mit Voraussetzungen für den Arbeitgeber. Welcher Weg für Ihre Stelle in Frage kommt, prüfen wir vorab mit Ihnen; die Entscheidung trifft die Bundesagentur für Arbeit.' },
+        'speed:Hilfskräfte', 'cost', 'direct', 'region',
+      ],
+    },
+    en: {
+      title: 'Production Helpers & General Workers Recruitment | SION',
+      description: 'Production helpers, assembly helpers and general workers for industry, trades and businesses across Germany. Direct employment, no deposit.',
+      eyebrow: 'Recruitment', h1: 'Helpers for production, assembly and trades',
+      lead: 'Reliable helpers for production, assembly, packaging and other manual work – nationwide, from Germany, the EU, the Western Balkans and non-EU countries such as India and Uzbekistan.',
+      serviceType: 'Recruitment of production helpers and general workers',
+      areas: ['Production', 'Assembly', 'Packaging', 'General manual work'],
+      roles: ['Production helpers', 'Assembly helpers', 'Machine operators after training', 'Packaging and order assembly staff', 'General helpers for businesses and trades'],
+      req: ['Experience in production or trades – depending on the candidate', 'Reliability and willingness to be trained', 'Shift work as agreed', 'German skills vary by candidate – we tell you honestly in advance'],
+      faq: [
+        { q: 'Which helpers do you recruit?', a: 'Production helpers, assembly helpers, packaging staff and general helpers for businesses and trades. Describe the work to us – we will tell you honestly whether we have suitable candidates.' },
+        { q: 'Can helpers from non-EU countries work in Germany?', a: 'For jobs without a vocational qualification there are only certain routes, such as the Western Balkans regulation or limited-term employment with requirements for the employer. We check with you in advance which route is possible for your position; the decision is made by the Federal Employment Agency.' },
+        'speed:helpers', 'cost', 'direct', 'region',
+      ],
     },
   },
 };
 const page = pages[service];
 const p = page[lang];
-const others = (['lkw', 'paket', 'lager', 'reinigung', 'saison', 'backoffice'] as const).filter((k) => k !== service);
+const faq = p.faq.map((f) => {
+  if (typeof f !== 'string') return f;
+  if (f.startsWith('speed:')) return shared.speed(f.slice(6));
+  return shared[f as 'cost' | 'direct' | 'region' | 'abroad'];
+});
+const origins = page.origins.map((k) => common.origins[k as keyof typeof common.origins]);
+const others = (['lkw', 'paket', 'lager', 'reinigung', 'bau', 'kueche', 'helfer', 'saison', 'backoffice'] as const).filter((k) => k !== service);
 const otherLabels = {
-  de: { lkw: 'LKW-Fahrer', paket: 'Paketzusteller', lager: 'Lager & Logistik', reinigung: 'Reinigung', saison: 'Saisonarbeit', backoffice: 'Back Office' },
-  en: { lkw: 'Truck drivers', paket: 'Parcel delivery', lager: 'Warehouse & logistics', reinigung: 'Cleaning', saison: 'Seasonal work', backoffice: 'Back office' },
+  de: { lkw: 'LKW-Fahrer', paket: 'Paketzusteller', lager: 'Lager & Logistik', reinigung: 'Reinigung', bau: 'Bau', kueche: 'Küche & Gastronomie', helfer: 'Helfer & Produktion', saison: 'Saisonarbeit', backoffice: 'Back Office' },
+  en: { lkw: 'Truck drivers', paket: 'Parcel delivery', lager: 'Warehouse & logistics', reinigung: 'Cleaning', bau: 'Construction', kueche: 'Kitchen & hospitality', helfer: 'Helpers & production', saison: 'Seasonal work', backoffice: 'Back office' },
 }[lang];
+const url = new URL(routes[service][lang], site.url).href;
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Service',
+    name: p.h1, serviceType: p.serviceType, description: p.description, url, inLanguage: lang,
+    provider: { '@type': 'EmploymentAgency', name: site.name, url: `${site.url}/`, email: site.email, logo: `${site.url}/icon-512.png` },
+    areaServed: { '@type': 'Country', name: common.area },
+    audience: { '@type': 'BusinessAudience', name: lang === 'de' ? 'Unternehmen in Deutschland' : 'Companies in Germany' },
+    ...(p.roles.length ? { hasOfferCatalog: { '@type': 'OfferCatalog', name: common.rolesH2, itemListElement: p.roles.map((r) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: r } })) } } : {}),
+  },
+  { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+];
 ---
-<Base lang={lang} page={service} title={p.title} description={p.description} stickyCta="#anfrage">
+<Base lang={lang} page={service} title={p.title} description={p.description} schema={schema} stickyCta="#anfrage">
   <section class="page-hero">
     <div class="container grid-2">
       <div class="hero-copy">
@@ -153,14 +363,32 @@ const otherLabels = {
 
   <section class="section band-soft">
     <div class="container grid-2" style="align-items: start">
+      {p.roles.length > 0 && (
+        <div class="stack-lg">
+          <h2>{common.rolesH2}</h2>
+          <ul class="checklist">{p.roles.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      )}
       <div class="stack-lg">
         <h2>{common.reqH2}</h2>
         <ul class="checklist">{p.req.map((x) => <li>{x}</li>)}</ul>
       </div>
-      <div class="stack-lg">
-        <h2 class="h2-sm">{common.other}</h2>
-        <ul class="chips">{others.map((k) => <li><a class="chip" href={routes[k][lang]}>{otherLabels[k]}</a></li>)}</ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><h2>{common.originH2}</h2></div>
+      <div class:list={[origins.length === 4 ? 'grid-4' : 'grid-3']}>
+        {origins.map(([icon, h, text]) => (
+          <article class="card">
+            <Icon name={icon} class="card-icon" />
+            <h3>{h}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
       </div>
+      <p class="muted" style="margin-top: 20px; font-size: .95rem">{common.originNote}</p>
     </div>
   </section>
 
@@ -168,6 +396,15 @@ const otherLabels = {
     <div class="container">
       <div class="section-head"><p class="eyebrow">{common.procEyebrow}</p><h2>{common.procH2}</h2></div>
       <Steps lang={lang} />
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="container narrow">
+      <div class="section-head"><h2>{common.faqH2}</h2></div>
+      <Faq items={faq} />
+      <h2 class="h2-sm" style="margin-top: 40px">{common.other}</h2>
+      <ul class="chips">{others.map((k) => <li><a class="chip" href={routes[k][lang]}>{otherLabels[k]}</a></li>)}</ul>
     </div>
   </section>
 
