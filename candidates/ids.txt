@@ -1,0 +1,6 @@
+construction-worker: 
+bricklayer: 
+kitchen-staff: 
+dishwasher-restaurant: 
+factory-worker: 
+assembly-line-worker: 
