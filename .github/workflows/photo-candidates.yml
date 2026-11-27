@@ -11,7 +11,12 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           mkdir -p candidates
-          for id in 20855836 16706765 2199293 16325212; do
+          for q in "construction-worker" "bricklayer" "kitchen-staff" "dishwasher-restaurant" "factory-worker" "assembly-line-worker"; do
+            ids=$(curl -fsSL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36" -H "Accept-Language: en" "https://www.pexels.com/search/$q/" | grep -oE 'photos/[0-9]+/pexels-photo-[0-9]+' | grep -oE '[0-9]+' | awk 'NR%2==1' | awk '!s[$0]++' | head -6)
+            echo "$q: $ids" | tee -a candidates/ids.txt
+            for id in $ids; do curl -fsSL "https://images.pexels.com/photos/$id/pexels-photo-$id.jpeg?auto=compress&cs=tinysrgb&w=1600" -o "candidates/$q-$id.jpg" || echo "fail $id"; done
+          done
+          for id in 3338541 2403391 3298637 4253312 6205509 2760241 1216589 159306 585419 8961065 4483610 3862627 8853502 3846508; do
             curl -fsSL "https://images.pexels.com/photos/$id/pexels-photo-$id.jpeg?auto=compress&cs=tinysrgb&w=1600" -o "candidates/px-$id.jpg" || echo "fail $id"
           done
           ls -la candidates
