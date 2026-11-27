@@ -1,4 +1,5 @@
 ---
+import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { routes, ui, type Lang } from '../i18n';
 import { site } from '../config';
@@ -11,7 +12,7 @@ const t = {
   de: {
     claim: 'SION Consulting unterstützt Unternehmen in Deutschland bei Personalbedarf und operativen Aufgaben – mit Personalvermittlung und Back-Office-Services.',
     services: 'Leistungen', company: 'Unternehmen', contact: 'Kontakt',
-    links: [['Personalvermittlung', r('personalvermittlung')], ['LKW-Fahrer', r('lkw')], ['LKW-Fahrer aus dem Westbalkan', r('westbalkan')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
+    links: [['Personalvermittlung', r('personalvermittlung')], ['LKW-Fahrer', r('lkw')], ['LKW-Fahrer aus dem Westbalkan', r('westbalkan')], ['Paketzusteller', r('paket')], ['Lager & Logistik', r('lager')], ['Reinigung', r('reinigung')], ['Bau', r('bau')], ['Küche & Gastronomie', r('kueche')], ['Helfer & Produktion', r('helfer')], ['Saisonarbeit', r('saison')], ['Back Office', r('backoffice')]],
     company2: [['Für Unternehmen', r('unternehmen')], ['Für Fahrer in der EU', r('eufahrer')], ['Kontakt für Fahrer', r('kontaktFahrer')], ['Für Bewerber', r('bewerber')], ['Ratgeber', r('ratgeber')], ['Über uns', r('ueberuns')], ['Kontakt', r('kontakt')]],
     forCompanies: 'Unternehmen', forDrivers: 'Fahrer',
     office: 'Büro', country: site.countryDe, langs: 'Deutsch & Englisch',
@@ -21,7 +22,7 @@ const t = {
   en: {
     claim: 'SION Consulting helps companies in Germany with staffing needs and operational tasks – through recruitment and back-office services.',
     services: 'Services', company: 'Company', contact: 'Contact',
-    links: [['Recruitment', r('personalvermittlung')], ['Truck drivers', r('lkw')], ['Drivers from the Western Balkans', r('westbalkan')], ['Parcel delivery drivers', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning staff', r('reinigung')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
+    links: [['Recruitment', r('personalvermittlung')], ['Truck drivers', r('lkw')], ['Drivers from the Western Balkans', r('westbalkan')], ['Parcel delivery drivers', r('paket')], ['Warehouse & logistics', r('lager')], ['Cleaning staff', r('reinigung')], ['Construction', r('bau')], ['Kitchen & hospitality', r('kueche')], ['Helpers & production', r('helfer')], ['Seasonal work', r('saison')], ['Back office', r('backoffice')]],
     company2: [['For employers', r('unternehmen')], ['For drivers in the EU', r('eufahrer')], ['Contact for drivers', r('kontaktFahrer')], ['For applicants', r('bewerber')], ['Guides', r('ratgeber')], ['About us', r('ueberuns')], ['Contact', r('kontakt')]],
     forCompanies: 'Companies', forDrivers: 'Drivers',
     office: 'Office', country: site.countryEn, langs: 'German & English',
@@ -33,7 +34,7 @@ const t = {
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-about">
-      <p class="footer-brand">SION Consulting</p>
+      <p class="footer-brand"><Logo height={40} /></p>
       <p>{t.claim}</p>
     </div>
     <div>

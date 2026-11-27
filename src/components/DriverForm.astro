@@ -1,0 +1,100 @@
+---
+// Simple application form for truck drivers (driver pages). One screen:
+// 1) EU licence with Code 95? – "Nein" shows a short note and nothing is sent.
+// 2) Name, email or phone, country of residence, optional message, consent.
+// Sent to the n8n workflow as formType "candidate" with variant "driver".
+import { routes, type Lang } from '../i18n';
+import { site } from '../config';
+import { driverResidenceGroups, germanNames } from '../lib/countries';
+interface Props { lang: Lang; idPrefix?: string }
+const { lang, idPrefix = 'drv' } = Astro.props;
+const t = {
+  de: {
+    q: 'Haben Sie einen EU-Führerschein C/CE mit Code 95?', yes: 'Ja', no: 'Nein',
+    noText: 'Im Moment können wir leider nur Fahrer mit EU-Führerschein und Code 95 vermitteln. Mit EU-Pass oder aus dem Westbalkan?', noLink: 'Hier entlang',
+    name: 'Vor- und Nachname', email: 'E-Mail', phone: 'Telefon', either: 'E-Mail oder Telefon – eins reicht.',
+    residence: 'Land, in dem Sie leben', choose: 'Bitte wählen',
+    message: 'Nachricht (optional)',
+    consentA: 'Ich habe die', privacy: 'Datenschutzerklärung', consentB: 'gelesen und bin einverstanden, dass SION Consulting meine Angaben zur Vermittlung einer Arbeitsstelle verarbeitet.',
+    submit: 'Bewerbung senden', sending: 'Wird gesendet …',
+    ok: 'Vielen Dank! Ihre Bewerbung ist eingegangen. Sie erhalten gleich eine Bestätigung per E-Mail. Wir melden uns innerhalb von 1–2 Werktagen.',
+    err: `Das Senden hat leider nicht geklappt. Bitte versuchen Sie es später erneut oder schreiben Sie an ${site.applicationEmail}.`,
+    contactHint: 'Fragen vor der Bewerbung?', contactLink: 'Kontakt für Fahrer',
+    messages: { code95: 'Bitte beantworten Sie die Frage zum Code 95.', name: 'Bitte geben Sie Ihren Namen ein.', either: 'Bitte geben Sie eine E-Mail-Adresse oder eine Telefonnummer an.', email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.', residence: 'Bitte wählen Sie das Land, in dem Sie leben.', consent: 'Bitte bestätigen Sie, dass Sie die Datenschutzerklärung gelesen haben.' },
+  },
+  en: {
+    q: 'Do you have an EU driving licence C/CE with Code 95?', yes: 'Yes', no: 'No',
+    noText: 'At the moment we can only place drivers with an EU licence and Code 95. With an EU passport or from the Western Balkans?', noLink: 'Go here',
+    name: 'Full name', email: 'Email', phone: 'Phone', either: 'Email or phone – one is enough.',
+    residence: 'Country you live in', choose: 'Please choose',
+    message: 'Message (optional)',
+    consentA: 'I have read the', privacy: 'privacy policy', consentB: 'and I agree that SION Consulting uses my details to find me a job.',
+    submit: 'Send application', sending: 'Sending …',
+    ok: 'Thank you! We have your application. You will get a confirmation by email shortly. We will contact you within 1–2 working days.',
+    err: `Sending did not work. Please try again later or write to ${site.applicationEmail}.`,
+    contactHint: 'Questions before you apply?', contactLink: 'Contact for drivers',
+    messages: { code95: 'Please answer the Code 95 question.', name: 'Please enter your name.', either: 'Please enter an email address or a phone number.', email: 'Please enter a valid email address.', residence: 'Please choose the country you live in.', consent: 'Please confirm that you have read the privacy policy.' },
+  },
+}[lang];
+const id = (n: string) => `${idPrefix}-${n}`;
+---
+<form class="form driver-form" data-driver-form data-lang={lang} data-endpoint={site.formEndpoint}
+  data-msg-sending={t.sending} data-msg-ok={t.ok} data-msg-err={t.err} data-messages={JSON.stringify(t.messages)} novalidate>
+  <fieldset class="code95-q">
+    <legend>{t.q}</legend>
+    <div class="yes-no">
+      <label><input type="radio" name="code95" value="ja" /><span>{t.yes}</span></label>
+      <label><input type="radio" name="code95" value="nein" /><span>{t.no}</span></label>
+    </div>
+  </fieldset>
+
+  <div class="not-eligible" data-code95-no role="status" aria-live="polite" hidden>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+    <p>{t.noText} <a href={routes.bewerber[lang]}>{t.noLink} →</a></p>
+  </div>
+
+  <fieldset class="driver-fields-main" data-driver-main hidden disabled>
+    <label class="field" for={id('name')}>
+      <span>{t.name} <span class="req" aria-hidden="true">*</span></span>
+      <input id={id('name')} name="name" type="text" autocomplete="name" />
+    </label>
+    <div class="form-row">
+      <label class="field" for={id('email')}>
+        <span>{t.email}</span>
+        <input id={id('email')} name="email" type="email" autocomplete="email" />
+      </label>
+      <label class="field" for={id('phone')}>
+        <span>{t.phone}</span>
+        <input id={id('phone')} name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+      </label>
+    </div>
+    <p class="form-hint">{t.either}</p>
+    <label class="field" for={id('residence')}>
+      <span>{t.residence} <span class="req" aria-hidden="true">*</span></span>
+      <select id={id('residence')} name="residenceCode" autocomplete="country">
+        <option value="">{t.choose}</option>
+        {driverResidenceGroups(lang).map((g) => <optgroup label={g.label}>{g.items.map((c) => <option value={c.code}>{c.name}</option>)}</optgroup>)}
+      </select>
+    </label>
+    <label class="field" for={id('message')}>
+      <span>{t.message}</span>
+      <textarea id={id('message')} name="message" rows="3"></textarea>
+    </label>
+    <div class="hp" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+    <label class="consent">
+      <input type="checkbox" name="consent" value="yes" />
+      <span>{t.consentA} <a href={routes.datenschutz[lang]}>{t.privacy}</a> {t.consentB} <span class="req" aria-hidden="true">*</span></span>
+    </label>
+    <div class="form-submit">
+      <button type="submit" class="btn btn-accent btn-lg">{t.submit}</button>
+    </div>
+  </fieldset>
+
+  <p class="form-status" role="status" aria-live="polite" hidden></p>
+  <p class="form-contact-hint">{t.contactHint} <a class="link-arrow" href={routes.kontaktFahrer[lang]}>{t.contactLink}</a></p>
+  <script is:inline type="application/json" data-country-names set:html={JSON.stringify(germanNames())} />
+</form>
+
+<script>
+  import '../scripts/driver-form';
+</script>

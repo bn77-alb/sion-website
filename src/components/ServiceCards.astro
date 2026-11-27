@@ -11,6 +11,9 @@ const cards = {
     { icon: 'package', h: 'Paketzusteller', p: 'Zuverlässige Zusteller mit Führerschein Klasse B für Paket- und Kurierdienste.', cta: 'Mehr zu Paketzustellern', href: r('paket') },
     { icon: 'warehouse', h: 'Lager & Logistik', p: 'Lagerarbeiter für Kommissionierung, Verladung, Wareneingang und Versand.', cta: 'Mehr zu Lager & Logistik', href: r('lager') },
     { icon: 'sparkle', h: 'Reinigung', p: 'Reinigungskräfte für Büros, Gewerbeflächen und Objekte.', cta: 'Mehr zu Reinigungskräften', href: r('reinigung') },
+    { icon: 'helmet', h: 'Bau', p: 'Bauhelfer, Maurer, Trockenbauer, Elektriker, Maler und Tiefbauer.', cta: 'Mehr zu Bau', href: r('bau') },
+    { icon: 'utensils', h: 'Küche & Gastronomie', p: 'Küchenhelfer, Spülkräfte, Beiköche und Köche für Restaurants, Hotels und Kantinen.', cta: 'Mehr zu Küchenpersonal', href: r('kueche') },
+    { icon: 'gear', h: 'Helfer & Produktion', p: 'Produktions- und Montagehelfer sowie Hilfskräfte für Gewerbe und Handwerk.', cta: 'Mehr zu Helfern', href: r('helfer') },
     { icon: 'calendar', h: 'Saisonarbeit', p: 'Saisonkräfte für Bau, Reinigung sowie Hotel & Gastronomie – für bis zu 8 Monate.', cta: 'Mehr zur Saisonarbeit', href: r('saison') },
     { icon: 'inbox', h: 'Back Office', p: 'Administrative und operative Unterstützung für KMU – von Dokumenten bis Kundenkommunikation.', cta: 'Mehr zum Back Office', href: r('backoffice') },
   ],
@@ -19,11 +22,14 @@ const cards = {
     { icon: 'package', h: 'Parcel delivery drivers', p: 'Reliable drivers with a class B licence for parcel and courier services.', cta: 'More about delivery drivers', href: r('paket') },
     { icon: 'warehouse', h: 'Warehouse & logistics', p: 'Warehouse workers for order picking, loading, goods receipt and dispatch.', cta: 'More about warehouse staff', href: r('lager') },
     { icon: 'sparkle', h: 'Cleaning', p: 'Cleaning staff for offices, commercial spaces and buildings.', cta: 'More about cleaning staff', href: r('reinigung') },
+    { icon: 'helmet', h: 'Construction', p: 'Construction helpers, bricklayers, drywall installers, electricians, painters and civil engineering workers.', cta: 'More about construction', href: r('bau') },
+    { icon: 'utensils', h: 'Kitchen & hospitality', p: 'Kitchen helpers, dishwashers, commis cooks and cooks for restaurants, hotels and canteens.', cta: 'More about kitchen staff', href: r('kueche') },
+    { icon: 'gear', h: 'Helpers & production', p: 'Production and assembly helpers and general workers for businesses and trades.', cta: 'More about helpers', href: r('helfer') },
     { icon: 'calendar', h: 'Seasonal work', p: 'Seasonal workers for construction, cleaning and hotels & restaurants – for up to 8 months.', cta: 'More about seasonal work', href: r('saison') },
     { icon: 'inbox', h: 'Back office', p: 'Administrative and operational support for SMEs – from documents to customer communication.', cta: 'More about the back office', href: r('backoffice') },
   ],
 }[lang];
-const list = withBackOffice ? cards : cards.slice(0, 5);
+const list = withBackOffice ? cards : cards.slice(0, 8);
 ---
 <div class="service-grid">
   {list.map((c) => (

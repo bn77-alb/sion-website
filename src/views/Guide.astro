@@ -21,7 +21,7 @@ const schema = [
     headline: c.h1, description: c.description, inLanguage: lang,
     datePublished: g.updated, dateModified: g.updated, mainEntityOfPage: url,
     author: { '@type': 'Organization', name: site.name, url: site.url },
-    publisher: { '@type': 'Organization', name: site.name, url: site.url },
+    publisher: { '@type': 'Organization', name: site.name, url: site.url, logo: { '@type': 'ImageObject', url: `${site.url}/icon-512.png` } },
   },
   { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
 ];
